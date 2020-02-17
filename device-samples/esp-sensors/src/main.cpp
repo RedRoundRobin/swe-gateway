@@ -10,7 +10,7 @@
 int power = 0;
 long duration;
 int distance;
-int nwifi;
+int nwifi = 0;
 
 // Inizializzazione..
 void setup() {
@@ -20,8 +20,6 @@ void setup() {
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_YEL, OUTPUT);
   pinMode(LED_GRE, OUTPUT);
-  pinMode(SR_TRIG, OUTPUT);
-  pinMode(SR_ECHO, INPUT); 
   digitalWrite(LED_BUILTIN, LOW);
 }
 
