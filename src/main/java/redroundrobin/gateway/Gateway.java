@@ -1,11 +1,12 @@
+package redroundrobin.gateway;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
-
 import java.util.Properties;
 
 public class Gateway {
 
-    Producer<String, String> connessioneKafka(String serverHost) {
+    static Producer<String, String> connessioneKafka(String serverHost) {
 
         // Configurazione impostazioni Kafka
         String SERVER_HOST = serverHost;

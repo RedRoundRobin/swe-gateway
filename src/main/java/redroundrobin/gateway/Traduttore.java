@@ -1,3 +1,5 @@
+package redroundrobin.gateway;
+
 import kafka.utils.json.JsonObject;
 
 public class Traduttore {
