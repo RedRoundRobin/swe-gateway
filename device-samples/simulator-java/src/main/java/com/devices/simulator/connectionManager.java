@@ -61,7 +61,7 @@ public class connectionManager {
     }
 
     /* Checksum CRC-8 Bluetooth */
-    private byte calculateChecksum(@NotNull List<Byte> packet){
+    public static byte calculateChecksum(@NotNull List<Byte> packet){
 
         Byte[] bytes = packet.toArray(new Byte[packet.size()]);
 
@@ -100,6 +100,8 @@ public class connectionManager {
                             createResponsePacket(Byte.toUnsignedInt(nicePacket.get(1)),
                                                     Byte.toUnsignedInt(nicePacket.get(3)))
                     );
+
+                    System.out.println("Successo: pacchetto inviato!");
                 }
             }
         }
