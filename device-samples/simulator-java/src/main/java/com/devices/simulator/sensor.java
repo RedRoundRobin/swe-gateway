@@ -5,19 +5,20 @@ public class sensor {
     int value = 0;
     int id = 0;
 
-    public sensor(int v, int id)
+    public sensor(int val, int identificativo)
     {
-        value = v;
+        value = val;
+        id = identificativo;
     }
 
     public int getId() {
-        return ((byte) id);
+        return id;
     }
 
     public int getValue() {
         // Il valore viene randomizzato in aggiunta o in differenza
         Random rand = new Random();
-        return (rand.nextBoolean() ? value + rand.nextInt(2) : value - rand.nextInt(2));
+        return rand.nextBoolean() ? value + rand.nextInt(2) : value - rand.nextInt(2);
     }
 }
 

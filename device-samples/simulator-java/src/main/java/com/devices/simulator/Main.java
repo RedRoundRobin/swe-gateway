@@ -22,6 +22,9 @@ public class Main {
 
         connectionManager man = new connectionManager(dispositivi, 6969);
 
-        System.out.println(man.createResponsePacket(1, 1));
+        man.startServer();
+
+        // System.out.println(man.createResponsePacket(1, 1));
+
     }
 }
