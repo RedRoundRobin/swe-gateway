@@ -46,7 +46,7 @@ public class Consumatore {
 * */
     static void eseguiConsumatore(Consumatore consumatore) throws InterruptedException {
         System.out.println("Consumatore " + consumatore.nome + " avviato");
-        final int maxCap = 100;
+        final int maxCap = 10000000;
         int nessunRecordTrovato = 0;
 
         while (true) {
@@ -64,6 +64,7 @@ public class Consumatore {
             });
             consumatore.consumatore.commitAsync();
             System.out.println("Messaggi disponibili consumati!");
+
 
         }
         consumatore.consumatore.close();

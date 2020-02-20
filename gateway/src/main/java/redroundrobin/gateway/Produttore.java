@@ -28,14 +28,14 @@ public class Produttore {
         this.produttore = new KafkaProducer<>(props);
     }
 
-    static void eseguiProduttore(String topic, final int numeroMessaggi, Produttore produttore) throws Exception {
+    static void eseguiProduttore(String topic, String messaggio, Produttore produttore) throws Exception {
         System.out.println("Avvio del produttore "+produttore.nome);
         long tempo = System.currentTimeMillis();
-        final CountDownLatch countDownLatch = new CountDownLatch(numeroMessaggi);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
 
         try {
-            for (long index = tempo; index < tempo + numeroMessaggi; index++) {
-                final ProducerRecord<Long, String> record = new ProducerRecord<>(topic, index, "This is some serious gourmet sh*t " + index);
+
+                final ProducerRecord<Long, String> record = new ProducerRecord<>(topic, tempo, messaggio);
                 produttore.produttore.send(record, (metadata, exception) -> {
                     long tempoTrascorso = System.currentTimeMillis() - tempo;
                     if (metadata != null) {
@@ -48,11 +48,11 @@ public class Produttore {
                     }
                     countDownLatch.countDown();
                 });
-            }
+
             countDownLatch.await(25, TimeUnit.SECONDS);
         }finally {
             produttore.produttore.flush();
-            System.out.println("Messaggi inviati!");
+            System.out.println("Messaggio inviato!");
             produttore.produttore.close();
         }
     }
@@ -61,7 +61,8 @@ public class Produttore {
     public static void main(String args[]) throws Exception {
 
         Produttore test = new Produttore("produttoreTest", "localhost:29092");
-        eseguiProduttore("TopicDiProva",50, test);
+        eseguiProduttore("TopicDiProva","Ciao mondo!", test);
+
 
     }
 

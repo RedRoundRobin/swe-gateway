@@ -1,18 +1,22 @@
 package redroundrobin.gateway;
 
 
+import com.github.snksoft.crc.CRC;
+import kafka.utils.Json;
+import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+
+import static org.apache.commons.lang3.ArrayUtils.toPrimitive;
 
 
 public class Gateway {
@@ -46,6 +50,7 @@ public class Gateway {
 
             InetAddress hostname = InetAddress.getLocalHost();
             DatagramSocket socket = new DatagramSocket();
+           // Traduttore convertitore = new Traduttore();
 
             while (true) {
                 byte[] pacchettoGenerato = creaPacchettoCasuale();
@@ -65,6 +70,18 @@ public class Gateway {
                 socket.setSoTimeout(1000);
                 socket.receive(response);
 
+
+                List<Byte> pacchettoRicevuto = Arrays.asList(ArrayUtils.toObject(buffer));
+                if(checkPacket(pacchettoRicevuto)){
+                    traduttore.aggiungiSensore(pacchettoRicevuto);    //Da controllare
+
+                }
+
+                if(){
+                    traduttore.getJson();
+                    Produttore.
+                }
+
                 System.out.print("< RES: ");
                 for (int i = 0; i < buffer.length; ++i)
                     System.out.print(buffer[i] + " ");
@@ -73,13 +90,23 @@ public class Gateway {
                 Thread.sleep(1000);
             }
 
-        } catch (SocketTimeoutException ex) {
-            System.out.println("Errore di tempo fuori: " + ex.getMessage());
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            System.out.println("Errore cliente: " + ex.getMessage());
-            ex.printStackTrace();
+        } catch (SocketTimeoutException e) {
+            System.out.println("Errore di tempo fuori: " + e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Errore cliente: " + e.getMessage());
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            System.out.println("Errore cliente: " + e.getMessage());
+            e.printStackTrace();
+
+       return null;
         }
+
+    // Controllo il checksum del pacchetto ricevuto a meno del checksum
+    private boolean checkPacket(@NotNull List<Byte> packet) {
+        // System.out.println(packet.size());
+        return packet.get(4) == calculateChecksum(packet.subList(0, 4));
     }
 
     // Creazione di un pacchetto random
@@ -98,11 +125,21 @@ public class Gateway {
 
         return new byte[]{
                 disp, codiceOperazione, sensore, valore,
-                connectionManager.calculateChecksum(pacchetto)
+                calculateChecksum(pacchetto)
         };
 
     }
-    
+    /* Checksum CRC-8 Bluetooth */
+    public static byte calculateChecksum(@NotNull List<Byte> packet){
+
+        Byte[] bytes = packet.toArray(new Byte[packet.size()]);
+
+        byte tmp = (byte) CRC.calculateCRC(
+                new CRC.Parameters(8, 0xa7, 0x00, true, true, 0x00),
+                toPrimitive(bytes));
+        //System.out.println(tmp);
+        return tmp;
+    }
 
     public static void main(String args[]){
 

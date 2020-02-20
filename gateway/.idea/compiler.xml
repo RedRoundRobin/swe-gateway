@@ -13,4 +13,9 @@
       <module name="swe-gateway" target="11" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="swe-gateway" options="--add-exports=jdk.scripting.nashorn/jdk.nashorn.internal.runtime=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>
