@@ -63,7 +63,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Produttore">
+  <component name="RunManager" selected="JUnit.GatewayTest.dispositivoInJSON">
     <configuration name="Consumatore" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.Consumatore" />
       <module name="swe-gateway" />
@@ -103,8 +103,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GatewayTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swe-gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="redroundrobin.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="redroundrobin.gateway" />
+      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.GatewayTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayTest.dispositivoInJSON" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swe-gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="redroundrobin.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="redroundrobin.gateway" />
+      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.GatewayTest" />
+      <option name="METHOD_NAME" value="dispositivoInJSON" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GatewayTest.dispositivoInJSON" />
+        <item itemvalue="JUnit.GatewayTest" />
         <item itemvalue="Application.Produttore" />
         <item itemvalue="Application.Consumatore" />
         <item itemvalue="Application.Gateway" />

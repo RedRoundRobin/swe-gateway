@@ -1,23 +1,23 @@
 package redroundrobin.gateway;
 
 public class Sensore {
-    private byte id;
-    private byte dato;
+    private int id;
+    private int dato;
 
-    public Sensore(byte id, byte dato) {
+    public Sensore(int id, int dato) {
         this.id = id;
         this.dato = dato;
     }
 
-    public byte getId() {
+    public int getId() {
         return id;
     }
 
-    public byte getDato() {
+    public int getDato() {
         return dato;
     }
 
-    public void setDato(byte dato) {
+    public void setDato(int dato) {
         this.dato = dato;
     }
 }

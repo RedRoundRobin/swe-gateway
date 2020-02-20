@@ -6,18 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dispositivo {
-    private byte id;
-    private InetAddress indirizzo;
-    private int porta;
+    private int id;
+    private transient InetAddress indirizzo;
+    private transient int porta;
     private List<Sensore> sensori = new ArrayList<>();
 
-    public Dispositivo(byte id, InetAddress indirizzo, int porta) {
+    public Dispositivo(int id, InetAddress indirizzo , int porta) {
         this.id = id;
         this.indirizzo = indirizzo;
         this.porta = porta;
     }
 
-    public byte getId() {
+    public Dispositivo(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
         return id;
     }
 
