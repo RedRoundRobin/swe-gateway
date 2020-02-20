@@ -1,6 +1,7 @@
 package com.devices.simulator;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,12 @@ public class ClientExample {
             DatagramSocket socket = new DatagramSocket();
 
             while (true) {
+                byte[] pacchettoGenerato =  creaPacchettoCasuale();
 
-                List<Byte> FUCKINGLIST = createRandomRequestPacket();
-                Byte[] bytesofmyass = FUCKINGLIST.toArray(new Byte[FUCKINGLIST.size()]);
-                byte[] ihatebuffer = toPrimitive(bytesofmyass);
-
-                DatagramPacket request = new DatagramPacket(ihatebuffer, ihatebuffer.length, InetAddress.getLocalHost(), 6969);
-                socket.send(request);
+                DatagramPacket richiesta = new DatagramPacket(pacchettoGenerato, pacchettoGenerato.length, InetAddress.getLocalHost(), 6969);
+                socket.send(richiesta);
                 System.out.print("> REQ: ");
-                System.out.println(FUCKINGLIST);
+                System.out.println(pacchettoGenerato);
 
                 byte[] buffer = new byte[5];
                 DatagramPacket response = new DatagramPacket(buffer, buffer.length);
@@ -51,15 +49,24 @@ public class ClientExample {
     }
 
     // Creazione di un pacchetto random
-    public static List<Byte> createRandomRequestPacket()
+    public static byte[] creaPacchettoCasuale()
     {
-        List<Byte> packet = new ArrayList<Byte>();
         Random rand = new Random();
-        packet.add((byte) (1 + rand.nextInt(1)));
-        packet.add((byte) 0); // richiesta
-        packet.add((byte) 0); // dati vuoti
-        packet.add((byte) (1 + rand.nextInt(2)));
-        packet.add(connectionManager.calculateChecksum(packet));
-        return packet;
+        byte disp = (byte) (1 + rand.nextInt(1));
+        byte codiceOperazione = 0;
+        byte sensore = 0;
+        byte valore = (byte) (1 + rand.nextInt(2));
+
+        List<Byte> pacchetto = new ArrayList<>();
+        pacchetto.add(disp);
+        pacchetto.add(codiceOperazione);
+        pacchetto.add(sensore);
+        pacchetto.add(valore);
+
+        return new byte[]{
+               disp, codiceOperazione, sensore, valore,
+                connectionManager.calculateChecksum(pacchetto)
+        };
+
     }
 }
