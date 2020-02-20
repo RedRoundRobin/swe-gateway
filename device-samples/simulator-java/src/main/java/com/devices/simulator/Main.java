@@ -1,7 +1,10 @@
 package com.devices.simulator;
+
+import java.net.UnknownHostException;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
 
         sensor[] sensors1 = {
                 new sensor(21, 1),
@@ -22,9 +25,9 @@ public class Main {
 
         connectionManager man = new connectionManager(dispositivi, 6969);
 
-        man.startServer();
+        man.startServerBello();
 
-        // System.out.println(man.createResponsePacket(1, 1));
+       // System.out.println(man.createResponsePacket(1, 1));
 
     }
 }

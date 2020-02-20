@@ -4,16 +4,14 @@ import com.github.snksoft.crc.CRC;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static org.apache.commons.lang3.ArrayUtils.toPrimitive;
 
 public class connectionManager {
 
@@ -51,6 +49,8 @@ public class connectionManager {
             packet.add((byte) sensorId);
             packet.add((byte) optsensor.get().getValue());
             packet.add(calculateChecksum(packet));
+            //System.out.print(dispId + " ");
+            //System.out.print(127 + " ");
         } else {
             packet.add((byte) dispId);
             packet.add((byte) 64); // risposta con errore
@@ -65,49 +65,57 @@ public class connectionManager {
 
         Byte[] bytes = packet.toArray(new Byte[packet.size()]);
 
-        return (byte) CRC.calculateCRC(
+        byte tmp = (byte) CRC.calculateCRC(
                 new CRC.Parameters(8, 0xa7, 0x00, true, true, 0x00),
-                ArrayUtils.toPrimitive(bytes));
+                toPrimitive(bytes));
+        //System.out.println(tmp);
+        return tmp;
     }
 
     // Controllo il checksum del pacchetto ricevuto a meno del checksum
     private boolean checkPacket(@NotNull List<Byte> packet) {
-            return packet.get(2) == calculateChecksum(packet.subList(0, (packet.size() == 4 ? 2 : 3)));
+       // System.out.println(packet.size());
+        return packet.get(4) == calculateChecksum(packet.subList(0, 4));
     }
 
-    protected void startServer()
-    {
-        try
-        {
-            while (true){
-                server = new ServerSocket(port);
-                client = server.accept();
-                server.close();
-                PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-                String line;
-                while((line = in.readLine()) != null)
-                {
-                    byte[] packet = line.getBytes();
-                    List<Byte> nicePacket = Arrays.asList(ArrayUtils.toObject(packet));
-                    if(!checkPacket(nicePacket)){
-                        System.out.println("Errore: pacchetto corrotto!");
-                        continue;
-                    }
+    public void startServerBello() throws UnknownHostException {
 
-                    out.println(
-                            createResponsePacket(Byte.toUnsignedInt(nicePacket.get(1)),
-                                                    Byte.toUnsignedInt(nicePacket.get(3)))
-                    );
+        try {
 
-                    System.out.println("Successo: pacchetto inviato!");
+            InetAddress hostname = InetAddress.getLocalHost();
+            DatagramSocket socket = new DatagramSocket(6969);
+
+            while (true) {
+                
+                byte[] buffer = new byte[5];
+                DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+                socket.setSoTimeout(0); // attesa infinita
+                socket.receive(request);
+
+                List<Byte> nicePacket = Arrays.asList(ArrayUtils.toObject(buffer));
+                if(!checkPacket(nicePacket)){
+                    System.out.println("Errore: pacchetto corrotto!");
+                    continue;
                 }
+
+                List<Byte> ihatejava = createResponsePacket(Byte.toUnsignedInt(nicePacket.get(0)),
+                        Byte.toUnsignedInt(nicePacket.get(2)));
+                Byte[] ihatejavatwice = ihatejava.toArray(new Byte[ihatejava.size()]);
+                byte[] ihatebuffer = toPrimitive(ihatejavatwice);
+
+                DatagramPacket response = new DatagramPacket(ihatebuffer, ihatebuffer.length, request.getAddress(), request.getPort());
+                socket.send(response);
+
+                System.out.println("Successo: pacchetto inviato!");
+
             }
-        }
-        catch(IOException e)
-        {
-            System.out.println(e);
+
+        } catch (SocketTimeoutException ex) {
+            System.out.println("Errore di tempo fuori: " + ex.getMessage());
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            System.out.println("Errore cliente: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
