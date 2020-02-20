@@ -1,6 +1,9 @@
 package redroundrobin.gateway;
 
+import com.google.gson.Gson;
 import kafka.utils.json.JsonObject;
+
+import java.util.ArrayList;
 
 public class Traduttore {
 
@@ -17,4 +20,11 @@ public class Traduttore {
     boolean inStringa(JsonObject json){
         return false;
     }
+
+    public String inJSON(ArrayList<Dispositivo> lista) {
+        Gson gson = new Gson();
+        return gson.toJson(lista);
+    }
+
+
 }

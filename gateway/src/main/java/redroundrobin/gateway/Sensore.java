@@ -16,4 +16,8 @@ public class Sensore {
     public byte getDato() {
         return dato;
     }
+
+    public void setDato(byte dato) {
+        this.dato = dato;
+    }
 }

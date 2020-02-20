@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Dispositivo {
     private byte id;
-    private InetAddress indirizzo;
-    private int porta;
+    private transient InetAddress indirizzo;
+    private transient int porta;
     private List<Sensore> sensori = new ArrayList<>();
 
     public Dispositivo(byte id, InetAddress indirizzo, int porta) {
