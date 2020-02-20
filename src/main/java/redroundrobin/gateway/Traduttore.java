@@ -4,7 +4,7 @@ import kafka.utils.json.JsonObject;
 
 public class Traduttore {
 
-    //trasformazione della stringa ricevuta in input dai device in una stringa Json da inviare a Kafka
+    //Metodo che trasforma la stringa ricevuta in input  in una stringa Json (da inviare a Kafka)
     boolean inJSON(String messaggio) {
         //Struttura JSON1: idDevice, idSensore, dato, idSensore, dato, ... , idDevice, ...
         //Struttura JSON2: idDevice, idSensore, tipoDato, dato, idSensore, tipoDato, dato, ... , idDevice, ...
@@ -12,8 +12,10 @@ public class Traduttore {
         return false;
     }
 
+    /*
+    * Metodo che dato un JsonObject lo trasforma in una stringa
+    */
     boolean inStringa(JsonObject json){
-
         return false;
     }
 }
