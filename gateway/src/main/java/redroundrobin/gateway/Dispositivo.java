@@ -36,4 +36,6 @@ public class Dispositivo {
     public List<Sensore> getSensori() {
         return sensori;
     }
+
+
 }

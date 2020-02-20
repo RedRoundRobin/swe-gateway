@@ -2,15 +2,11 @@ package redroundrobin.gateway;
 
 
 import com.github.snksoft.crc.CRC;
-import kafka.utils.Json;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketTimeoutException;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +20,8 @@ public class Gateway {
     private InetAddress indirizzo;
     private int porta;
     private List<Dispositivo> dispositivi = new ArrayList<>();
+    private short accumuloPacchetti = 5; //Da prendere dalla configurazione del gateway
+    private short tempoDiAccumulo = 10000; //Da prendere dalla configurazione del gateway in millisecondi
 
     public Gateway(InetAddress indirizzo, int porta) {
         this.indirizzo = indirizzo;
@@ -44,13 +42,14 @@ public class Gateway {
     }
 
     /*
-     * Metodo che restituisce i dati prodotti da un dispositivo*/
-    String riceviDati(InetAddress indirizzo, int porta) {
+     * Metodo che reperisce i dati dai dispositivi e dopo averne accumulati alcuni li invia al topic di Kafka specificato*/
+    void riceviDati() {
         try {
 
-            InetAddress hostname = InetAddress.getLocalHost();
             DatagramSocket socket = new DatagramSocket();
-           // Traduttore convertitore = new Traduttore();
+            Traduttore traduttore = new Traduttore();
+            long tempo = System.currentTimeMillis();
+            short numeroPacchetti = 0;
 
             while (true) {
                 byte[] pacchettoGenerato = creaPacchettoCasuale();
@@ -72,14 +71,15 @@ public class Gateway {
 
 
                 List<Byte> pacchettoRicevuto = Arrays.asList(ArrayUtils.toObject(buffer));
-                if(checkPacket(pacchettoRicevuto)){
-                    traduttore.aggiungiSensore(pacchettoRicevuto);    //Da controllare
-
+                if(controllaPacchetto(pacchettoRicevuto) && traduttore.aggiungiSensore(buffer)){
+                    numeroPacchetti++;
                 }
 
-                if(){
-                    traduttore.getJson();
-                    Produttore.
+                long tempoTrascorso = System.currentTimeMillis() - tempo;
+
+                if(numeroPacchetti > accumuloPacchetti || tempoTrascorso > tempoDiAccumulo){
+                    traduttore.getJSON();
+                    Produttore.eseguiProduttore("Gateway-Test", traduttore.getJSON(), new Produttore("Gateway-Test", "localhost:29092"));
                 }
 
                 System.out.print("< RES: ");
@@ -96,18 +96,13 @@ public class Gateway {
         } catch (IOException e) {
             System.out.println("Errore cliente: " + e.getMessage());
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             System.out.println("Errore cliente: " + e.getMessage());
             e.printStackTrace();
 
-       return null;
         }
-
-    // Controllo il checksum del pacchetto ricevuto a meno del checksum
-    private boolean checkPacket(@NotNull List<Byte> packet) {
-        // System.out.println(packet.size());
-        return packet.get(4) == calculateChecksum(packet.subList(0, 4));
     }
+
 
     // Creazione di un pacchetto random
     public static byte[] creaPacchettoCasuale() {
@@ -125,14 +120,12 @@ public class Gateway {
 
         return new byte[]{
                 disp, codiceOperazione, sensore, valore,
-                calculateChecksum(pacchetto)
+                calcolaChecksum(pacchetto)
         };
 
     }
-    /* Checksum CRC-8 Bluetooth */
-    public static byte calculateChecksum(@NotNull List<Byte> packet){
-
-        Byte[] bytes = packet.toArray(new Byte[packet.size()]);
+    static byte calcolaChecksum(List<Byte> pacchetto) {
+        Byte[] bytes = pacchetto.toArray(new Byte[pacchetto.size()]);
 
         byte tmp = (byte) CRC.calculateCRC(
                 new CRC.Parameters(8, 0xa7, 0x00, true, true, 0x00),
@@ -141,9 +134,15 @@ public class Gateway {
         return tmp;
     }
 
-    public static void main(String args[]){
-
+    // Controllo il checksum del pacchetto ricevuto a meno del checksum
+    public static boolean controllaPacchetto(@NotNull List<Byte> packet) {
+        // System.out.println(packet.size());
+        return packet.get(4) == calcolaChecksum(packet.subList(0, 4));
     }
 
+    public static void main(String args[]) throws UnknownHostException {
+        Gateway gateway = new Gateway(InetAddress.getLocalHost(), 6969);
+        gateway.riceviDati();
 
+    }
 }

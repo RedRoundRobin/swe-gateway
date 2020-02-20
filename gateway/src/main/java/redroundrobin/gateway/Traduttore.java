@@ -16,7 +16,7 @@ public class Traduttore {
         lista = new ArrayList<>();
     }
 
-    public void aggiungiSensore( byte[] b ) {
+    public boolean aggiungiSensore( byte[] b ) {
         if( b[1] == ERR || b[1] == REQ || b[1] == RES ) {
             int id = Byte.toUnsignedInt(b[0]);
 
@@ -37,6 +37,9 @@ public class Traduttore {
 
                 lista.add(d);
             }
+            return true;
+        }else {
+            return false;
         }
     }
 
