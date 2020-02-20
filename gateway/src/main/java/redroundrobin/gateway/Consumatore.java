@@ -45,7 +45,7 @@ public class Consumatore {
 *
 * */
     static void eseguiConsumatore(Consumatore consumatore) throws InterruptedException {
-        System.out.println("Consumatore "+consumatore.nome+" avviato");
+        System.out.println("Consumatore " + consumatore.nome + " avviato");
         final int maxCap = 100;
         int nessunRecordTrovato = 0;
 

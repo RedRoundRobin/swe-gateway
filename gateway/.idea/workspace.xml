@@ -153,14 +153,14 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="358" y="185" key="#com.intellij.ide.util.ExportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582062470212" />
-    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser" timestamp="1582192810528">
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser" timestamp="1582196219306">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582192810528" />
-    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1582050145549">
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582196219306" />
+    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1582200863142">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582050145549" />
+    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582200863142" />
     <state x="508" y="316" width="423" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1582060862949">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -224,5 +224,9 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="436" y="113" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1440.900@0.0.1440.900" timestamp="1582063625160" />
+    <state x="149" y="72" key="new project wizard" timestamp="1582201142451">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="149" y="72" key="new project wizard/0.0.1440.900@0.0.1440.900" timestamp="1582201142451" />
   </component>
 </project>
