@@ -5,16 +5,20 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class Gateway {
-
+public class Dispositivo {
+    private byte id;
     private InetAddress indirizzo;
     private int porta;
-    private List<Dispositivo> dispositivi = new ArrayList<>();
+    private List<Sensore> sensori = new ArrayList<>();
 
-    public Gateway(InetAddress indirizzo, int porta) {
+    public Dispositivo(byte id, InetAddress indirizzo, int porta) {
+        this.id = id;
         this.indirizzo = indirizzo;
         this.porta = porta;
+    }
+
+    public byte getId() {
+        return id;
     }
 
     public InetAddress getIndirizzo() {
@@ -25,15 +29,7 @@ public class Gateway {
         return porta;
     }
 
-    public List<Dispositivo> getDispositivi() {
-        return dispositivi;
+    public List<Sensore> getSensori() {
+        return sensori;
     }
-
-    /*
-     * Metodo che restituisce i dati prodotti da un dispositivo*/
-    String riceviDati() {
-        return "";
-    }
-
-
 }

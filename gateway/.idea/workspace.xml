@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Consumatore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Consumatore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Produttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Produttore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Consumatore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Consumatore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/SampleConsumer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" afterDir="false" />
-    </list>
+    <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,7 +32,7 @@
     </option>
   </component>
   <component name="ProjectId" id="1XzXuOYHBJeRfzoG7whVNNVUTsI" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -164,6 +153,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="358" y="185" key="#com.intellij.ide.util.ExportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582062470212" />
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser" timestamp="1582192810528">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582192810528" />
     <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1582050145549">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -172,6 +165,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="508" y="316" width="423" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1440.900@0.0.1440.900" timestamp="1582060862949" />
+    <state x="461" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582192508377">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="461" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1582192508377" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1582189796899">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
