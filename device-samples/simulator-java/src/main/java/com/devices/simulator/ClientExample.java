@@ -24,7 +24,12 @@ public class ClientExample {
                 DatagramPacket richiesta = new DatagramPacket(pacchettoGenerato, pacchettoGenerato.length, InetAddress.getLocalHost(), 6969);
                 socket.send(richiesta);
                 System.out.print("> REQ: ");
-                System.out.println(pacchettoGenerato);
+                System.out.print("[ ");
+                for (byte elemento:pacchettoGenerato) {
+                    System.out.print(elemento + " ");
+                }
+                System.out.println("]");
+
 
                 byte[] buffer = new byte[5];
                 DatagramPacket response = new DatagramPacket(buffer, buffer.length);
