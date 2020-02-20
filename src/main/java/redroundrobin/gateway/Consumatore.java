@@ -10,40 +10,47 @@ import java.util.Properties;
 import static redroundrobin.gateway.Produttore.eseguiProduttore;
 
 public class Consumatore {
-    private final static String BOOTSTRAP_SERVERS = "localhost:29092";
-/*
-*
-* Metodo che crea un consumatore collegato al topic specificato
-*
-* */
-    private static Consumer<Long, String> creaConsumatore(String topic, String nomeConsumatore) {
+    private String topic;
+    private String bootstrapServers; //Lista di indirizzoIP:porta separati da una virgola.
+    private String nome;
+    private Consumer<Long, String> consumatore;
+
+
+    Consumatore(String topic, String nomeConsumatore, String boostrapServers) {
+        this.topic = topic;
+        this.bootstrapServers = boostrapServers;
+        this.nome = nomeConsumatore;
+
+        //Imposto le proprietà del consumatore da creare
         final Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, nomeConsumatore);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        // Create the consumer using props.
 
-        final Consumer<Long, String> consumatore = new KafkaConsumer<>(props);
-        // Subscribe to the topic.
-        consumatore.subscribe(Collections.singletonList(topic));
 
-        return consumatore;
+        Consumer<Long, String> cons = new KafkaConsumer<>(props);
+
+        //Sottoscrivo il consumatore al topic
+        cons.subscribe(Collections.singletonList(topic));
+
+        this.consumatore = cons;
     }
+
+
 /*
 *
 * Metodo che esegue un consumatore collegato al topics specificato e che stampa i record trovati
 * Il consumatore continua ad essere attivo
 *
 * */
-    static void eseguiConsumatore(String topic, String nomeConsumatore) throws InterruptedException {
-        System.out.println("Avvio del consumatore...");
-        final Consumer<Long, String> consumatore = creaConsumatore(topic, nomeConsumatore);
+    static void eseguiConsumatore(Consumatore consumatore) throws InterruptedException {
+        System.out.println("Consumatore "+consumatore.nome+" avviato");
         final int maxCap = 100;
         int nessunRecordTrovato = 0;
 
         while (true) {
-            final ConsumerRecords<Long, String> recordConsumatore = consumatore.poll(1000);
+            final ConsumerRecords<Long, String> recordConsumatore = consumatore.consumatore.poll(1000);
             if (recordConsumatore.count()==0) {
                 nessunRecordTrovato++;
                 if (nessunRecordTrovato > maxCap) break;
@@ -51,20 +58,22 @@ public class Consumatore {
             }
             recordConsumatore.forEach(record -> {
                 System.out.printf("Record del consumatore %s: \t(%d, %s, %d, %d)\n",
-                        nomeConsumatore,
+                        consumatore.nome,
                         record.key(), record.value(),
                         record.partition(), record.offset());
             });
-            consumatore.commitAsync();
+            consumatore.consumatore.commitAsync();
+            System.out.println("Messaggi disponibili consumati!");
 
         }
-        consumatore.close();
-        System.out.println("Messaggi consumati!");
+        consumatore.consumatore.close();
+        System.out.println("Consumatore "+consumatore.nome+" chiuso");
     }
 
     public static void main(String args[]) throws Exception {
 
-        Consumatore.eseguiConsumatore("TopicDiProva", "ConsumatoreDiProva");
+        Consumatore test = new Consumatore("TopicDiProva","consumatoreTest", "localhost:29092");
+        Consumatore.eseguiConsumatore(test);
 
     }
 }

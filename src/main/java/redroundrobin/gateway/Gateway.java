@@ -1,15 +1,30 @@
 package redroundrobin.gateway;
 
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
 
-import java.util.Properties;
-
-import static redroundrobin.gateway.Produttore.eseguiProduttore;
-
+import java.net.InetAddress;
+import java.util.ArrayList;
 
 public class Gateway {
+
+    String nome;
+    InetAddress indirizzoIP;
+    int id;
+    int porta;
+    List<Device> devices = new ArrayList<>();
+
+
+
+    Gateway(String nome, int id, int porta) {
+        this.id = id;
+        this.nome = nome;
+        this.porta = porta;
+    }
+
+    /*
+     * Metodo che restituisce i dati prodotti da un dispositivo*/
+    String riceviDati() {
+        return "";
+    }
+
 
 }
