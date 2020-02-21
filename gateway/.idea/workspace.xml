@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="" />
+    <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Utilita.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Utilita.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../device-samples/simulator-java/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../device-samples/simulator-java/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Produttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Produttore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/connectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/connectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/connectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/connectionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/TraduttoreTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/TraduttoreTest.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +40,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -63,20 +81,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GatewayTest.dispositivoInJSON">
-    <configuration name="Consumatore" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.Consumatore" />
-      <module name="swe-gateway" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="redroundrobin.gateway.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.Gateway">
     <configuration name="Gateway" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.Gateway" />
       <module name="swe-gateway" />
@@ -90,8 +95,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Produttore" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.Produttore" />
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.Server" />
       <module name="swe-gateway" />
       <extension name="coverage">
         <pattern>
@@ -103,7 +108,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GatewayTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TraduttoreTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swe-gateway" />
       <extension name="coverage">
         <pattern>
@@ -112,13 +117,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="redroundrobin.gateway" />
-      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.GatewayTest" />
+      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.TraduttoreTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GatewayTest.dispositivoInJSON" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TraduttoreTest.bytesInOggetto1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swe-gateway" />
       <extension name="coverage">
         <pattern>
@@ -127,7 +132,23 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="redroundrobin.gateway" />
-      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.GatewayTest" />
+      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.TraduttoreTest" />
+      <option name="METHOD_NAME" value="bytesInOggetto1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TraduttoreTest.dispositivoInJSON" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swe-gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="redroundrobin.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="redroundrobin.gateway" />
+      <option name="MAIN_CLASS_NAME" value="redroundrobin.gateway.TraduttoreTest" />
       <option name="METHOD_NAME" value="dispositivoInJSON" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -136,11 +157,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GatewayTest.dispositivoInJSON" />
-        <item itemvalue="JUnit.GatewayTest" />
-        <item itemvalue="Application.Produttore" />
-        <item itemvalue="Application.Consumatore" />
         <item itemvalue="Application.Gateway" />
+        <item itemvalue="Application.Server" />
+        <item itemvalue="JUnit.TraduttoreTest" />
+        <item itemvalue="JUnit.TraduttoreTest.bytesInOggetto1" />
+        <item itemvalue="JUnit.TraduttoreTest.dispositivoInJSON" />
       </list>
     </recent_temporary>
   </component>
@@ -171,6 +192,7 @@
       <workItem from="1582103136593" duration="9293000" />
       <workItem from="1582127754940" duration="3707000" />
       <workItem from="1582188676431" duration="1030000" />
+      <workItem from="1582275126775" duration="8153000" />
     </task>
     <servers />
   </component>
@@ -186,19 +208,18 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="358" y="185" key="#com.intellij.ide.util.ExportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582062470212" />
-    <state x="569" y="158" key="#com.intellij.ide.util.MemberChooser" timestamp="1582193941197">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582192810528" />
-    <state x="569" y="158" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1582193941197" />
-    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1582050145549">
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser" timestamp="1582285224908">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582050145549" />
-    <state x="618" y="301" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582194249567">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582285224908" />
+    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1582200863142">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="618" y="301" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.824@0.0.1536.824" timestamp="1582194249567" />
+    <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582200863142" />
+    <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582210703827">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1440.900@0.0.1440.900" timestamp="1582210703827" />
     <state x="508" y="316" width="423" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1582060862949">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -207,53 +228,49 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="461" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1582192508377" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1582196931640">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1582288535119">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582189796899" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582196931640" />
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582288535119" />
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.23.1440.829@0.23.1440.829" timestamp="1582287015542" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1582111220720" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.23.1440.832@0.23.1440.832" timestamp="1582063547341" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1582196931640">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1582288535117">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1582189796897" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582196931640" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1582288535117" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center/0.23.1440.829@0.23.1440.829" timestamp="1582287015539" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1582111220718" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.23.1440.832@0.23.1440.832" timestamp="1582063547334" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1582196931640">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1582288535116">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1582189796896" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582196931640" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1582288535116" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left/0.23.1440.829@0.23.1440.829" timestamp="1582287015535" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1582111220716" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1582196931640">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1582288535118">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1582189796898" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582196931640" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1582288535118" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right/0.23.1440.829@0.23.1440.829" timestamp="1582287015541" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1582111220719" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.23.1440.832@0.23.1440.832" timestamp="1582063547336" />
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1582196849269">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="303" key="GridCell.Tab.1.bottom" timestamp="1582287427465">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582113401726" />
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582196849269" />
-    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1582196849269">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="303" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582287427465" />
+    <state width="1398" height="303" key="GridCell.Tab.1.center" timestamp="1582287427464">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1582113401723" />
-    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1582196849269" />
-    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1582196849269">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="303" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1582287427464" />
+    <state width="1398" height="303" key="GridCell.Tab.1.left" timestamp="1582287427464">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1582113401722" />
-    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1582196849269" />
-    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1582196849269">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="303" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1582287427464" />
+    <state width="1398" height="303" key="GridCell.Tab.1.right" timestamp="1582287427465">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1582113401724" />
-    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1582196849269" />
+    <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1582287427465" />
     <state x="208" y="31" key="SettingsEditor" timestamp="1582062818421">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -266,9 +283,17 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="504" y="146" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1440.900@0.0.1440.900" timestamp="1582062707653" />
-    <state x="436" y="113" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1582063625160">
+    <state x="436" y="113" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1582276450671">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="436" y="113" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1440.900@0.0.1440.900" timestamp="1582063625160" />
+    <state x="436" y="113" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1440.900@0.0.1440.900" timestamp="1582276450671" />
+    <state x="149" y="72" key="new project wizard" timestamp="1582201142451">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="149" y="72" key="new project wizard/0.0.1440.900@0.0.1440.900" timestamp="1582201142451" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1582277623217">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1582277623217" />
   </component>
 </project>

@@ -6,9 +6,9 @@ import kafka.utils.json.JsonObject;
 import java.util.ArrayList;
 
 public class Traduttore {
-    public static final int ERR = -1;
+    public static final int ERR = 64;
     public static final int REQ = 0;
-    public static final int RES = 1;
+    public static final int RES = 127;
 
     private ArrayList<Dispositivo> lista;
 
@@ -16,7 +16,11 @@ public class Traduttore {
         lista = new ArrayList<>();
     }
 
-    public void aggiungiSensore( byte[] b ) {
+    /*
+        Viene controllato il pacchetto di risposta contiene i dati corretti.
+        Se passa i test allora il pacchetto viene aggiunto alla lista di pacchetti.
+    */
+    public boolean aggiungiSensore( byte[] b ) {
         if( b[1] == ERR || b[1] == REQ || b[1] == RES ) {
             int id = Byte.toUnsignedInt(b[0]);
 
@@ -37,6 +41,9 @@ public class Traduttore {
 
                 lista.add(d);
             }
+            return true;
+        }else {
+            return false;
         }
     }
 
@@ -44,8 +51,12 @@ public class Traduttore {
         return this.lista;
     }
 
+    /*
+    Ritorna la lista dei dati raccolti in formato JSON
+    */
     public String getJSON() {
         Gson gson = new Gson();
         return gson.toJson(this.lista);
     }
+
 }
