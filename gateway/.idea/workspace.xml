@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Utilita.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Utilita.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../device-samples/simulator-java/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../device-samples/simulator-java/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -11,6 +13,12 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/connectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/connectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/connectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/connectionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/TraduttoreTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/TraduttoreTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +192,7 @@
       <workItem from="1582103136593" duration="9293000" />
       <workItem from="1582127754940" duration="3707000" />
       <workItem from="1582188676431" duration="1030000" />
-      <workItem from="1582275126775" duration="7932000" />
+      <workItem from="1582275126775" duration="8153000" />
     </task>
     <servers />
   </component>
