@@ -28,6 +28,11 @@ public class Produttore {
         this.produttore = new KafkaProducer<>(props);
     }
 
+    /*
+        Viene eseguito il produttore specificato.
+        Il produttore invia il messaggio nel topic specificato.
+        N.B. Il produttore viene chiuso a mano
+    */
     static void eseguiProduttore(String topic, String messaggio, Produttore produttore) throws Exception {
         System.out.println("Avvio del produttore "+produttore.nome);
         long tempo = System.currentTimeMillis();
@@ -53,8 +58,13 @@ public class Produttore {
         }finally {
             produttore.produttore.flush();
             System.out.println("Messaggio inviato!");
-            produttore.produttore.close();
+            // produttore.produttore.close();
+            // Il produttore andrà chiuso a mano
         }
+    }
+
+    void chiudiProduttore(){
+        this.produttore.close();
     }
 
 
@@ -62,7 +72,8 @@ public class Produttore {
 
         Produttore test = new Produttore("produttoreTest", "localhost:29092");
         eseguiProduttore("TopicDiProva","Ciao mondo!", test);
-
+        eseguiProduttore("TopicDiProva","Ciao mondo2!", test);
+        test.chiudiProduttore();
 
     }
 

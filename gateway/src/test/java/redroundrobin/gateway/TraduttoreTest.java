@@ -26,7 +26,7 @@ class TraduttoreTest {
 
         String json = t.getJSON();
 
-        assertEquals("", json);
+        assertEquals("[{\"id\":0,\"sensori\":[{\"id\":0,\"dato\":0},{\"id\":1,\"dato\":1},{\"id\":2,\"dato\":2},{\"id\":3,\"dato\":3}]},{\"id\":0,\"sensori\":[{\"id\":0,\"dato\":0},{\"id\":1,\"dato\":1},{\"id\":2,\"dato\":2},{\"id\":3,\"dato\":3}]}]", json);
     }
 
     private Traduttore bytesInOggetto() {

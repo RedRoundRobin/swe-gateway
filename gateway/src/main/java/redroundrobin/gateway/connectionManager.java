@@ -25,7 +25,10 @@ public class connectionManager {
         port = p;
     }
 
-    /* Pacchetto di risposta */
+    /*
+    Pacchetto di risposta con i dati dei dispositivi
+    Le informazioni vengono reperite dal Server di simulazione dei dispositivi
+     */
     public List<Byte> createResponsePacket(int dispId, int sensorId) {
 
         List<Byte> packet = new ArrayList<>();
@@ -48,17 +51,23 @@ public class connectionManager {
             packet.add((byte) 127); // risposta con dato
             packet.add((byte) sensorId);
             packet.add((byte) optsensor.get().getDato());
-            packet.add(Gateway.calcolaChecksum(packet));
+            packet.add(Utilita.calcolaChecksum(packet));
             //System.out.print(dispId + " ");
             //System.out.print(127 + " ");
         } else {
             packet.add((byte) dispId);
             packet.add((byte) 64); // risposta con errore
             packet.add((byte) sensorId);
-            packet.add(Gateway.calcolaChecksum(packet));
+            packet.add(Utilita.calcolaChecksum(packet));
         }
+
+
         return packet;
     }
+    /*
+        Creazione del datagramSocket che resta in attesa di ricevere richieste da parte del gateway.
+        Quando riceve una richiesta reperisce il valore del sensore richiesto e la inoltra al gateway.
+     */
 
     public void startServerBello() throws UnknownHostException {
 
@@ -76,7 +85,7 @@ public class connectionManager {
 
                 List<Byte> nicePacket = Arrays.asList(ArrayUtils.toObject(buffer));
 
-                if(!Gateway.controllaPacchetto(nicePacket)){
+                if(!Utilita.controllaPacchetto(nicePacket)){
                     System.out.println("Errore: pacchetto corrotto!");
                     continue;
                 }
