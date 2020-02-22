@@ -1,4 +1,5 @@
 package com.devices.simulator;
+
 import java.util.Random;
 
 public class Sensore {
