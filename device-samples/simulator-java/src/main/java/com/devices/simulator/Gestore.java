@@ -13,16 +13,16 @@ import java.util.Optional;
 
 import static org.apache.commons.lang3.ArrayUtils.toPrimitive;
 
-public class connectionManager {
+public class Gestore {
 
-    public static int port = 0;
-    private device[] devices = {};
+    public static int porta;
+    private List<Dispositivo> dispositivi;
     private ServerSocket server;
     private Socket client;
 
-    public connectionManager(device[] d, int p) {
-       devices = d;
-       port = p;
+    public Gestore(device[] d, int p) {
+       dispositivi = d;
+       porta = p;
     }
 
     /* Pacchetto di risposta */
@@ -30,7 +30,7 @@ public class connectionManager {
 
         List<Byte> packet = new ArrayList<Byte>();
 
-        Optional<device> optdevice = Arrays.stream(this.devices)
+        Optional<device> optdevice = Arrays.stream(this.dispositivi)
                                         .filter(x -> dispId == x.getId())
                                         .findFirst();
         Optional<sensor> optsensor = null;

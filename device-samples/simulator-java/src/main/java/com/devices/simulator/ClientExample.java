@@ -1,7 +1,6 @@
 package com.devices.simulator;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +69,7 @@ public class ClientExample {
 
         return new byte[]{
                disp, codiceOperazione, sensore, valore,
-                connectionManager.calculateChecksum(pacchetto)
+                Gestore.calculateChecksum(pacchetto)
         };
 
     }

@@ -1,33 +1,21 @@
 package com.devices.simulator;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
-
     public static void main(String[] args) throws UnknownHostException {
+        List<Sensore> sensori1 = new ArrayList<>(Arrays.asList(new Sensore(21, 1), new Sensore(50, 2), new Sensore(4, 3), new Sensore(150, 4)));
+        Dispositivo dispositivo1 = new Dispositivo(1, sensori1);
 
-        sensor[] sensors1 = {
-                new sensor(21, 1),
-                new sensor(50, 2),
-                new sensor(4, 3),
-                new sensor(150, 4)
-        };
-        device dispositivo1 = new device(1, sensors1);
+        List<Sensore> sensori2 = new ArrayList<>(Arrays.asList(new Sensore(234, 1), new Sensore(21, 2), new Sensore(22, 3)));
+        Dispositivo dispositivo2 = new Dispositivo(2, sensori2);
 
-        sensor[] sensors2 = {
-                new sensor(234, 1),
-                new sensor(21, 2),
-                new sensor(22, 3)
-        };
-        device dispositivo2 = new device(2, sensors2);
+        List<Dispositivo> dispositivi = new ArrayList<>(Arrays.asList(dispositivo1, dispositivo2));
 
-        device[] dispositivi = {dispositivo1, dispositivo2};
-
-        connectionManager man = new connectionManager(dispositivi, 6969);
-
-        man.startServerBello();
-
-       // System.out.println(man.createResponsePacket(1, 1));
-
+        Gestore gestore = new Gestore(dispositivi, 6969);
+        gestore.startServerBello();
     }
 }
