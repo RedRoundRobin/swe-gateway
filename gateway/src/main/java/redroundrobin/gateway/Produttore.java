@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class Produttore {
+public class Produttore implements AutoCloseable {
 
     private Producer<Long, String> produttore;
     private String nome;
@@ -43,11 +43,11 @@ public class Produttore {
 
                 if (metadati != null) {
                     System.out.printf("Inviato il record (chiave = %s, valore = %s) con meta (partizione = %d, offset = %d) e tempo = %d\n",
-                                        record.key(),
-                                        record.value(),
-                                        metadati.partition(),
-                                        metadati.offset(),
-                                        tempoTrascorso);
+                            record.key(),
+                            record.value(),
+                            metadati.partition(),
+                            metadati.offset(),
+                            tempoTrascorso);
                 } else {
                     eccezione.printStackTrace();
                 }
@@ -62,16 +62,17 @@ public class Produttore {
         }
     }
 
-    public void chiudiProduttore(){
+    @Override
+    public void close() {
         produttore.close();
     }
 
     public static void main(String[] args) throws Exception {
         Produttore test = new Produttore("produttoreTest", "localhost:29092");
 
-        test.eseguiProduttore("TopicDiProva","Ciao mondo1!");
-        test.eseguiProduttore("TopicDiProva","Ciao mondo2!");
+        test.eseguiProduttore("TopicDiProva", "Ciao mondo1!");
+        test.eseguiProduttore("TopicDiProva", "Ciao mondo2!");
 
-        test.chiudiProduttore();
+        test.close();
     }
 }
