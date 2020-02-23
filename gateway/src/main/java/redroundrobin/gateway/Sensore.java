@@ -9,15 +9,15 @@ public class Sensore {
         this.dato = dato;
     }
 
-    public int getId() {
+    public int ottieniId() {
         return id;
     }
 
-    public int getDato() {
+    public int ottieniDato() {
         return dato;
     }
 
-    public void setDato(int dato) {
+    public void impostaDato(int dato) {
         this.dato = dato;
     }
 }

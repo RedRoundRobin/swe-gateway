@@ -1,9 +1,7 @@
 package redroundrobin.gateway;
 
 
-import com.github.snksoft.crc.CRC;
 import org.apache.commons.lang3.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.*;
@@ -13,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.apache.commons.lang3.ArrayUtils.toPrimitive;
-import static redroundrobin.gateway.Utilita.calcolaChecksum;
+import static redroundrobin.gateway.Utilita.calcolaCRC;
 
 
 public class Gateway {
@@ -93,7 +91,7 @@ public class Gateway {
 
 
                 List<Byte> pacchettoRicevuto = Arrays.asList(ArrayUtils.toObject(buffer));
-                if(Utilita.controllaPacchetto(pacchettoRicevuto)) {
+                if(Utilita.controllaIntegrita(pacchettoRicevuto)) {
 
                    boolean flag = traduttore.aggiungiSensore(buffer);
                     if(flag) {
@@ -104,8 +102,8 @@ public class Gateway {
                 long tempoTrascorso = System.currentTimeMillis() - tempo;
 
                 if(numeroPacchetti > accumuloPacchetti || tempoTrascorso > tempoDiAccumulo){
-                    String dato = traduttore.getJSON();
-                    Produttore.eseguiProduttore(nome, dato, produttore);
+                    String dato = traduttore.ottieniJSON();
+                    produttore.eseguiProduttore(nome, dato);
                     tempo = System.currentTimeMillis();
                     numeroPacchetti = 0;
 
@@ -138,12 +136,12 @@ public class Gateway {
         Random rand = new Random();
         int numDispositivi = dispositivi.size();
         int indiceDispositivo = rand.nextInt(numDispositivi);
-        int numSensori = dispositivi.get(indiceDispositivo).getSensori().size();
+        int numSensori = dispositivi.get(indiceDispositivo).ottieniSensori().size();
         int indiceSensore = rand.nextInt(numSensori);
 
-        byte disp = (byte) (dispositivi.get(indiceDispositivo).getId());   //prendo uno tra gli id
+        byte disp = (byte) (dispositivi.get(indiceDispositivo).ottieniId());   //prendo uno tra gli id
         byte codiceOperazione = 0;
-        byte sensore = (byte)(dispositivi.get(indiceDispositivo).getSensori().get(indiceSensore).getId()); //prendo uno dei sensori del dispositivo
+        byte sensore = (byte)(dispositivi.get(indiceDispositivo).ottieniSensori().get(indiceSensore).ottieniId()); //prendo uno dei sensori del dispositivo
         byte valore = 0;
 
         List<Byte> pacchetto = new ArrayList<>();
@@ -154,7 +152,7 @@ public class Gateway {
 
         return new byte[]{
                 disp, codiceOperazione, sensore, valore,
-                calcolaChecksum(pacchetto)
+                calcolaCRC(pacchetto)
         };
 
     }
@@ -172,7 +170,7 @@ public class Gateway {
                 new Sensore(4, 0)
         };
         Dispositivo dispositivo1 = new Dispositivo(1);
-        dispositivo1.getSensori().addAll(Arrays.asList(sensori1));
+        dispositivo1.ottieniSensori().addAll(Arrays.asList(sensori1));
 
         Sensore[] sensori2 = {
                 new Sensore(1, 0),
@@ -180,7 +178,7 @@ public class Gateway {
                 new Sensore(3, 0)
         };
         Dispositivo dispositivo2 = new Dispositivo(2);
-        dispositivo2.getSensori().addAll(Arrays.asList(sensori2));
+        dispositivo2.ottieniSensori().addAll(Arrays.asList(sensori2));
 
         Sensore[] sensori3 = {
                 new Sensore(1, 0),
@@ -189,7 +187,7 @@ public class Gateway {
                 new Sensore(4, 0)
         };
         Dispositivo dispositivo3 = new Dispositivo(3);
-        dispositivo3.getSensori().addAll(Arrays.asList(sensori3));
+        dispositivo3.ottieniSensori().addAll(Arrays.asList(sensori3));
 
         Sensore[] sensori4 = {
                 new Sensore(1, 0),
@@ -198,7 +196,7 @@ public class Gateway {
                 new Sensore(4, 0)
         };
         Dispositivo dispositivo4 = new Dispositivo(4);
-        dispositivo4.getSensori().addAll(Arrays.asList(sensori4));
+        dispositivo4.ottieniSensori().addAll(Arrays.asList(sensori4));
 
         Sensore[] sensori5 = {
                 new Sensore(1, 0),
@@ -207,7 +205,7 @@ public class Gateway {
                 new Sensore(4, 0)
         };
         Dispositivo dispositivo5 = new Dispositivo(5);
-        dispositivo5.getSensori().addAll(Arrays.asList(sensori5));
+        dispositivo5.ottieniSensori().addAll(Arrays.asList(sensori5));
 
         Sensore[] sensori6 = {
                 new Sensore(1, 0),
@@ -216,7 +214,7 @@ public class Gateway {
                 new Sensore(4, 0)
         };
         Dispositivo dispositivo6 = new Dispositivo(6);
-        dispositivo6.getSensori().addAll(Arrays.asList(sensori6));
+        dispositivo6.ottieniSensori().addAll(Arrays.asList(sensori6));
 
         List<Dispositivo> dispositiviSalvati = new ArrayList<>();
 

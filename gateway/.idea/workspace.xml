@@ -2,28 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Utilita.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Utilita.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../device-samples/simulator-java/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../device-samples/simulator-java/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Consumatore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Consumatore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Dispositivo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Dispositivo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Esecutore.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Produttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Produttore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Sensore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Sensore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/connectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/connectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Utilita.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Utilita.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/connectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Dispositivi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/connectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/connectionManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/TraduttoreTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/TraduttoreTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Consumatore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Consumatore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Dispositivo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Dispositivo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Esecutore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Gateway.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Produttore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Sensore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Sensore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Server.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Traduttore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Utilita.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Utilita.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/connectionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/GatewayTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/redroundrobin/gateway/TraduttoreTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
   </component>
   <component name="ErrorTreeViewConfiguration">
     <option name="hideInfoMessages" value="true" />
@@ -49,6 +60,9 @@
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
   <component name="ProjectId" id="1XzXuOYHBJeRfzoG7whVNNVUTsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -65,10 +79,11 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/DizionarioItaliano/it.dic" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.spelling" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -177,6 +192,7 @@
       </list>
     </option>
   </component>
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="1" Folder0="C:\Users\loren\Documents\DizionarioItaliano" CustomDictionaries="1" CustomDictionary0="C:\Users\loren\Documents\DizionarioItaliano\it.dic" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="project-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -193,6 +209,8 @@
       <workItem from="1582127754940" duration="3707000" />
       <workItem from="1582188676431" duration="1030000" />
       <workItem from="1582275126775" duration="8153000" />
+      <workItem from="1582472841315" duration="31000" />
+      <workItem from="1582472885482" duration="3910000" />
     </task>
     <servers />
   </component>
@@ -216,10 +234,15 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582200863142" />
-    <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582210703827">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="763" y="400" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582472929980">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1440.900@0.0.1440.900" timestamp="1582210703827" />
+    <state x="763" y="400" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582472929980" />
+    <state x="640" y="248" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1582472860882">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="640" y="248" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582472860882" />
     <state x="508" y="316" width="423" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1582060862949">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -228,6 +251,14 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="461" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1582192508377" />
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1582475313031">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582475313031" />
+    <state x="556" y="148" key="FileChooserDialogImpl" timestamp="1582473130613">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="556" y="148" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582473130613" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1582288535119">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -271,10 +302,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1582287427465" />
-    <state x="208" y="31" key="SettingsEditor" timestamp="1582062818421">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="277" y="36" key="SettingsEditor" timestamp="1582473132372">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="208" y="31" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1582062818421" />
+    <state x="277" y="36" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582473132372" />
     <state x="521" y="235" key="chooseDestDirectoryDialog" timestamp="1582061152988">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
