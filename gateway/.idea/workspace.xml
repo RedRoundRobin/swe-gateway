@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/GatewayTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/GatewayTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +189,7 @@
       <workItem from="1582275126775" duration="8153000" />
       <workItem from="1582472841315" duration="31000" />
       <workItem from="1582472885482" duration="3910000" />
-      <workItem from="1582540148026" duration="1034000" />
+      <workItem from="1582540148026" duration="2122000" />
     </task>
     <servers />
   </component>
