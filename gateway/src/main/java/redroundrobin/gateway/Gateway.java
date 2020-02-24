@@ -46,8 +46,7 @@ public class Gateway {
                 DatagramPacket richiesta = new DatagramPacket(pacchettoGenerato, pacchettoGenerato.length, indirizzo, porta);
                 socket.send(richiesta);
 
-                System.out.print("> REQ: ");
-                System.out.print("[ ");
+                System.out.print("> REQ: [ ");
                 for (byte elemento : pacchettoGenerato) {
                     System.out.print(elemento + " ");
                 }
@@ -76,11 +75,11 @@ public class Gateway {
                     numeroPacchetti = 0;
                 }
 
-                System.out.print("< RES: ");
+                System.out.print("< RES: [ ");
                 for (byte elemento : buffer) {
                     System.out.print(elemento + " ");
                 }
-                System.out.println();
+                System.out.println("]");
 
                 Thread.sleep(1000); // Da tenere solo per fare test
             }
