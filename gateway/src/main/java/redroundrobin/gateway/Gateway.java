@@ -60,8 +60,7 @@ public class Gateway {
                 List<Byte> pacchettoRicevuto = Arrays.asList(ArrayUtils.toObject(buffer));
 
                 if (Utilita.controllaIntegrita(pacchettoRicevuto)) {
-                    boolean flag = traduttore.aggiungiSensore(buffer);
-                    if (flag) {
+                    if (traduttore.aggiungiSensore(buffer)) {
                         numeroPacchetti++;
                     }
                 }
@@ -112,7 +111,6 @@ public class Gateway {
 
         return new byte[] {dispositivo, codiceOperazione, sensore, valore, calcolaCRC(pacchetto)};
     }
-
 
     public static void main(String[] args) throws UnknownHostException {
         // Creo la configurazione
