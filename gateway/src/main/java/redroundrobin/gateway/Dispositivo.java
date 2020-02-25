@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Dispositivo {
     private int id;
+    private long timestamp = 0;
     private List<Sensore> sensori;
 
     public Dispositivo(int id) {
@@ -23,5 +24,9 @@ public class Dispositivo {
 
     public List<Sensore> ottieniSensori() {
         return sensori;
+    }
+
+    public void impostaTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

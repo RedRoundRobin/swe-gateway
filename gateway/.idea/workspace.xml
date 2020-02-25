@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/GatewayTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/GatewayTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/redroundrobin/gateway/TraduttoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Consumatore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Consumatore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Dispositivo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Dispositivo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Sensore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Sensore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redroundrobin/gateway/Traduttore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Consumatore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Consumatore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Dispositivo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Dispositivo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Sensore.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Sensore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Utilita.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redroundrobin/gateway/Utilita.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,18 +212,20 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="358" y="185" key="#com.intellij.ide.util.ExportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582062470212" />
-    <state x="711" y="200" key="#com.intellij.ide.util.MemberChooser" timestamp="1582492526772">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser" timestamp="1582623760718">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/-231.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1582623760718" />
     <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582285224908" />
     <state x="711" y="200" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1582492526772" />
     <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1582200863142">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582200863142" />
-    <state x="763" y="400" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582487931527">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582623425610">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/-231.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1582623425610" />
     <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1440.900@0.0.1440.900" timestamp="1582210703827" />
     <state x="763" y="400" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582487931527" />
     <state x="640" y="248" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1582472860882">
@@ -239,29 +248,33 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="556" y="148" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582473130613" />
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1582288535119">
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1582625227901">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/-231.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1582625227901" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582288535119" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.23.1440.829@0.23.1440.829" timestamp="1582287015542" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1582111220720" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.23.1440.832@0.23.1440.832" timestamp="1582063547341" />
-    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1582288535117">
+    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1582625227898">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.center/-231.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1582625227898" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1582288535117" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.23.1440.829@0.23.1440.829" timestamp="1582287015539" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1582111220718" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.23.1440.832@0.23.1440.832" timestamp="1582063547334" />
-    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1582288535116">
+    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1582625227896">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.left/-231.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1582625227896" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1582288535116" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.23.1440.829@0.23.1440.829" timestamp="1582287015535" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1582111220716" />
-    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1582288535118">
+    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1582625227899">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.right/-231.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1582625227899" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1582288535118" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.23.1440.829@0.23.1440.829" timestamp="1582287015541" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1582111220719" />

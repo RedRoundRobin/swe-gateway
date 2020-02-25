@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -40,7 +41,7 @@ public class Consumatore {
         int nessunRecordTrovato = 0;
 
         while (nessunRecordTrovato < limiteMassimo) {
-            final ConsumerRecords<Long, String> recordConsumatore = consumatore.poll(1000);
+            final ConsumerRecords<Long, String> recordConsumatore = consumatore.poll(Duration.ofSeconds(1));
 
             if (recordConsumatore.count() == 0) {
                 nessunRecordTrovato++;

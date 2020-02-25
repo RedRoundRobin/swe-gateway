@@ -31,25 +31,32 @@ public class Traduttore {
     public boolean aggiungiSensore(byte[] pacchetto) {
         if (pacchetto[1] == ERR || pacchetto[1] == REQ || pacchetto[1] == RES) {
             int id = Byte.toUnsignedInt(pacchetto[0]);
-            int sensore = Byte.toUnsignedInt(pacchetto[2]);
+            int idSensore = Byte.toUnsignedInt(pacchetto[2]);
             int dato = Byte.toUnsignedInt(pacchetto[3]);
+            long tempo = System.currentTimeMillis();
 
             Optional<Dispositivo> dispositivoOpzionale = lista.stream().filter(dispositivoAttuale -> dispositivoAttuale.ottieniId() == id).findFirst();
-
+            //Controllo se il dispositivo è già presente nella lista dei dispositivi accumulati dal traduttore
             if (dispositivoOpzionale.isPresent()) {
                 Dispositivo dispositivo = dispositivoOpzionale.get();
+                dispositivo.impostaTimestamp(tempo);
 
-                Optional<Sensore> sensoreOpzionale = dispositivo.ottieniSensori().stream().filter(sensoreAttuale -> sensoreAttuale.ottieniId() == sensore).findFirst();
-
+                Optional<Sensore> sensoreOpzionale = dispositivo.ottieniSensori().stream().filter(sensoreAttuale -> sensoreAttuale.ottieniId() == idSensore).findFirst();
+                //Controllo se il sensore è già stato aggiunto alla lista
                 if (sensoreOpzionale.isPresent()) {
                     sensoreOpzionale.get().impostaDato(dato);
+                    sensoreOpzionale.get().impostaTimestamp(tempo);
                 } else {
-                    dispositivo.ottieniSensori().add(new Sensore(sensore, dato));
+                    Sensore sensore = new Sensore(idSensore, dato);
+                    sensore.impostaTimestamp(tempo);
+                    dispositivo.ottieniSensori().add(sensore);
                 }
-            } else {
+            } else {//Il dispositivo non è ancora presente nella lista
                 Dispositivo dispositivo = new Dispositivo(id);
-                dispositivo.ottieniSensori().add(new Sensore(sensore, dato));
-
+                dispositivo.impostaTimestamp(tempo);
+                Sensore sensore = new Sensore(idSensore, dato);
+                sensore.impostaTimestamp(tempo);
+                dispositivo.ottieniSensori().add(sensore);
                 lista.add(dispositivo);
             }
 
