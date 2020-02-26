@@ -2,7 +2,7 @@
 *.class
 
 ### IntelliJ IDEA ###
-#.idea
+.idea
 target/
 *.iws
 *.iml
