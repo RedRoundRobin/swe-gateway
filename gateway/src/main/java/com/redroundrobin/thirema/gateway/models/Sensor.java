@@ -1,5 +1,7 @@
 package com.redroundrobin.thirema.gateway.models;
 
+import java.util.Random;
+
 public class Sensor {
     private int id;
     private long timestamp;
@@ -20,7 +22,8 @@ public class Sensor {
     }
 
     public int getData() {
-        return data;
+        Random rand = new Random();
+        return rand.nextBoolean() ? data + rand.nextInt(2) : data - rand.nextInt(2);
     }
 
     public void setTimestamp(long timestamp) {
