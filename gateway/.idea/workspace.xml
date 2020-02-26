@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c097fcf1-fd69-4f7e-bf97-dc22201d47e4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/models/Sensor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/simulation/extra/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/models/Dispositivo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/models/Device.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/models/Sensore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/utils/Produttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/utils/Producer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/utils/Traduttore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/utils/Translator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/utils/Utilita.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/gateway/utils/Utility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/simulation/SimulatoreDispositivi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/simulation/DeviceSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redroundrobin/thirema/simulation/extra/Consumatore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/redroundrobin/thirema/gateway/TraduttoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/redroundrobin/thirema/gateway/TranslatorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,6 +195,7 @@
       <workItem from="1582540148026" duration="2122000" />
       <workItem from="1582628531566" duration="15741000" />
       <workItem from="1582707600340" duration="6292000" />
+      <workItem from="1582723506479" duration="5106000" />
     </task>
     <servers />
   </component>
@@ -209,12 +221,12 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="349" y="146" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1582200863142" />
-    <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582623425610">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="763" y="400" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582724012998">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/-231.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1582623425610" />
     <state x="572" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1440.900@0.0.1440.900" timestamp="1582210703827" />
-    <state x="763" y="400" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582487931527" />
+    <state x="763" y="400" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582724012998" />
     <state x="640" y="248" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1582472860882">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -223,10 +235,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="508" y="316" width="423" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1440.900@0.0.1440.900" timestamp="1582060862949" />
-    <state x="461" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582192508377">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="36" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582727954262">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1582192508377" />
+    <state x="36" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582727954262" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1582475313031">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

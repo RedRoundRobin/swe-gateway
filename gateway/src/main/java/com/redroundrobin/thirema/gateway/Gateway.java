@@ -1,10 +1,10 @@
 package com.redroundrobin.thirema.gateway;
 
-import com.redroundrobin.thirema.gateway.models.Dispositivo;
-import com.redroundrobin.thirema.gateway.models.Sensore;
-import com.redroundrobin.thirema.gateway.utils.Produttore;
-import com.redroundrobin.thirema.gateway.utils.Traduttore;
-import com.redroundrobin.thirema.gateway.utils.Utilita;
+import com.redroundrobin.thirema.gateway.models.Device;
+import com.redroundrobin.thirema.gateway.models.Sensor;
+import com.redroundrobin.thirema.gateway.utils.Producer;
+import com.redroundrobin.thirema.gateway.utils.Translator;
+import com.redroundrobin.thirema.gateway.utils.Utility;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.net.*;
@@ -13,136 +13,136 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.redroundrobin.thirema.gateway.utils.Utilita.calcolaCRC;
+import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCRC;
 
 public class Gateway {
-    private InetAddress indirizzo;
-    private int porta;
+    private InetAddress address;
+    private int port;
 
-    private String nome;
-    private List<Dispositivo> dispositivi; // Da prendere dalla configurazione del gateway
+    private String name;
+    private List<Device> devices; // Da prendere dalla configurazione del gateway
 
-    private int accumuloPacchetti; // Da prendere dalla configurazione del gateway
-    private int tempoDiAccumulo; // Da prendere dalla configurazione del gateway in millisecondi
+    private int storedPacket; // Da prendere dalla configurazione del gateway
+    private int storingTime; // Da prendere dalla configurazione del gateway in millisecondi
 
-    public Gateway(InetAddress indirizzo, int porta, String nome, List<Dispositivo> dispositivi, int accumuloPacchetti, int tempoDiAccumulo) {
-        this.indirizzo = indirizzo;
-        this.porta = porta;
+    public Gateway(InetAddress address, int port, String name, List<Device> devices, int storedPacket, int storingTime) {
+        this.address = address;
+        this.port = port;
 
-        this.nome = nome;
-        this.dispositivi = dispositivi;
+        this.name = name;
+        this.devices = devices;
 
-        this.accumuloPacchetti = accumuloPacchetti; // Accumulo di pacchetti di default
-        this.tempoDiAccumulo = tempoDiAccumulo; // Tempo di accumulo di default
+        this.storedPacket = storedPacket; // Accumulo di pacchetti di default
+        this.storingTime = storingTime; // Tempo di accumulo di default
     }
 
-    // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "accumuloPacchetti" o aver aspettato "tempoDiAccumulo" millisecondi li invia al topic di Kafka specificato
-    public void riceviDati() {
-        try (DatagramSocket socket = new DatagramSocket(); Produttore produttore = new Produttore(nome, "localhost:29092")) {
-            Traduttore traduttore = new Traduttore();
+    // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
+    public void start() {
+        try (DatagramSocket socket = new DatagramSocket(); Producer producer = new Producer(name, "localhost:29092")) {
+            Translator translator = new Translator();
 
-            long tempo = System.currentTimeMillis();
-            int numeroPacchetti = 0;
+            long timestamp = System.currentTimeMillis();
+            int packetNumber = 0;
 
             // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
             while (true) {
-                byte[] pacchettoGenerato = creaPacchettoRichiestaCasuale();
+                byte[] requestBuffer = createRandomRequestPacket();
 
-                DatagramPacket richiesta = new DatagramPacket(pacchettoGenerato, pacchettoGenerato.length, indirizzo, porta);
-                socket.send(richiesta);
+                DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
+                socket.send(requestDatagram);
 
                 System.out.print("> REQ: [ ");
-                for (byte elemento : pacchettoGenerato) {
-                    System.out.print(elemento + " ");
+                for (byte field : requestBuffer) {
+                    System.out.print(field + " ");
                 }
                 System.out.println("]");
 
-                byte[] buffer = new byte[5];
-                DatagramPacket risposta = new DatagramPacket(buffer, buffer.length);
+                byte[] responseBuffer = new byte[5];
+                DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
                 socket.setSoTimeout(150000);
-                socket.receive(risposta);
+                socket.receive(responseDatagram);
 
-                List<Byte> pacchettoRicevuto = Arrays.asList(ArrayUtils.toObject(buffer));
+                List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
 
-                if (Utilita.controllaIntegrita(pacchettoRicevuto)) {
-                    if (traduttore.aggiungiSensore(buffer)) {
-                        numeroPacchetti++;
+                if (Utility.checkIntegrity(responsePacket)) {
+                    if (translator.addSensor(responseBuffer)) {
+                        packetNumber++;
                     }
                 }
 
-                long tempoTrascorso = System.currentTimeMillis() - tempo;
+                long timeSpent = System.currentTimeMillis() - timestamp;
 
-                if (numeroPacchetti > accumuloPacchetti || tempoTrascorso > tempoDiAccumulo) {
-                    String dato = traduttore.ottieniJSON();
-                    produttore.eseguiProduttore(nome, dato);
-                    tempo = System.currentTimeMillis();
-                    numeroPacchetti = 0;
+                if (packetNumber > storedPacket || timeSpent > storingTime) {
+                    String data = translator.getJSON();
+                    producer.executeProducer(name, data);
+                    timestamp = System.currentTimeMillis();
+                    packetNumber = 0;
                 }
 
                 System.out.print("< RES: [ ");
-                for (byte elemento : buffer) {
-                    System.out.print(elemento + " ");
+                for (byte field : responseBuffer) {
+                    System.out.print(field + " ");
                 }
                 System.out.println("]");
 
                 Thread.sleep(250); // Da tenere solo per fare test
             }
         }
-        catch (SocketTimeoutException eccezione) {
+        catch (SocketTimeoutException exception) {
             System.out.println("< RES: []");
         }
         catch (InterruptedException ignored) {}
-        catch (Exception eccezione) {
-            System.out.println("Errore " + eccezione.getClass() + ": " + eccezione.getMessage());
-            eccezione.printStackTrace();
+        catch (Exception exception) {
+            System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
+            exception.printStackTrace();
         }
     }
 
     // Creazione di un pacchetto di richiesta dati per uno dei dispositivi disponibili nel Server
-    public byte[] creaPacchettoRichiestaCasuale() {
-        Random casuale = new Random();
+    public byte[] createRandomRequestPacket() {
+        Random random = new Random();
 
-        int numeroDispositivi = dispositivi.size();
-        int indiceDispositivo = casuale.nextInt(numeroDispositivi);
-        int numeroSensori = dispositivi.get(indiceDispositivo).ottieniSensori().size();
-        int indiceSensore = casuale.nextInt(numeroSensori);
+        int devicesNumber = devices.size();
+        int deviceId = random.nextInt(devicesNumber);
+        int sensorsNumber = devices.get(deviceId).getSensorsNumber();
+        int sensorId = random.nextInt(sensorsNumber);
 
-        byte dispositivo = (byte) (dispositivi.get(indiceDispositivo).ottieniId()); //prendo uno tra gli id
-        byte codiceOperazione = 0;
-        byte sensore = (byte) (dispositivi.get(indiceDispositivo).ottieniSensori().get(indiceSensore).ottieniId()); //prendo uno dei sensori del dispositivo
-        byte valore = 0;
+        byte device = (byte) (devices.get(deviceId).getId()); // prendo uno tra gli id
+        byte operation = 0;
+        byte sensor = (byte) (devices.get(deviceId).getSensor(sensorId).getId()); // prendo uno dei sensori del dispositivo
+        byte data = 0;
 
-        List<Byte> pacchetto = new ArrayList<>(Arrays.asList(dispositivo, codiceOperazione, sensore, valore));
+        List<Byte> packet = new ArrayList<>(Arrays.asList(device, operation, sensor, data));
 
-        return new byte[] {dispositivo, codiceOperazione, sensore, valore, calcolaCRC(pacchetto)};
+        return new byte[] {device, operation, sensor, data, calculateCRC(packet)};
     }
 
     public static void main(String[] args) throws UnknownHostException {
         // Creo la configurazione
-        List<Sensore> sensori1 = new ArrayList<>(Arrays.asList(new Sensore(1, 0), new Sensore(2, 0), new Sensore(3, 0), new Sensore(4, 0)));
-        Dispositivo dispositivo1 = new Dispositivo(1, sensori1);
+        List<Sensor> sensor1 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
+        Device device1 = new Device(1, sensor1);
 
-        List<Sensore> sensori2 = new ArrayList<>(Arrays.asList(new Sensore(1, 0), new Sensore(2, 0), new Sensore(3, 0)));
-        Dispositivo dispositivo2 = new Dispositivo(2, sensori2);
+        List<Sensor> sensor2 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0)));
+        Device device2 = new Device(2, sensor2);
 
-        List<Sensore> sensori3 = new ArrayList<>(Arrays.asList(new Sensore(1, 0), new Sensore(2, 0), new Sensore(3, 0), new Sensore(4, 0)));
-        Dispositivo dispositivo3 = new Dispositivo(3, sensori3);
+        List<Sensor> sensor3 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
+        Device device3 = new Device(3, sensor3);
 
-        List<Sensore> sensori4 = new ArrayList<>(Arrays.asList(new Sensore(1, 0), new Sensore(2, 0), new Sensore(3, 0), new Sensore(4, 0)));
-        Dispositivo dispositivo4 = new Dispositivo(4, sensori4);
+        List<Sensor> sensor4 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
+        Device device4 = new Device(4, sensor4);
 
-        List<Sensore> sensori5 = new ArrayList<>(Arrays.asList(new Sensore(1, 0), new Sensore(2, 0), new Sensore(3, 0), new Sensore(4, 0)));
-        Dispositivo dispositivo5 = new Dispositivo(5, sensori5);
+        List<Sensor> sensor5 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
+        Device device5 = new Device(5, sensor5);
 
-        List<Sensore> sensori6 = new ArrayList<>(Arrays.asList(new Sensore(1, 0), new Sensore(2, 0), new Sensore(3, 0), new Sensore(4, 0)));
-        Dispositivo dispositivo6 = new Dispositivo(6, sensori6);
+        List<Sensor> sensor6 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
+        Device device6 = new Device(6, sensor6);
 
-        List<Dispositivo> dispositivi = new ArrayList<>(Arrays.asList(dispositivo1, dispositivo2, dispositivo3, dispositivo4, dispositivo5, dispositivo6));
+        List<Device> devices = new ArrayList<>(Arrays.asList(device1, device2, device3, device4, device5, device6));
 
         // Creo il gateway
-        Gateway gateway = new Gateway(InetAddress.getLocalHost(), 6969, "Aiuto", dispositivi,5, 6000);
+        Gateway gateway = new Gateway(InetAddress.getLocalHost(), 6969, "Aiuto", devices,5, 6000);
 
         // Comincio a ricevere i dati dei dispositivi
-        gateway.riceviDati();
+        gateway.start();
     }
 }
