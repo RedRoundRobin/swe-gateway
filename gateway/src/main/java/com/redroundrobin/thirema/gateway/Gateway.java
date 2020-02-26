@@ -117,32 +117,5 @@ public class Gateway {
         return new byte[] {device, operation, sensor, data, calculateCRC(packet)};
     }
 
-    public static void main(String[] args) throws UnknownHostException {
-        // Creo la configurazione
-        List<Sensor> sensor1 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
-        Device device1 = new Device(1, sensor1);
 
-        List<Sensor> sensor2 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0)));
-        Device device2 = new Device(2, sensor2);
-
-        List<Sensor> sensor3 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
-        Device device3 = new Device(3, sensor3);
-
-        List<Sensor> sensor4 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
-        Device device4 = new Device(4, sensor4);
-
-        List<Sensor> sensor5 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
-        Device device5 = new Device(5, sensor5);
-
-        List<Sensor> sensor6 = new ArrayList<>(Arrays.asList(new Sensor(1, 0), new Sensor(2, 0), new Sensor(3, 0), new Sensor(4, 0)));
-        Device device6 = new Device(6, sensor6);
-
-        List<Device> devices = new ArrayList<>(Arrays.asList(device1, device2, device3, device4, device5, device6));
-
-        // Creo il gateway
-        Gateway gateway = new Gateway(InetAddress.getLocalHost(), 6969, "Aiuto", devices,5, 6000);
-
-        // Comincio a ricevere i dati dei dispositivi
-        gateway.start();
-    }
 }
