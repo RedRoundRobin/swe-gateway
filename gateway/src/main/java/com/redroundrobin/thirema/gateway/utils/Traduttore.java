@@ -1,6 +1,8 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway.utils;
 
 import com.google.gson.Gson;
+import com.redroundrobin.thirema.gateway.models.Sensore;
+import com.redroundrobin.thirema.gateway.models.Dispositivo;
 
 import java.util.ArrayList;
 import java.util.List;

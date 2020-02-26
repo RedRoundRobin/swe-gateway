@@ -1,5 +1,8 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.simulation;
 
+import com.redroundrobin.thirema.gateway.models.Dispositivo;
+import com.redroundrobin.thirema.gateway.models.Sensore;
+import com.redroundrobin.thirema.gateway.utils.Utilita;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
@@ -11,11 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Dispositivi {
+public class SimulatoreDispositivi {
     private int porta;
     private List<Dispositivo> dispositivi;
 
-    public Dispositivi(int porta, List<Dispositivo> dispositivi) {
+    public SimulatoreDispositivi(int porta, List<Dispositivo> dispositivi) {
         this.porta = porta;
         this.dispositivi = dispositivi;
     }
@@ -84,5 +87,33 @@ public class Dispositivi {
             System.out.println("Errore cliente: " + ex.getMessage());
             ex.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        //Imposto i sensori disponibili per la simulazione
+        List<Sensore> sensori1 = new ArrayList<>(Arrays.asList(new Sensore(1, 21), new Sensore(2, 50), new Sensore(3, 4), new Sensore(4, 150)));
+        Dispositivo dispositivo1 = new Dispositivo(1, sensori1);
+
+        List<Sensore> sensori2 = new ArrayList<>(Arrays.asList(new Sensore(1, 234), new Sensore(2, 21), new Sensore(3, 32)));
+        Dispositivo dispositivo2 = new Dispositivo(2, sensori2);
+
+        List<Sensore> sensori3 = new ArrayList<>(Arrays.asList(new Sensore(1, 21), new Sensore(2, 23), new Sensore(3, 34), new Sensore(4, 54)));
+        Dispositivo dispositivo3 = new Dispositivo(3, sensori3);
+
+        List<Sensore> sensori4 = new ArrayList<>(Arrays.asList(new Sensore(1, 13), new Sensore(2, 22), new Sensore(3, 33), new Sensore(4, 44)));
+        Dispositivo dispositivo4 = new Dispositivo(4, sensori4);
+
+        List<Sensore> sensori5 = new ArrayList<>(Arrays.asList(new Sensore(1, 17), new Sensore(2, 62), new Sensore(3, 73), new Sensore(4, 47)));
+        Dispositivo dispositivo5 = new Dispositivo(5, sensori5);
+
+        List<Sensore> sensori6 = new ArrayList<>(Arrays.asList(new Sensore(1, 61), new Sensore(2, 27), new Sensore(3, 43), new Sensore(4, 46)));
+        Dispositivo dispositivo6 = new Dispositivo(6, sensori6);
+
+        List<Dispositivo> dispositivi1 = new ArrayList<>(Arrays.asList(dispositivo1, dispositivo2, dispositivo3, dispositivo4, dispositivo5, dispositivo6));
+
+        SimulatoreDispositivi simulatoreDispositivi = new SimulatoreDispositivi(6969, dispositivi1);
+
+        // Avvio del server che aspetta le richieste del gateway
+        simulatoreDispositivi.avviaServer();
     }
 }

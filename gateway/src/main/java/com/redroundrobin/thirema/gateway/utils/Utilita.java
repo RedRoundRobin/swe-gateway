@@ -1,4 +1,4 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway.utils;
 
 import com.github.snksoft.crc.CRC;
 import org.jetbrains.annotations.NotNull;

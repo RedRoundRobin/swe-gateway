@@ -1,4 +1,4 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway.models;
 
 import java.util.ArrayList;
 import java.util.List;

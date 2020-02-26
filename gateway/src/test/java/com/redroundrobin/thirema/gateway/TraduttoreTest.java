@@ -1,5 +1,8 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway;
 
+import com.redroundrobin.thirema.gateway.models.Dispositivo;
+import com.redroundrobin.thirema.gateway.models.Sensore;
+import com.redroundrobin.thirema.gateway.utils.Traduttore;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

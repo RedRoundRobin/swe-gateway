@@ -1,4 +1,4 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway;
 
 import org.junit.jupiter.api.Test;
 

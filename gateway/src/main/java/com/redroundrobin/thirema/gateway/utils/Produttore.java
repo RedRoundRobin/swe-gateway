@@ -1,4 +1,4 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway.utils;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -16,7 +16,7 @@ public class Produttore implements AutoCloseable {
     private Producer<Long, String> produttore;
     private String nome;
 
-    Produttore(String nome, String serverBootstrap) {
+    public Produttore(String nome, String serverBootstrap) {
         this.nome = nome;
 
         Properties proprieta = new Properties();

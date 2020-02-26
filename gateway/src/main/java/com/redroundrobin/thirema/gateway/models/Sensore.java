@@ -1,4 +1,4 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway.models;
 
 public class Sensore {
     private int id;

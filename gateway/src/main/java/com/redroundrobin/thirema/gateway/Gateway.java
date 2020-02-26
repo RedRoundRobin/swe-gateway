@@ -1,5 +1,10 @@
-package com.redroundrobin.gateway;
+package com.redroundrobin.thirema.gateway;
 
+import com.redroundrobin.thirema.gateway.models.Dispositivo;
+import com.redroundrobin.thirema.gateway.models.Sensore;
+import com.redroundrobin.thirema.gateway.utils.Produttore;
+import com.redroundrobin.thirema.gateway.utils.Traduttore;
+import com.redroundrobin.thirema.gateway.utils.Utilita;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.net.*;
@@ -8,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.redroundrobin.gateway.Utilita.calcolaCRC;
+import static com.redroundrobin.thirema.gateway.utils.Utilita.calcolaCRC;
 
 public class Gateway {
     private InetAddress indirizzo;
