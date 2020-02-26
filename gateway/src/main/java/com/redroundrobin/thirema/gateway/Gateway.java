@@ -1,7 +1,6 @@
 package com.redroundrobin.thirema.gateway;
 
 import com.redroundrobin.thirema.gateway.models.Device;
-import com.redroundrobin.thirema.gateway.models.Sensor;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
@@ -43,49 +42,54 @@ public class Gateway {
 
             long timestamp = System.currentTimeMillis();
             int packetNumber = 0;
+            int deviceNumber = devices.size();
 
             // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
             while (true) {
-                byte[] requestBuffer = createRandomRequestPacket();
+                for(int disp = 0; disp < deviceNumber; disp++){
+                     for(int sens = 0; sens < devices.get(disp).getSensors().size(); sens++){
 
-                DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
-                socket.send(requestDatagram);
+                         byte[] requestBuffer = createRequestPacket(disp, sens);
+                         DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
+                         socket.send(requestDatagram);
 
-                System.out.print("> REQ: [ ");
-                for (byte field : requestBuffer) {
-                    System.out.print(field + " ");
+                         System.out.print("> REQ: [ ");
+                         for (byte field : requestBuffer) {
+                             System.out.print(field + " ");
+                         }
+                         System.out.println("]");
+
+                         byte[] responseBuffer = new byte[5];
+                         DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
+                         socket.setSoTimeout(150000);
+                         socket.receive(responseDatagram);
+
+                         List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
+
+                         if (Utility.checkIntegrity(responsePacket)) {
+                             if (translator.addSensor(responseBuffer)) {
+                                 packetNumber++;
+                             }
+                         }
+
+                         long timeSpent = System.currentTimeMillis() - timestamp;
+
+                         if (packetNumber > storedPacket || timeSpent > storingTime) {
+                             String data = translator.getJSON();
+                             producer.executeProducer(name, data);
+                             timestamp = System.currentTimeMillis();
+                             packetNumber = 0;
+                         }
+
+                         System.out.print("< RES: [ ");
+                         for (byte field : responseBuffer) {
+                             System.out.print(field + " ");
+                         }
+                         System.out.println("]");
+
+                         Thread.sleep(250); // Da tenere solo per fare test
+                     }
                 }
-                System.out.println("]");
-
-                byte[] responseBuffer = new byte[5];
-                DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-                socket.setSoTimeout(150000);
-                socket.receive(responseDatagram);
-
-                List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
-
-                if (Utility.checkIntegrity(responsePacket)) {
-                    if (translator.addSensor(responseBuffer)) {
-                        packetNumber++;
-                    }
-                }
-
-                long timeSpent = System.currentTimeMillis() - timestamp;
-
-                if (packetNumber > storedPacket || timeSpent > storingTime) {
-                    String data = translator.getJSON();
-                    producer.executeProducer(name, data);
-                    timestamp = System.currentTimeMillis();
-                    packetNumber = 0;
-                }
-
-                System.out.print("< RES: [ ");
-                for (byte field : responseBuffer) {
-                    System.out.print(field + " ");
-                }
-                System.out.println("]");
-
-                Thread.sleep(250); // Da tenere solo per fare test
             }
         }
         catch (SocketTimeoutException exception) {
@@ -99,17 +103,13 @@ public class Gateway {
     }
 
     // Creazione di un pacchetto di richiesta dati per uno dei dispositivi disponibili nel Server
-    public byte[] createRandomRequestPacket() {
-        Random random = new Random();
+    public byte[] createRequestPacket(int devIndex, int senIndex) {
+        int deviceId = devices.get(devIndex).getId();
+        int sensorId = devices.get(devIndex).getSensors().get(senIndex).getId();
 
-        int devicesNumber = devices.size();
-        int deviceId = random.nextInt(devicesNumber);
-        int sensorsNumber = devices.get(deviceId).getSensorsNumber();
-        int sensorId = random.nextInt(sensorsNumber);
-
-        byte device = (byte) (devices.get(deviceId).getId()); // prendo uno tra gli id
+        byte device = (byte) (deviceId); // prendo uno tra gli id
         byte operation = 0;
-        byte sensor = (byte) (devices.get(deviceId).getSensor(sensorId).getId()); // prendo uno dei sensori del dispositivo
+        byte sensor = (byte) (sensorId); // prendo uno dei sensori del dispositivo
         byte data = 0;
 
         List<Byte> packet = new ArrayList<>(Arrays.asList(device, operation, sensor, data));
