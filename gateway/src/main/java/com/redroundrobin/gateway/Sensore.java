@@ -1,4 +1,4 @@
-package redroundrobin.gateway;
+package com.redroundrobin.gateway;
 
 public class Sensore {
     private int id;

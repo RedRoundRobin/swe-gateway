@@ -1,4 +1,4 @@
-package redroundrobin.gateway;
+package com.redroundrobin.gateway;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

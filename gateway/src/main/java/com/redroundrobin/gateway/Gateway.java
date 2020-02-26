@@ -1,4 +1,4 @@
-package redroundrobin.gateway;
+package com.redroundrobin.gateway;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static redroundrobin.gateway.Utilita.calcolaCRC;
+import static com.redroundrobin.gateway.Utilita.calcolaCRC;
 
 public class Gateway {
     private InetAddress indirizzo;

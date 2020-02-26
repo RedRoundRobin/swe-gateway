@@ -1,4 +1,4 @@
-package redroundrobin.gateway;
+package com.redroundrobin.gateway;
 
 import com.google.gson.Gson;
 

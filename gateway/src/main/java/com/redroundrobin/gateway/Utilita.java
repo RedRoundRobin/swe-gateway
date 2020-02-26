@@ -1,4 +1,4 @@
-package redroundrobin.gateway;
+package com.redroundrobin.gateway;
 
 import com.github.snksoft.crc.CRC;
 import org.jetbrains.annotations.NotNull;
