@@ -80,7 +80,7 @@ public class Gateway {
                 }
                 System.out.println("]");
 
-                Thread.sleep(1000); // Da tenere solo per fare test
+                Thread.sleep(250); // Da tenere solo per fare test
             }
         }
         catch (SocketTimeoutException eccezione) {
@@ -135,7 +135,7 @@ public class Gateway {
         List<Dispositivo> dispositivi = new ArrayList<>(Arrays.asList(dispositivo1, dispositivo2, dispositivo3, dispositivo4, dispositivo5, dispositivo6));
 
         // Creo il gateway
-        Gateway gateway = new Gateway(InetAddress.getLocalHost(), 6969, "GatewayDiTest", dispositivi,5, 6000);
+        Gateway gateway = new Gateway(InetAddress.getLocalHost(), 6969, "Aiuto", dispositivi,5, 6000);
 
         // Comincio a ricevere i dati dei dispositivi
         gateway.riceviDati();

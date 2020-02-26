@@ -47,7 +47,7 @@ public class Produttore implements AutoCloseable {
                             record.value(),
                             metadati.partition(),
                             metadati.offset(),
-                            tempoTrascorso);
+                            tempo);
                 } else {
                     eccezione.printStackTrace();
                 }
@@ -69,10 +69,9 @@ public class Produttore implements AutoCloseable {
 
     public static void main(String[] args) throws Exception {
         Produttore test = new Produttore("produttoreTest", "localhost:29092");
+        while(true) {
+            test.eseguiProduttore("TopicDiProva", "Ciao mondo!");
+        }
 
-        test.eseguiProduttore("TopicDiProva", "Ciao mondo1!");
-        test.eseguiProduttore("TopicDiProva", "Ciao mondo2!");
-
-        test.close();
     }
 }

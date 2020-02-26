@@ -24,6 +24,7 @@ public class Traduttore {
 
     // Ritorna la lista dei dati raccolti in formato JSON
     public String ottieniJSON() {
+
         return (new Gson()).toJson(lista);
     }
 
