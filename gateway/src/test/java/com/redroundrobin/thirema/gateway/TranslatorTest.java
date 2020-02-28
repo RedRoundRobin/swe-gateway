@@ -56,7 +56,7 @@ class TranslatorTest {
     public void bytesInOggetto2() {
         Translator translator = bytesInOggetto();
         assertEquals(1, translator.getDevices().stream()
-                .filter(device -> device.getId() == 0)
+                .filter(device -> device.getDeviceId() == 0)
                 .findFirst()
                 .get()
                 .getSensors()
@@ -68,7 +68,7 @@ class TranslatorTest {
     public void bytesInOggetto3() {
         Translator translator = bytesInOggetto();
         assertEquals(2, translator.getDevices().stream()
-                .filter(device -> device.getId() == 1)
+                .filter(device -> device.getDeviceId() == 1)
                 .findFirst()
                 .get()
                 .getSensors()
@@ -80,10 +80,10 @@ class TranslatorTest {
     public void bytesInOggetto4() {
         Translator translator = bytesInOggetto();
         assertEquals(2, translator.getDevices().stream()
-                .filter(device -> device.getId() == 0)
+                .filter(device -> device.getDeviceId() == 0)
                 .findFirst().get()
                 .getSensors().stream()
-                .filter(sensore -> sensore.getId() == 0)
+                .filter(sensore -> sensore.getSensorId() == 0)
                 .findFirst().get()
                 .getData()
         );

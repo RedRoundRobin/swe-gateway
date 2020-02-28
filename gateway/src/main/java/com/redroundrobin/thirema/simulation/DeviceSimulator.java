@@ -28,7 +28,7 @@ public class DeviceSimulator {
         List<Byte> packet = new ArrayList<>();
 
         Optional<Device> optionalDevice = devices.stream()
-                .filter(device -> idDevice == device.getId())
+                .filter(device -> idDevice == device.getDeviceId())
                 .findFirst();
         Optional<Sensor> optionalSensor = Optional.empty();
 
@@ -36,7 +36,7 @@ public class DeviceSimulator {
             Device device = optionalDevice.get();
 
             optionalSensor = device.getSensors().stream()
-                    .filter(sensor -> idSensor == sensor.getId())
+                    .filter(sensor -> idSensor == sensor.getSensorId())
                     .findFirst();
         }
 

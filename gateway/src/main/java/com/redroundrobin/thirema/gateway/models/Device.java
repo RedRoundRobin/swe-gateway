@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Device {
-    private int id;
+    private int deviceId;
     private long timestamp;
     private List<Sensor> sensors;
 
-    public Device(int id) {
-        this.id = id;
+    public Device(int deviceId) {
+        this.deviceId = deviceId;
         this.timestamp = 0;
         this.sensors = new ArrayList<>();
     }
 
-    public Device(int id, List<Sensor> sensors) {
-        this.id = id;
+    public Device(int deviceId, List<Sensor> sensors) {
+        this.deviceId = deviceId;
         this.timestamp = 0;
         this.sensors = sensors;
     }
 
-    public int getId() {
-        return id;
+    public int getDeviceId() {
+        return deviceId;
     }
 
     public long getTimestamp() {

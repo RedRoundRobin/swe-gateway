@@ -3,18 +3,18 @@ package com.redroundrobin.thirema.gateway.models;
 import java.util.Random;
 
 public class Sensor {
-    private int id;
+    private int sensorId;
     private long timestamp;
     private int data;
 
-    public Sensor(int id, int data) {
-        this.id = id;
+    public Sensor(int sensorId, int data) {
+        this.sensorId = sensorId;
         this.timestamp = 0;
         this.data = data;
     }
 
-    public int getId() {
-        return id;
+    public int getSensorId() {
+        return sensorId;
     }
 
     public long getTimestamp() {

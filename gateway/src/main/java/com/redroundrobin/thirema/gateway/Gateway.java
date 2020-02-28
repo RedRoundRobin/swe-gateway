@@ -10,7 +10,6 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCRC;
 
@@ -104,8 +103,8 @@ public class Gateway {
 
     // Creazione di un pacchetto di richiesta dati per uno dei dispositivi disponibili nel Server
     public byte[] createRequestPacket(int devIndex, int senIndex) {
-        int deviceId = devices.get(devIndex).getId();
-        int sensorId = devices.get(devIndex).getSensors().get(senIndex).getId();
+        int deviceId = devices.get(devIndex).getDeviceId();
+        int sensorId = devices.get(devIndex).getSensors().get(senIndex).getSensorId();
 
         byte device = (byte) (deviceId); // prendo uno tra gli id
         byte operation = 0;

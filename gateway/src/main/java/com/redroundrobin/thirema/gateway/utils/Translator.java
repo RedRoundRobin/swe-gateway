@@ -37,13 +37,13 @@ public class Translator {
             int data = Byte.toUnsignedInt(packet[3]);
             long timestamp = System.currentTimeMillis();
 
-            Optional<Device> optionalDevice = devices.stream().filter(device -> device.getId() == id).findFirst();
+            Optional<Device> optionalDevice = devices.stream().filter(device -> device.getDeviceId() == id).findFirst();
             // Controllo se il dispositivo è già presente nella lista dei dispositivi accumulati dal traduttore
             if (optionalDevice.isPresent()) {
                 Device device = optionalDevice.get();
                 device.setTimestamp(timestamp);
 
-                Optional<Sensor> optionalSensor = device.getSensors().stream().filter(sensor -> sensor.getId() == sensorId).findFirst();
+                Optional<Sensor> optionalSensor = device.getSensors().stream().filter(sensor -> sensor.getSensorId() == sensorId).findFirst();
                 // Controllo se il sensore è già stato aggiunto alla lista
                 if (optionalSensor.isPresent()) {
                     optionalSensor.get().setData(data);
