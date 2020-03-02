@@ -1,6 +1,15 @@
-
 .DS_Store
-gateway/.idea/dictionaries/loren.xml
 *.class
-*.class
-*.class
+*.MF
+*.jar
+
+### IntelliJ IDEA ###
+.idea
+target/
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
