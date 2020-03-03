@@ -1,6 +1,7 @@
-package com.redroundrobin.thirema.simulation.extra;
+package com.redroundrobin.thirema.gateway.utils;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
@@ -8,13 +9,14 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Properties;
 
 public class Consumer {
     private String name;
     private org.apache.kafka.clients.consumer.Consumer<Long, String> consumer;
 
-    Consumer(String topic, String name, String bootstrapServers) {
+    public Consumer(String topic, String name, String bootstrapServers) {
         this.name = name;
 
         // Imposto le proprietà del consumatore da creare
@@ -33,38 +35,29 @@ public class Consumer {
     }
 
     // Metodo che esegue un consumatore collegato al topics specificato e che stampa i record trovati, il consumatore continua ad essere attivo
-    public void executeConsumer() {
+    public String executeConsumer() {
         System.out.println("Consumer " + name + " started!");
-
-        final int recordLimit = 10000000;
-        int recordNotFound = 0;
-
-        while (recordNotFound < recordLimit) {
+        String jsonRecived = "";
+        Boolean found = false;
+        while (!found) {
             final ConsumerRecords<Long, String> records = consumer.poll(Duration.ofSeconds(1));
 
-            if (records.count() == 0) {
-                recordNotFound++;
-            } else {
-                records.forEach(record -> System.out.printf("Record of consumer %s:\t(%d, %s, %d, %d)\n",
-                        name,
-                        record.key(),
-                        record.value(),
-                        record.partition(),
-                        record.offset()));
-
-                consumer.commitAsync();
-
-                System.out.println("Available messages consumed!");
+            if (!records.isEmpty()) {
+                found = true;
+                for (ConsumerRecord<Long, String> record : records)
+                    jsonRecived = record.value();
             }
         }
-
+        System.out.println("Consumed" + jsonRecived);
+        consumer.commitAsync();
         consumer.close();
 
         System.out.println("Consumer " + name + " closed!");
+        return jsonRecived;
     }
 
-    public static void main(String[] args) {
-        Consumer test = new Consumer("Aiuto","consumatoreTest", "localhost:29092");
-        test.executeConsumer();
-    }
+    //public static void main(String[] args) {
+      //  Consumer test = new Consumer("US-GATEWAY-1","consumatoreTest", "localhost:29092");
+        //test.executeConsumer();
+    //}
 }

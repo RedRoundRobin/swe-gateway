@@ -1,5 +1,6 @@
 package com.redroundrobin.thirema.gateway;
 
+import com.google.gson.Gson;
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
@@ -33,6 +34,7 @@ public class Gateway {
         this.storedPacket = storedPacket; // Accumulo di pacchetti di default
         this.storingTime = storingTime; // Tempo di accumulo di default
     }
+    public Gateway(){}
 
     // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
     public void start() {
@@ -116,5 +118,9 @@ public class Gateway {
         return new byte[] {device, operation, sensor, data, calculateCRC(packet)};
     }
 
-
+    public static Gateway BuildFromConfig(String config){
+        Gson gson = new Gson();
+        Gateway toReturn = gson.fromJson(config, Gateway.class);
+        return toReturn;
+    }
 }
