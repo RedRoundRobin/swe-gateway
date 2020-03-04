@@ -48,7 +48,6 @@ public class Consumer {
                     jsonRecived = record.value();
             }
         }
-        System.out.println("Consumed" + jsonRecived);
         consumer.commitAsync();
         consumer.close();
 
@@ -56,8 +55,8 @@ public class Consumer {
         return jsonRecived;
     }
 
-    //public static void main(String[] args) {
-      //  Consumer test = new Consumer("US-GATEWAY-1","consumatoreTest", "localhost:29092");
-        //test.executeConsumer();
-    //}
+    public static void main(String[] args) {
+        Consumer test = new Consumer("US-GATEWAY-1","consumatoreTest", "localhost:29092");
+        test.executeConsumer();
+    }
 }

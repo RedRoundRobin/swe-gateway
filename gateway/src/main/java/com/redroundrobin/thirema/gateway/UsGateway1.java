@@ -1,60 +1,105 @@
 package com.redroundrobin.thirema.gateway;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.redroundrobin.thirema.gateway.models.Device;
-import com.redroundrobin.thirema.gateway.models.Sensor;
 import com.redroundrobin.thirema.gateway.utils.*;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static com.redroundrobin.thirema.gateway.Gateway.BuildFromConfig;
 
 public class UsGateway1 {
-    public static Gateway createGateway() throws UnknownHostException{
-        List<Sensor> sensor1 = new ArrayList<>(Arrays.asList(
-                new Sensor(1, 0),
-                new Sensor(2, 0))
-        );
-        Device device1 = new Device(1, sensor1);
 
-        List<Sensor> sensor2 = new ArrayList<>(Arrays.asList(
-                new Sensor(1, 0))
-        );
-        Device device2 = new Device(2, sensor2);
+    private static class threadedConsumer implements Callable<String> {
+        private Consumer consumerConfig;
+        private final String defaultConfig = "{\"address\":\"127.0.1.1\",\"port\":6969,\"name\":\"US-GATEWAY-1\",  \"devices\":  [],  \"storedPacket\":5,  \"storingTime\":6000}";
 
-        List<Device> devices = new ArrayList<>(Arrays.asList(device1, device2));
+        public threadedConsumer(String topic, String name, String bootstrapServer){
+            this.consumerConfig = new Consumer(topic,name,bootstrapServer);
+        }
 
-        Gateway gateway = new Gateway(InetAddress.getLocalHost(), 6969, "US-GATEWAY-1", devices,5, 6000);
-        return gateway;
+        @Override
+        public String call() {
+            String newConfig = consumerConfig.executeConsumer();
+            Gson gson = new Gson();
+            JsonParser parser = new JsonParser();
+            JsonObject obj = parser.parse(newConfig).getAsJsonObject();
+            int port = -1;
+
+            String address = gson.fromJson(obj.get("address"), String.class);
+            port = gson.fromJson(obj.get("port"), int.class);
+            String name = gson.fromJson(obj.get("name"), String.class);
+            List<Device> devices = new ArrayList<Device>();
+
+            gson.fromJson(obj.get("devices"), JsonArray.class).forEach(dev->{
+                Device device = gson.fromJson(dev,Device.class);
+                devices.add(device);
+            });
+
+            if (address.isEmpty() || port<=-1 || name.isEmpty()){
+                return this.defaultConfig;
+            }
+            return newConfig;
+        }
     }
 
-    public static void main(String[] args) throws UnknownHostException {
+    private static class threadedProducer implements Callable<String> {
+        private Gateway gateway;
 
-        Gson gson = new Gson();
+        public threadedProducer(String config){
+            this.gateway = BuildFromConfig(config);
+        }
 
-        Gateway g = BuildFromConfig(gson.toJson(createGateway()));
-
-        Thread producer = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                g.start();
-            }
-        });
-        Thread consumer = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Consumer consumerConfig = new Consumer("US-GATEWAY-1","ConsumerUS","localhost:29092");
-                String newConfig = consumerConfig.executeConsumer();
-
-            }
-        });
-        producer.start();
-        consumer.start();
-        // TODO: 03/03/20 trovare una soluzione per interrompere 'producer' quando arriva 'newConfig' /
-        //  su consumer
+        @Override
+        public String call(){
+            this.gateway.init();
+            this.gateway.start();
+            return null;
+        }
     }
+
+    public static void main(String[] args) {
+        try {
+            //mi metto in ascolto della configurazione
+            threadedConsumer consumer = new threadedConsumer("US-GATEWAY-1-CONFIG","ConsumerUS","localhost:29092");
+            Future<String> newConfig = Executors.newCachedThreadPool().submit(consumer);
+
+            if (!newConfig.get().isEmpty()){ //aspetto l'invio della configurazione;
+
+                //avvio il produttore con la configurazione arrivata
+                threadedProducer producer = new threadedProducer(newConfig.get());
+                Future<String> newProducer = Executors.newCachedThreadPool().submit(producer);
+
+                //mi rimetto in ascolto per configurazioni future
+                consumer = new threadedConsumer("US-GATEWAY-1-CONFIG","ConsumerUS","localhost:29092");
+                newConfig = Executors.newCachedThreadPool().submit(consumer);
+
+                while (true){
+                    if (newConfig.isDone()){//se ho ricevuto nuove configurazioni
+
+                        //stoppo il thread produttore
+                        newProducer.cancel(true);
+
+                        //costruisco un nuovo produttore e consumatore
+                        producer = new threadedProducer(newConfig.get());
+                        consumer = new threadedConsumer("US-GATEWAY-1-CONFIG","ConsumerUS","localhost:29092");
+
+                        //mi rimetto ad ascoltare per le configurazioni e a produrre
+                        newConfig = Executors.newCachedThreadPool().submit(consumer);
+                        newProducer = Executors.newCachedThreadPool().submit(producer);
+
+                        System.out.println("CAMBIO CONFIGURAZIONE");
+                    }
+                }
+            }
+        } catch (InterruptedException | ExecutionException e){
+            e.printStackTrace();
+        }
+    }
+    //per creare un produttore per inviare la configurazione -->> SEE Producer.java@main
 }
