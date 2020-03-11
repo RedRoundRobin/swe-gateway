@@ -1,5 +1,6 @@
 package com.redroundrobin.thirema.gateway;
 
+import com.google.gson.Gson;
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
@@ -33,6 +34,7 @@ public class Gateway {
         this.storedPacket = storedPacket; // Accumulo di pacchetti di default
         this.storingTime = storingTime; // Tempo di accumulo di default
     }
+
 
     // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
     public void start() {
@@ -116,5 +118,51 @@ public class Gateway {
         return new byte[] {device, operation, sensor, data, calculateCRC(packet)};
     }
 
+    //crea un gateway partendo da una stringa di configurazione valida
+    public static Gateway BuildFromConfig(String config){
+        Gson gson = new Gson();
+        Gateway toReturn = gson.fromJson(config, Gateway.class);
+        return toReturn;
+    }
 
+    public void init() {
+        int deviceNumber = devices.size();
+
+        for (int disp = 0; disp < deviceNumber; disp++) {
+            for (int sens = 0; sens < devices.get(disp).getSensors().size(); sens++) {
+                try (DatagramSocket socket = new DatagramSocket()) {
+                    //richiesta ad ogni sensore
+                    byte[] requestBuffer = createRequestPacket(disp, sens);
+                    DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
+                    socket.send(requestDatagram);
+
+                    //risposta di ognmi sensore
+                    byte[] responseBuffer = new byte[5];
+                    DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
+                    socket.setSoTimeout(150000);
+                    socket.receive(responseDatagram);
+
+                    if (responseBuffer[1] == -1){
+                        devices.get(disp).removeSensor(sens);
+                        sens--;
+                    }
+
+                    Thread.sleep(250); // Da tenere solo per fare test
+
+                } catch (SocketTimeoutException timeout) {
+                    System.out.println("sensore in timeout n" + sens + "del device n" + disp);
+                    devices.get(disp).removeSensor(sens);
+                    sens--;
+                } catch (Exception exception) {
+                    System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
+                    exception.printStackTrace();
+                }
+            }
+            if (devices.get(disp).getSensors().isEmpty()){
+                devices.remove(disp);
+                disp--;
+                deviceNumber--;
+            }
+        }
+    }
 }
