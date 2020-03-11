@@ -40,6 +40,10 @@ public class Device {
         sensors.add(sensor);
     }
 
+    public void removeSensor(int index) {
+        sensors.remove(index);
+    }
+
     public int getSensorsNumber() {
         return sensors.size();
     }
