@@ -70,6 +70,12 @@
         </dependency>
 
     </dependencies>
+    <properties>
+         <sonar.projectKey>aletomm_swe-gateway</sonar.projectKey>
+         <sonar.organization>aletomm</sonar.organization>
+         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+         <sonar.login>4b12bbef150693ed4d1c803ba31e18dfc8ac7842</sonar.login>
+    </properties>     
     <build>
         <plugins>
             <plugin>
