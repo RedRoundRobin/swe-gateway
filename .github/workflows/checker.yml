@@ -33,7 +33,7 @@ jobs:
     - name: Run project tests
       run: mvn clean test --file gateway/pom.xml
     - name: Run SonarCloud
-      run: mvn verify sonar:sonar -Dsonar.login=${{ secrets.SONARCLOUD_LOGIN_KEY }} --file gateway/pom.xml
+      run: mvn clean verify -Dsonar.login=${{ secrets.SONARCLOUD_LOGIN_KEY }} --file gateway/pom.xml
     - name: Slack Notification
       uses: homoluctus/slatify@v2.0.1
       if: failure()
