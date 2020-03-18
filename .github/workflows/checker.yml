@@ -24,6 +24,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Run project checkstyle
       run: mvn clean validate --file gateway/pom.xml
     - name: Run project Build 
@@ -31,7 +33,7 @@ jobs:
     - name: Run project tests
       run: mvn clean test --file gateway/pom.xml
     - name: Run SonarCloud
-      run: mvn verify sonar:sonar -Dsonar.login=${{secrets.SONARCLOUD_LOGIN_KEY}} --file gateway/pom.xml
+      run: mvn verify sonar:sonar -Dsonar.login=${{ secrets.SONARCLOUD_LOGIN_KEY }} --file gateway/pom.xml
     - name: Slack Notification
       uses: homoluctus/slatify@v2.0.1
       if: failure()
@@ -43,5 +45,7 @@ jobs:
         channel: '#devops_software'
         username: 'CI Checker'
         url: ${{ secrets.SLACK_SW_WEBHOOK }}
+        commit: true
+        token: ${{ secrets.GITHUB_TOKEN }}
 
 

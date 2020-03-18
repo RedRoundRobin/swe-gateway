@@ -34,3 +34,5 @@ jobs:
         channel: '#devops_repositories'
         username: 'Repo checker'
         url: ${{ secrets.SLACK_REPO_WEBHOOK }}
+        commit: true
+        token: ${{ secrets.GITHUB_TOKEN }}
