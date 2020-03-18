@@ -5,7 +5,7 @@
     <module name="TreeWalker">
         <module name="BooleanExpressionComplexity"/>
 
-        <module name="CyclomaticComplexity"/>
+        <!-- <module name="CyclomaticComplexity"/> -->
 
         <!-- <module name="LineLength"/> -->
 

@@ -44,8 +44,9 @@ public class Consumer {
 
             if (!records.isEmpty()) {
                 found = true;
-                for (ConsumerRecord<Long, String> record : records)
+                for (ConsumerRecord<Long, String> record : records) {
                     jsonRecived = record.value();
+                }
             }
         }
         consumer.commitAsync();
