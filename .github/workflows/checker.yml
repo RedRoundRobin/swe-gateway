@@ -1,0 +1,49 @@
+name: SWE Gateway CI
+
+on:
+  push:
+    branches: 
+      - develop
+      - master
+      - feature/**
+  pull_request:
+    branches: 
+      - develop
+      - master
+      - feature/**
+
+jobs:
+
+  ci_check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo content
+      uses: actions/checkout@v2
+      with:
+        path: gateway/ 
+  # CAMBIARE IL PATH CON LA ROOT DI PROGETTO JAVA
+    - name: Setup JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Run project checkstyle
+      run: mvn clean validate
+    - name: Run project Build 
+      run: mvn clean compile
+    - name: Run project tests
+      run: mvn clean test
+    - name: Run SonarCloud
+      run: mvn verify sonar:sonar -Dsonar.login=${{secrets.SONARCLOUD_LOGIN_KEY}}
+    - name: Slack Notification
+      uses: homoluctus/slatify@v2.0.1
+      if: failure()
+      with:
+        type: ${{ job.status }}
+        job_name: 'CI Check'
+        mention: 'here'
+        mention_if: 'failure'
+        channel: '#devops_software'
+        username: 'CI Checker'
+        url: ${{ secrets.SLACK_SW_WEBHOOK }}
+
+
