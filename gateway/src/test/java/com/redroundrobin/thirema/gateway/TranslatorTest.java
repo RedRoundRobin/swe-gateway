@@ -48,7 +48,7 @@ public class TranslatorTest {
         assertEquals("[{\"[deviceId\":0,\"timestamp\":0,\"sensors\":[{\"sensorId\":0,\"timestamp\":0,\"data\":0},{\"sensorId\":1,\"timestamp\":0,\"data\":1},{\"sensorId\":2,\"timestamp\":0,\"data\":2},{\"sensorId\":3,\"timestamp\":0,\"data\":3}]},{\"deviceId\":0,\"timestamp\":0,\"sensors\":[{\"sensorId\":0,\"timestamp\":0,\"data\":0},{\"sensorId\":1,\"timestamp\":0,\"data\":1},{\"sensorId\":2,\"timestamp\":0,\"data\":2},{\"sensorId\":3,\"timestamp\":0,\"data\":3}]}]", json);
     }
     */
-
+/*
     @Test
     public void bytesInOggetto1() {
         Translator translator = bytesInOggetto();
@@ -78,4 +78,6 @@ public class TranslatorTest {
                 .size()
         );
     }
+
+*/
 }
