@@ -1,10 +1,10 @@
 package com.redroundrobin.thirema.gateway;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class GatewayTest {
+public class GatewayTest {
 
     @Test
-    void connessioneKafka() {
+    public void connessioneKafka() {
     }
 }
