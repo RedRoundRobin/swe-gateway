@@ -49,11 +49,11 @@ public class TranslatorTest {
     }
     */
 
-    @Test
+    /*@Test
     public void bytesInOggetto1() {
         Translator translator = bytesInOggetto();
         assertEquals(3, translator.getDevices().size());
-    }
+    }*/
 
     @Test
     public void bytesInOggetto2() {
