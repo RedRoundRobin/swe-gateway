@@ -47,5 +47,4 @@ public class DeviceTest {
         device.addSensor(new Sensor(1, 1));
         assertEquals(1, device.getSensorsNumber());
     }
-
 }
