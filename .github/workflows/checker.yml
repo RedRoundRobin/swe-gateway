@@ -19,13 +19,13 @@ jobs:
     steps:
     - name: Checkout repo content
       uses: actions/checkout@v2
-      with:
-        path: gateway/ 
   # CAMBIARE IL PATH CON LA ROOT DI PROGETTO JAVA
     - name: Setup JDK 11
       uses: actions/setup-java@v1
       with:
         java-version: 11
+    - name: Change path to java project
+      run: cd gateway/
     - name: Run project checkstyle
       run: mvn clean validate
     - name: Run project Build 
