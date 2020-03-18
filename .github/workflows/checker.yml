@@ -24,8 +24,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Run project checkstyle
       run: mvn clean validate --file gateway/pom.xml
     - name: Run project Build 
@@ -34,6 +32,8 @@ jobs:
       run: mvn clean test --file gateway/pom.xml
     - name: Run SonarCloud
       run: mvn clean verify -Dsonar.login=${{ secrets.SONARCLOUD_LOGIN_KEY }} --file gateway/pom.xml -e
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Slack Notification
       uses: homoluctus/slatify@v2.0.1
       if: failure()
