@@ -24,16 +24,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Change path to java project
-      run: cd gateway/
     - name: Run project checkstyle
-      run: mvn clean validate
+      run: mvn clean validate --file gateway/pom.xml
     - name: Run project Build 
-      run: mvn clean compile
+      run: mvn clean compile --file gateway/pom.xml
     - name: Run project tests
-      run: mvn clean test
+      run: mvn clean test --file gateway/pom.xml
     - name: Run SonarCloud
-      run: mvn verify sonar:sonar -Dsonar.login=${{secrets.SONARCLOUD_LOGIN_KEY}}
+      run: mvn verify sonar:sonar -Dsonar.login=${{secrets.SONARCLOUD_LOGIN_KEY}} --file gateway/pom.xml
     - name: Slack Notification
       uses: homoluctus/slatify@v2.0.1
       if: failure()
