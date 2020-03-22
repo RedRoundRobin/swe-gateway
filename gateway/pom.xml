@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>swe-gateway</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>v.0.1.1-dev</version>
 
     <properties>
         <java.version>11</java.version>
