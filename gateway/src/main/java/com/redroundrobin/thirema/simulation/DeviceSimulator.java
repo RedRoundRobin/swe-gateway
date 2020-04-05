@@ -24,7 +24,7 @@ public class DeviceSimulator {
     }
 
     // Pacchetto di risposta
-    public List<Byte> createResponsePacket(int idDevice, int idSensor) {
+    private List<Byte> createResponsePacket(int idDevice, int idSensor) {
         List<Byte> packet = new ArrayList<>();
 
         Optional<Device> optionalDevice = devices.stream()

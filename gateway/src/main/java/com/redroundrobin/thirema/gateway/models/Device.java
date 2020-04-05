@@ -47,8 +47,4 @@ public class Device {
     public int getSensorsNumber() {
         return sensors.size();
     }
-
-    public Sensor getSensor(int sensorId) {
-        return sensors.get(sensorId);
-    }
 }
