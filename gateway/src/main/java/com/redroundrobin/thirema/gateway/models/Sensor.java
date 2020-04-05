@@ -17,10 +17,6 @@ public class Sensor {
         return sensorId;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
     public int getData() {
         Random rand = new Random();
         return rand.nextBoolean() ? data + rand.nextInt(2) : data - rand.nextInt(2);
