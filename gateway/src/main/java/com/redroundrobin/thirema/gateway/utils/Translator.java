@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class Translator {
-    private static final int ERR = -1;
-    private static final int REQ = 0;
-    private static final int RES = 1;
+    private final int ERR = -1;
+    private final int REQ = 0;
+    private final int RES = 1;
 
     private List<Device> devices;
 
