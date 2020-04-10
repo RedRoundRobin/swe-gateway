@@ -1,5 +1,7 @@
 package com.redroundrobin.thirema.gateway;
 
+import com.redroundrobin.thirema.gateway.models.Device;
+import com.redroundrobin.thirema.gateway.models.Sensor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +12,7 @@ import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -72,5 +75,16 @@ public class GatewayTest {
         Gateway.BuildFromConfig(otherConfig).init();
         assertEquals("sensore in timeout n0 del device n0\n", TestStartShouldThrowSocketTimeOutExceptionContent.toString());
     }
-    
+
+    @Test
+    public void TestStartShouldThrowSocketTimeout() throws UnknownHostException {
+        List<Sensor> sens = new ArrayList<>();
+        sens.add(new Sensor(1, 0));
+        List<Device> devs = new ArrayList<>();
+        devs.add(new Device(1, sens));
+
+        Gateway test = new Gateway(InetAddress.getByName("127.0.0.1"), 6969, "US-GATEWAY-1", devs, 5, 3);
+        test.start();
+    }
+
 }
