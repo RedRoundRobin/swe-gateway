@@ -65,7 +65,7 @@ public class Gateway {
 
                          byte[] responseBuffer = new byte[5];
                          DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-                         socket.setSoTimeout(150000);
+                         socket.setSoTimeout(15000);
                          socket.receive(responseDatagram);
 
                          List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
@@ -130,7 +130,6 @@ public class Gateway {
 
     public void init() {
         int deviceNumber = devices.size();
-
         for (int disp = 0; disp < deviceNumber; disp++) {
             for (int sens = 0; sens < devices.get(disp).getSensors().size(); sens++) {
                 try (DatagramSocket socket = new DatagramSocket()) {
@@ -142,7 +141,7 @@ public class Gateway {
                     //risposta di ognmi sensore
                     byte[] responseBuffer = new byte[5];
                     DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-                    socket.setSoTimeout(150000);
+                    socket.setSoTimeout(150);
                     socket.receive(responseDatagram);
 
                     if (responseBuffer[1] == -1){
@@ -153,9 +152,10 @@ public class Gateway {
                     Thread.sleep(250); // Da tenere solo per fare test
 
                 } catch (SocketTimeoutException timeout) {
-                    System.out.println("sensore in timeout n" + sens + "del device n" + disp);
+                    System.out.println("sensore in timeout n" + sens + " del device n" + disp);
                     devices.get(disp).removeSensor(sens);
                     sens--;
+
                 } catch (Exception exception) {
                     System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
                     exception.printStackTrace();
