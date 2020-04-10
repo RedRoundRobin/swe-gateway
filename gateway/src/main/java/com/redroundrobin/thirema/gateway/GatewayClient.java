@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Logger;
 
 import static com.redroundrobin.thirema.gateway.Gateway.BuildFromConfig;
 
@@ -64,6 +65,7 @@ public class GatewayClient {
     }
 
     public static void main(String[] args) {
+        Logger logger = Logger.getLogger(GatewayClient.class.getName());
         try {
             //mi metto in ascolto della configurazione
             threadedConsumer consumer = new threadedConsumer("cfg-gw_GatewayClient","ConsumerGatewayClient","localhost:29092");

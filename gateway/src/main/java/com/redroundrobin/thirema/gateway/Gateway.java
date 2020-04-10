@@ -7,6 +7,9 @@ import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,11 +60,14 @@ public class Gateway {
                          DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
                          socket.send(requestDatagram);
 
+                        /*
                          System.out.print("> REQ: [ ");
                          for (byte field : requestBuffer) {
                              System.out.print(field + " ");
                          }
                          System.out.println("]");
+
+                         */
 
                          byte[] responseBuffer = new byte[5];
                          DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
@@ -84,12 +90,14 @@ public class Gateway {
                              timestamp = System.currentTimeMillis();
                              packetNumber = 0;
                          }
-
+                        /*
                          System.out.print("< RES: [ ");
                          for (byte field : responseBuffer) {
                              System.out.print(field + " ");
                          }
                          System.out.println("]");
+
+                         */
 
                          Thread.sleep(250); // Da tenere solo per fare test
                      }
@@ -99,7 +107,16 @@ public class Gateway {
         catch (SocketTimeoutException exception) {
             System.out.println("< RES: []");
         }
-        catch (InterruptedException ignored) {}
+        catch (InterruptedException e) {
+            Logger logger
+                    = Logger.getLogger(
+                    Gateway.class.getName());
+
+            // log messages using log(Level level, String msg)
+            logger.log(Level.WARNING, "Interrupted!", e);
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
+        }
         catch (Exception exception) {
             System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
             exception.printStackTrace();

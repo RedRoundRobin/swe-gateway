@@ -1,6 +1,6 @@
 package com.redroundrobin.thirema.gateway.models;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Sensor {
     private int sensorId;
@@ -18,7 +18,7 @@ public class Sensor {
     }
 
     public int getData() {
-        Random rand = new Random();
+        SecureRandom rand = new SecureRandom();
         return rand.nextBoolean() ? data + rand.nextInt(2) : data - rand.nextInt(2);
     }
 
