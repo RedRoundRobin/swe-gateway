@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.redroundrobin.thirema.gateway.Gateway.BuildFromConfig;
@@ -100,7 +101,12 @@ public class GatewayClient {
                 }
             }
         } catch (InterruptedException | ExecutionException e){
-            e.printStackTrace();
+                logger
+                    = Logger.getLogger(
+                    Gateway.class.getName());
+
+            // log messages using log(Level level, String msg)
+            logger.log(Level.WARNING, "Interrupted or else!", e);
         }
     }
     //per creare un produttore per inviare la configurazione -->> SEE Producer.java@main

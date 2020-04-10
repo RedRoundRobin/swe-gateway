@@ -7,6 +7,7 @@ import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,28 +61,16 @@ public class Gateway {
                          DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
                          socket.send(requestDatagram);
 
-                        /*
-                         System.out.print("> REQ: [ ");
-                         for (byte field : requestBuffer) {
-                             System.out.print(field + " ");
-                         }
-                         System.out.println("]");
-
-                         */
-
                          byte[] responseBuffer = new byte[5];
                          DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
                          socket.setSoTimeout(15000);
                          socket.receive(responseDatagram);
-
                          List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
-
                          if (Utility.checkIntegrity(responsePacket)) {
                              if (translator.addSensor(responseBuffer)) {
                                  packetNumber++;
                              }
                          }
-
                          long timeSpent = System.currentTimeMillis() - timestamp;
 
                          if (packetNumber > storedPacket || timeSpent > storingTime) {
@@ -90,15 +79,6 @@ public class Gateway {
                              timestamp = System.currentTimeMillis();
                              packetNumber = 0;
                          }
-                        /*
-                         System.out.print("< RES: [ ");
-                         for (byte field : responseBuffer) {
-                             System.out.print(field + " ");
-                         }
-                         System.out.println("]");
-
-                         */
-
                          Thread.sleep(250); // Da tenere solo per fare test
                      }
                 }
@@ -119,7 +99,14 @@ public class Gateway {
         }
         catch (Exception exception) {
             System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
-            exception.printStackTrace();
+            Logger logger
+                    = Logger.getLogger(
+                    Gateway.class.getName());
+
+            // log messages using log(Level level, String msg)
+            logger.log(Level.WARNING, "General exception!", exception);
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -168,14 +155,18 @@ public class Gateway {
 
                     Thread.sleep(250); // Da tenere solo per fare test
 
-                } catch (SocketTimeoutException timeout) {
+                } catch (SocketTimeoutException | SocketException timeout) {
                     System.out.println("sensore in timeout n" + sens + " del device n" + disp);
                     devices.get(disp).removeSensor(sens);
                     sens--;
 
-                } catch (Exception exception) {
-                    System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
-                    exception.printStackTrace();
+                } catch (Exception e) {
+                    Logger logger
+                            = Logger.getLogger(
+                            Gateway.class.getName());
+
+                    // log messages using log(Level level, String msg)
+                    logger.log(Level.WARNING, "EXCEPTION!", e);
                 }
             }
             if (devices.get(disp).getSensors().isEmpty()){
