@@ -35,6 +35,9 @@ public class Gateway {
         this.storingTime = storingTime; // Tempo di accumulo di default
     }
 
+    public String getName() {
+        return name;
+    }
 
     // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
     public void start() {
