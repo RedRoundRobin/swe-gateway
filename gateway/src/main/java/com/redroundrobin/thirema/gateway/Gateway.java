@@ -7,6 +7,9 @@ import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +38,9 @@ public class Gateway {
         this.storingTime = storingTime; // Tempo di accumulo di default
     }
 
+    public String getName() {
+        return name;
+    }
 
     // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
     public void start() {
@@ -54,15 +60,18 @@ public class Gateway {
                          DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
                          socket.send(requestDatagram);
 
+                        /*
                          System.out.print("> REQ: [ ");
                          for (byte field : requestBuffer) {
                              System.out.print(field + " ");
                          }
                          System.out.println("]");
 
+                         */
+
                          byte[] responseBuffer = new byte[5];
                          DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-                         socket.setSoTimeout(150000);
+                         socket.setSoTimeout(15000);
                          socket.receive(responseDatagram);
 
                          List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
@@ -81,12 +90,14 @@ public class Gateway {
                              timestamp = System.currentTimeMillis();
                              packetNumber = 0;
                          }
-
+                        /*
                          System.out.print("< RES: [ ");
                          for (byte field : responseBuffer) {
                              System.out.print(field + " ");
                          }
                          System.out.println("]");
+
+                         */
 
                          Thread.sleep(250); // Da tenere solo per fare test
                      }
@@ -96,7 +107,16 @@ public class Gateway {
         catch (SocketTimeoutException exception) {
             System.out.println("< RES: []");
         }
-        catch (InterruptedException ignored) {}
+        catch (InterruptedException e) {
+            Logger logger
+                    = Logger.getLogger(
+                    Gateway.class.getName());
+
+            // log messages using log(Level level, String msg)
+            logger.log(Level.WARNING, "Interrupted!", e);
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
+        }
         catch (Exception exception) {
             System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
             exception.printStackTrace();
@@ -127,7 +147,6 @@ public class Gateway {
 
     public void init() {
         int deviceNumber = devices.size();
-
         for (int disp = 0; disp < deviceNumber; disp++) {
             for (int sens = 0; sens < devices.get(disp).getSensors().size(); sens++) {
                 try (DatagramSocket socket = new DatagramSocket()) {
@@ -139,7 +158,7 @@ public class Gateway {
                     //risposta di ognmi sensore
                     byte[] responseBuffer = new byte[5];
                     DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-                    socket.setSoTimeout(150000);
+                    socket.setSoTimeout(150);
                     socket.receive(responseDatagram);
 
                     if (responseBuffer[1] == -1){
@@ -150,9 +169,10 @@ public class Gateway {
                     Thread.sleep(250); // Da tenere solo per fare test
 
                 } catch (SocketTimeoutException timeout) {
-                    System.out.println("sensore in timeout n" + sens + "del device n" + disp);
+                    System.out.println("sensore in timeout n" + sens + " del device n" + disp);
                     devices.get(disp).removeSensor(sens);
                     sens--;
+
                 } catch (Exception exception) {
                     System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
                     exception.printStackTrace();

@@ -10,10 +10,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Logger;
 
 import static com.redroundrobin.thirema.gateway.Gateway.BuildFromConfig;
 
-public class UsGateway1 {
+public class GatewayClient {
 
     private static class threadedConsumer implements Callable<String> {
         private Consumer consumerConfig;
@@ -64,9 +65,10 @@ public class UsGateway1 {
     }
 
     public static void main(String[] args) {
+        Logger logger = Logger.getLogger(GatewayClient.class.getName());
         try {
             //mi metto in ascolto della configurazione
-            threadedConsumer consumer = new threadedConsumer("US-GATEWAY-1-CONFIG","ConsumerUS","localhost:29092");
+            threadedConsumer consumer = new threadedConsumer("cfg-gw_GatewayClient","ConsumerGatewayClient","localhost:29092");
             Future<String> newConfig = Executors.newCachedThreadPool().submit(consumer);
 
             if (!newConfig.get().isEmpty()){ //aspetto l'invio della configurazione;
@@ -76,7 +78,7 @@ public class UsGateway1 {
                 Future<String> newProducer = Executors.newCachedThreadPool().submit(producer);
 
                 //mi rimetto in ascolto per configurazioni future
-                consumer = new threadedConsumer("US-GATEWAY-1-CONFIG","ConsumerUS","localhost:29092");
+                consumer = new threadedConsumer("cfg-gw_GatewayClient","ConsumerGatewayClient","localhost:29092");
                 newConfig = Executors.newCachedThreadPool().submit(consumer);
 
                 while (true){
@@ -87,7 +89,7 @@ public class UsGateway1 {
 
                         //costruisco un nuovo produttore e consumatore
                         producer = new threadedProducer(newConfig.get());
-                        consumer = new threadedConsumer("US-GATEWAY-1-CONFIG","ConsumerUS","localhost:29092");
+                        consumer = new threadedConsumer("cfg-gw_GatewayClient","ConsumerGatewayClient","localhost:29092");
 
                         //mi rimetto ad ascoltare per le configurazioni e a produrre
                         newConfig = Executors.newCachedThreadPool().submit(consumer);
