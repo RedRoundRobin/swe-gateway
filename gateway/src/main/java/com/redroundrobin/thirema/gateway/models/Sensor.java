@@ -22,6 +22,10 @@ public class Sensor {
         return rand.nextBoolean() ? data + rand.nextInt(2) : data - rand.nextInt(2);
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
