@@ -1,5 +1,6 @@
 package com.redroundrobin.thirema.gateway.utils;
 
+import com.redroundrobin.thirema.gateway.Gateway;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -9,6 +10,8 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Producer implements AutoCloseable {
 
@@ -48,7 +51,12 @@ public class Producer implements AutoCloseable {
                             metadata.offset(),
                             timeSpent);
                 } else {
-                    exception.printStackTrace();
+                    Logger logger
+                            = Logger.getLogger(
+                            Producer.class.getName());
+
+                    // log messages using log(Level level, String msg)
+                    logger.log(Level.WARNING, "Error in message sending!", exception);
                 }
 
                 countDownLatch.countDown();

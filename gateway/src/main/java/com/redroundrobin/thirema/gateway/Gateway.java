@@ -119,7 +119,14 @@ public class Gateway {
         }
         catch (Exception exception) {
             System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
-            exception.printStackTrace();
+            Logger logger
+                    = Logger.getLogger(
+                    Gateway.class.getName());
+
+            // log messages using log(Level level, String msg)
+            logger.log(Level.WARNING, "Interrupted!", exception);
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -169,9 +176,14 @@ public class Gateway {
                     Thread.sleep(250); // Da tenere solo per fare test
 
                 } catch (SocketTimeoutException timeout) {
-                    System.out.println("sensore in timeout n" + sens + " del device n" + disp);
                     devices.get(disp).removeSensor(sens);
                     sens--;
+                    Logger logger
+                            = Logger.getLogger(
+                            Gateway.class.getName());
+
+                    // log messages using log(Level level, String msg)
+                    logger.log(Level.WARNING, "sensore in timeout", timeout);
 
                 } catch (Exception exception) {
                     System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
