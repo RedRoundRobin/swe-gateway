@@ -2,12 +2,12 @@ package com.redroundrobin.thirema.gateway;
 
 import com.google.gson.Gson;
 import com.redroundrobin.thirema.gateway.models.Device;
+import com.redroundrobin.thirema.gateway.models.Sensor;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,22 +83,17 @@ public class Gateway {
                      }
                 }
             }
-        }
-        catch (SocketTimeoutException exception) {
-            System.out.println("< RES: []");
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException | SocketTimeoutException e) {
             Logger logger
                     = Logger.getLogger(
                     Gateway.class.getName());
 
             // log messages using log(Level level, String msg)
-            logger.log(Level.WARNING, "Interrupted!", e);
+            logger.log(Level.WARNING, "Interrupted or Timeout!", e);
             // Restore interrupted state...
             Thread.currentThread().interrupt();
         }
         catch (Exception exception) {
-            System.out.println("Error " + exception.getClass() + ": " + exception.getMessage());
             Logger logger
                     = Logger.getLogger(
                     Gateway.class.getName());
