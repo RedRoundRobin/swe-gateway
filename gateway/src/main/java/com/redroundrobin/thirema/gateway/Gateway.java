@@ -2,15 +2,12 @@ package com.redroundrobin.thirema.gateway;
 
 import com.google.gson.Gson;
 import com.redroundrobin.thirema.gateway.models.Device;
-import com.redroundrobin.thirema.gateway.models.Sensor;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
 import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,13 +63,11 @@ public class Gateway {
                          socket.setSoTimeout(15000);
                          socket.receive(responseDatagram);
                          List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
-                         if (Utility.checkIntegrity(responsePacket)) {
-                             if (translator.addSensor(responseBuffer)) {
+                         if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer)) {
                                  packetNumber++;
-                             }
+
                          }
                          long timeSpent = System.currentTimeMillis() - timestamp;
-
                          if (packetNumber > storedPacket || timeSpent > storingTime) {
                              String data = translator.getJSON();
                              producer.executeProducer(name, data);
@@ -84,20 +79,14 @@ public class Gateway {
                 }
             }
         } catch (InterruptedException | SocketTimeoutException e) {
-            Logger logger
-                    = Logger.getLogger(
-                    Gateway.class.getName());
-
+            Logger logger = Logger.getLogger(Gateway.class.getName());
             // log messages using log(Level level, String msg)
             logger.log(Level.WARNING, "Interrupted or Timeout!", e);
             // Restore interrupted state...
             Thread.currentThread().interrupt();
         }
         catch (Exception exception) {
-            Logger logger
-                    = Logger.getLogger(
-                    Gateway.class.getName());
-
+            Logger logger = Logger.getLogger(Gateway.class.getName());
             // log messages using log(Level level, String msg)
             logger.log(Level.WARNING, "General exception!", exception);
             // Restore interrupted state...
@@ -156,10 +145,7 @@ public class Gateway {
                     sens--;
 
                 } catch (Exception e) {
-                    Logger logger
-                            = Logger.getLogger(
-                            Gateway.class.getName());
-
+                    Logger logger = Logger.getLogger(Gateway.class.getName());
                     // log messages using log(Level level, String msg)
                     logger.log(Level.WARNING, "EXCEPTION!", e);
                 }

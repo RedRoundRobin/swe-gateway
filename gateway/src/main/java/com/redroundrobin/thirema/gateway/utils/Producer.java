@@ -51,10 +51,7 @@ public class Producer implements AutoCloseable {
                             metadata.offset(),
                             timeSpent);
                 } else {
-                    Logger logger
-                            = Logger.getLogger(
-                            Producer.class.getName());
-
+                    Logger logger = Logger.getLogger(Producer.class.getName());
                     // log messages using log(Level level, String msg)
                     logger.log(Level.WARNING, "Error in message sending!", exception);
                 }

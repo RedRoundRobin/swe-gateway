@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class Utility {
+
+    private Utility() {}
     // Conversione dati pacchetto
     public static byte[] convertPacket(@NotNull int[] packet) {
         byte[] convertedPacket = new byte[packet.length];

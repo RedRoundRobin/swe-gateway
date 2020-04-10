@@ -101,10 +101,7 @@ public class GatewayClient {
                 }
             }
         } catch (InterruptedException | ExecutionException e){
-                logger
-                    = Logger.getLogger(
-                    Gateway.class.getName());
-
+                logger = Logger.getLogger(Gateway.class.getName());
             // log messages using log(Level level, String msg)
             logger.log(Level.WARNING, "Interrupted or else!", e);
         }

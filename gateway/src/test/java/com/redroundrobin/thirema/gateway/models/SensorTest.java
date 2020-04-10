@@ -27,10 +27,15 @@ public class SensorTest {
   public void getDataTest() {
     int actualBaseDataSensor1 = 5;
     int actualRandomRange = 2;
-    assertTrue(sensor1.getData() <=
-        actualBaseDataSensor1 + actualRandomRange
-        && actualBaseDataSensor1 >=
-        actualBaseDataSensor1 - actualRandomRange);
+    int data = sensor1.getData();
+    int data1 = sensor1.getData();
+    int data2 = sensor1.getData();
+    int data3 = sensor1.getData();
+
+    assertTrue(data <= actualBaseDataSensor1 + actualRandomRange);
+    assertTrue(data1 <= actualBaseDataSensor1 + actualRandomRange);
+    assertTrue(data2 <= actualBaseDataSensor1 + actualRandomRange);
+    assertTrue(data3 <= actualBaseDataSensor1 + actualRandomRange);
   }
 
   @Test
