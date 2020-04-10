@@ -6,6 +6,10 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,9 +37,9 @@ public class GatewayTest {
     }
 
     @Test
-    public void TestNameGetter() {
-        String name = gateway.getName();
-        assertEquals("US-GATEWAY-1", name);
+    public void TestNameGetter() throws UnknownHostException {
+        Gateway test = new Gateway(InetAddress.getByName("127.0.0.1"), 6969, "US-GATEWAY-1", new ArrayList<>(), 5, 3);
+        assertEquals("US-GATEWAY-1", test.getName());
     }
 
     @Test
@@ -68,6 +72,5 @@ public class GatewayTest {
         Gateway.BuildFromConfig(otherConfig).init();
         assertEquals("sensore in timeout n0 del device n0\n", TestStartShouldThrowSocketTimeOutExceptionContent.toString());
     }
-
-
+    
 }
