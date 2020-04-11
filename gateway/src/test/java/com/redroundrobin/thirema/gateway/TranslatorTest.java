@@ -1,16 +1,9 @@
 package com.redroundrobin.thirema.gateway;
 
-import com.redroundrobin.thirema.gateway.models.Device;
-import com.redroundrobin.thirema.gateway.models.Sensor;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-
 
 public class TranslatorTest {
     private Translator bytesInOggetto() {
@@ -44,7 +37,7 @@ public class TranslatorTest {
         translator.getDevices().add(device);
         translator.getDevices().add(device);
 
-        String json = translator.getJSON();
+        String json = translator.getJson();
         assertEquals("[{\"[deviceId\":0,\"timestamp\":0,\"sensors\":[{\"sensorId\":0,\"timestamp\":0,\"data\":0},{\"sensorId\":1,\"timestamp\":0,\"data\":1},{\"sensorId\":2,\"timestamp\":0,\"data\":2},{\"sensorId\":3,\"timestamp\":0,\"data\":3}]},{\"deviceId\":0,\"timestamp\":0,\"sensors\":[{\"sensorId\":0,\"timestamp\":0,\"data\":0},{\"sensorId\":1,\"timestamp\":0,\"data\":1},{\"sensorId\":2,\"timestamp\":0,\"data\":2},{\"sensorId\":3,\"timestamp\":0,\"data\":3}]}]", json);
     }
     */

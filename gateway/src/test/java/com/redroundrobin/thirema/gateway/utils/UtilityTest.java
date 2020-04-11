@@ -35,8 +35,6 @@ public class UtilityTest {
         badFakePacket.add((byte) 42);
         badFakePacket.add((byte) 42);
         badFakePacket.add((byte) 69);
-
-
     }
 
     @Test
@@ -50,7 +48,7 @@ public class UtilityTest {
 
     @Test
     public void TestCalculateCRC() {
-        byte result = calculateCRC(rightPacket);
+        byte result = calculateCrc(rightPacket);
         assertEquals((byte) -46, result);
     }
 

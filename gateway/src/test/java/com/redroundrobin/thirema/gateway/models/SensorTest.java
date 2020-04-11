@@ -51,7 +51,7 @@ public class SensorTest {
     int actualBaseDataSensor1 = new Random().nextInt();
     int actualRandomRange = 2;
     sensor1.setData(actualBaseDataSensor1);
-    long actual = sensor1.getData();
+    sensor1.getData();
     assertTrue(sensor1.getData() <=
         actualBaseDataSensor1 + actualRandomRange
         && actualBaseDataSensor1 >=

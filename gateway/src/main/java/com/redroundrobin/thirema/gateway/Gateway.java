@@ -1,160 +1,155 @@
 package com.redroundrobin.thirema.gateway;
 
+import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
+
 import com.google.gson.Gson;
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
-import org.apache.commons.lang3.ArrayUtils;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCRC;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class Gateway {
-    private InetAddress address;
-    private int port;
+  private final InetAddress address;
+  private final int port;
 
-    private String name;
-    private List<Device> devices; // Da prendere dalla configurazione del gateway
+  private final String name;
+  private final List<Device> devices; // Da prendere dalla configurazione del gateway
 
-    private int storedPacket; // Da prendere dalla configurazione del gateway
-    private int storingTime; // Da prendere dalla configurazione del gateway in millisecondi
+  private final int storedPacket; // Da prendere dalla configurazione del gateway
+  private final int storingTime; // Da prendere dalla configurazione del gateway in millisecondi
 
-    public Gateway(InetAddress address, int port, String name, List<Device> devices, int storedPacket, int storingTime) {
-        this.address = address;
-        this.port = port;
+  private static final Logger logger = Logger.getLogger(Gateway.class.getName());
 
-        this.name = name;
-        this.devices = devices;
+  public Gateway(InetAddress address, int port, String name, List<Device> devices, int storedPacket, int storingTime) {
+    this.address = address;
+    this.port = port;
 
-        this.storedPacket = storedPacket; // Accumulo di pacchetti di default
-        this.storingTime = storingTime; // Tempo di accumulo di default
-    }
+    this.name = name;
+    this.devices = devices;
 
-    public String getName() {
-        return name;
-    }
+    this.storedPacket = storedPacket; // Accumulo di pacchetti di default
+    this.storingTime = storingTime; // Tempo di accumulo di default
+  }
 
-    // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
-    public void start() {
-        try (DatagramSocket socket = new DatagramSocket(); Producer producer = new Producer(name, "localhost:29092")) {
-            Translator translator = new Translator();
+  //crea un gateway partendo da una stringa di configurazione valida
+  public static Gateway buildFromConfig(String config) {
+    Gson gson = new Gson();
+    return gson.fromJson(config, Gateway.class);
+  }
 
-            long timestamp = System.currentTimeMillis();
-            int packetNumber = 0;
-            int deviceNumber = devices.size();
+  public String getName() {
+    return name;
+  }
 
-            // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
-            while (true) {
-                for(int disp = 0; disp < deviceNumber; disp++){
-                     for(int sens = 0; sens < devices.get(disp).getSensors().size(); sens++){
+  // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
+  public void start() {
+    try (DatagramSocket socket = new DatagramSocket(); Producer producer = new Producer(name, "localhost:29092")) {
+      Translator translator = new Translator();
 
-                         byte[] requestBuffer = createRequestPacket(disp, sens);
-                         DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
-                         socket.send(requestDatagram);
+      long timestamp = System.currentTimeMillis();
+      int packetNumber = 0;
+      int deviceNumber = devices.size();
 
-                         byte[] responseBuffer = new byte[5];
-                         DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-                         socket.setSoTimeout(15000);
-                         socket.receive(responseDatagram);
-                         List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
-                         if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer)) {
-                                 packetNumber++;
-
-                         }
-                         long timeSpent = System.currentTimeMillis() - timestamp;
-                         if (packetNumber > storedPacket || timeSpent > storingTime) {
-                             String data = translator.getJSON();
-                             producer.executeProducer(name, data);
-                             timestamp = System.currentTimeMillis();
-                             packetNumber = 0;
-                         }
-                         Thread.sleep(250); // Da tenere solo per fare test
-                     }
-                }
-            }
-        } catch (InterruptedException | SocketTimeoutException e) {
-            Logger logger = Logger.getLogger(Gateway.class.getName());
-            // log messages using log(Level level, String msg)
-            logger.log(Level.WARNING, "Interrupted or Timeout!", e);
-            // Restore interrupted state...
-            Thread.currentThread().interrupt();
-        }
-        catch (Exception exception) {
-            Logger logger = Logger.getLogger(Gateway.class.getName());
-            // log messages using log(Level level, String msg)
-            logger.log(Level.WARNING, "General exception!", exception);
-            // Restore interrupted state...
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    // Creazione di un pacchetto di richiesta dati per uno dei dispositivi disponibili nel Server
-    public byte[] createRequestPacket(int devIndex, int senIndex) {
-        int deviceId = devices.get(devIndex).getDeviceId();
-        int sensorId = devices.get(devIndex).getSensors().get(senIndex).getSensorId();
-
-        byte device = (byte) (deviceId); // prendo uno tra gli id
-        byte operation = 0;
-        byte sensor = (byte) (sensorId); // prendo uno dei sensori del dispositivo
-        byte data = 0;
-
-        List<Byte> packet = new ArrayList<>(Arrays.asList(device, operation, sensor, data));
-
-        return new byte[] {device, operation, sensor, data, calculateCRC(packet)};
-    }
-
-    //crea un gateway partendo da una stringa di configurazione valida
-    public static Gateway BuildFromConfig(String config){
-        Gson gson = new Gson();
-        Gateway toReturn = gson.fromJson(config, Gateway.class);
-        return toReturn;
-    }
-
-    public void init() {
-        int deviceNumber = devices.size();
+      // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
+      while (true) {
         for (int disp = 0; disp < deviceNumber; disp++) {
-            for (int sens = 0; sens < devices.get(disp).getSensors().size(); sens++) {
-                try (DatagramSocket socket = new DatagramSocket()) {
-                    //richiesta ad ogni sensore
-                    byte[] requestBuffer = createRequestPacket(disp, sens);
-                    DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
-                    socket.send(requestDatagram);
+          for (int sens = 0; sens < devices.get(disp).getSensors().size(); sens++) {
 
-                    //risposta di ognmi sensore
-                    byte[] responseBuffer = new byte[5];
-                    DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-                    socket.setSoTimeout(150);
-                    socket.receive(responseDatagram);
+            byte[] requestBuffer = createRequestPacket(disp, sens);
+            DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
+            socket.send(requestDatagram);
 
-                    if (responseBuffer[1] == -1){
-                        devices.get(disp).removeSensor(sens);
-                        sens--;
-                    }
+            byte[] responseBuffer = new byte[5];
+            DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
+            socket.setSoTimeout(15000);
+            socket.receive(responseDatagram);
+            List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
+            if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer)) {
+              packetNumber++;
 
-                    Thread.sleep(250); // Da tenere solo per fare test
-
-                } catch (SocketTimeoutException | SocketException timeout) {
-                    System.out.println("sensore in timeout n" + sens + " del device n" + disp);
-                    devices.get(disp).removeSensor(sens);
-                    sens--;
-
-                } catch (Exception e) {
-                    Logger logger = Logger.getLogger(Gateway.class.getName());
-                    // log messages using log(Level level, String msg)
-                    logger.log(Level.WARNING, "EXCEPTION!", e);
-                }
             }
-            if (devices.get(disp).getSensors().isEmpty()){
-                devices.remove(disp);
-                disp--;
-                deviceNumber--;
+            long timeSpent = System.currentTimeMillis() - timestamp;
+            if (packetNumber > storedPacket || timeSpent > storingTime) {
+              String data = translator.getJson();
+              producer.executeProducer(name, data);
+              timestamp = System.currentTimeMillis();
+              packetNumber = 0;
             }
+            Thread.sleep(250); // Da tenere solo per fare test
+          }
         }
+      }
+    } catch (InterruptedException | SocketTimeoutException e) {
+      logger.log(Level.WARNING, "Interrupted or Timeout!", e);
+    } catch (Exception exception) {
+      logger.log(Level.WARNING, "General exception!", exception);
     }
+  }
+
+  // Creazione di un pacchetto di richiesta dati per uno dei dispositivi disponibili nel Server
+  public byte[] createRequestPacket(int devIndex, int senIndex) {
+    int deviceId = devices.get(devIndex).getDeviceId();
+    int sensorId = devices.get(devIndex).getSensors().get(senIndex).getSensorId();
+
+    byte device = (byte) (deviceId); // prendo uno tra gli id
+    byte operation = 0;
+    byte sensor = (byte) (sensorId); // prendo uno dei sensori del dispositivo
+    byte data = 0;
+
+    List<Byte> packet = new ArrayList<>(Arrays.asList(device, operation, sensor, data));
+
+    return new byte[]{device, operation, sensor, data, calculateCrc(packet)};
+  }
+
+  public void init() {
+    int deviceNumber = devices.size();
+    for (int disp = 0; disp < deviceNumber; disp++) {
+      for (int sens = 0; sens < devices.get(disp).getSensors().size(); sens++) {
+        try (DatagramSocket socket = new DatagramSocket()) {
+          //richiesta ad ogni sensore
+          byte[] requestBuffer = createRequestPacket(disp, sens);
+          DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length, address, port);
+          socket.send(requestDatagram);
+
+          //risposta di ognmi sensore
+          byte[] responseBuffer = new byte[5];
+          DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
+          socket.setSoTimeout(150);
+          socket.receive(responseDatagram);
+
+          if (responseBuffer[1] == -1) {
+            devices.get(disp).removeSensor(sens);
+            sens--;
+          }
+
+          Thread.sleep(250); // Da tenere solo per fare test
+
+        } catch (SocketTimeoutException | SocketException timeout) {
+          final int finalSens = sens;
+          final int finalDisp = disp;
+          logger.log(Level.SEVERE, () -> "sensore in timeout n" + finalSens + " del device n" + finalDisp);
+          devices.get(disp).removeSensor(sens);
+          sens--;
+        } catch (Exception e) {
+          logger.log(Level.WARNING, "EXCEPTION!", e);
+        }
+      }
+      if (devices.get(disp).getSensors().isEmpty()) {
+        devices.remove(disp);
+        disp--;
+        deviceNumber--;
+      }
+    }
+  }
 }
