@@ -19,7 +19,7 @@ public class DeviceTest {
         sensor1 = new Sensor(1, 1);
         sensor2 = new Sensor(2, 51);
         device1 = new Device(1);
-        List<Sensor> sensorListDevice2 = new ArrayList<Sensor>();
+        List<Sensor> sensorListDevice2 = new ArrayList<>();
         sensorListDevice2.add(sensor1);
         sensorListDevice2.add(sensor2);
         device2 = new Device(2, sensorListDevice2);

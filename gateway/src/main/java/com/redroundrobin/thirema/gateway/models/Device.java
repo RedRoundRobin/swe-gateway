@@ -4,47 +4,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Device {
-    private int deviceId;
-    private long timestamp;
-    private List<Sensor> sensors;
+  private final int deviceId;
+  private long timestamp;
+  private final List<Sensor> sensors;
 
-    public Device(int deviceId) {
-        this.deviceId = deviceId;
-        this.timestamp = 0;
-        this.sensors = new ArrayList<>();
-    }
+  public Device(int deviceId) {
+    this.deviceId = deviceId;
+    this.timestamp = 0;
+    this.sensors = new ArrayList<>();
+  }
 
-    public Device(int deviceId, List<Sensor> sensors) {
-        this.deviceId = deviceId;
-        this.timestamp = 0;
-        this.sensors = sensors;
-    }
+  public Device(int deviceId, List<Sensor> sensors) {
+    this.deviceId = deviceId;
+    this.timestamp = 0;
+    this.sensors = sensors;
+  }
 
-    public int getDeviceId() {
-        return deviceId;
-    }
+  public int getDeviceId() {
+    return deviceId;
+  }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
+  public long getTimestamp() {
+    return timestamp;
+  }
 
-    public List<Sensor> getSensors() {
-        return sensors;
-    }
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
+  }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
+  public List<Sensor> getSensors() {
+    return sensors;
+  }
 
-    public void addSensor(Sensor sensor) {
-        sensors.add(sensor);
-    }
+  public void addSensor(Sensor sensor) {
+    sensors.add(sensor);
+  }
 
-    public void removeSensor(int index) {
-        sensors.remove(index);
-    }
+  public void removeSensor(int index) {
+    sensors.remove(index);
+  }
 
-    public int getSensorsNumber() {
-        return sensors.size();
-    }
+  public int getSensorsNumber() {
+    return sensors.size();
+  }
 }
