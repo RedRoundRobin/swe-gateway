@@ -1,11 +1,13 @@
 package com.redroundrobin.thirema.gateway.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.security.SecureRandom;
 
 public class Sensor {
   private final int sensorId;
-  private long timestamp;
-  private int data;
+  private transient long timestamp;
+  private transient int data;
 
   public Sensor(int sensorId, int data) {
     this.sensorId = sensorId;
@@ -17,6 +19,7 @@ public class Sensor {
     return sensorId;
   }
 
+  @JsonIgnore
   public int getData() {
     SecureRandom rand = new SecureRandom();
     return rand.nextBoolean() ? data + rand.nextInt(2) : data - rand.nextInt(2);
