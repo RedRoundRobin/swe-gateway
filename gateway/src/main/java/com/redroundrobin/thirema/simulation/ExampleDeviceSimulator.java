@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UsDevice1 {
+public class ExampleDeviceSimulator {
 
   public static void main(String[] args) {
 
