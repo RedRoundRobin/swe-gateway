@@ -181,7 +181,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>build-a</id>
+                        <id>build-gateway</id>
                         <configuration>
                             <archive>
                                 <manifest>
@@ -199,7 +199,7 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>build-a</id>
+                        <id>build-simulator</id>
                         <configuration>
                             <archive>
                                 <manifest>
@@ -209,7 +209,7 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                            <finalName>usdevice1</finalName>
+                            <finalName>devicesimulator</finalName>
                         </configuration>
                         <phase>package</phase>
                         <goals>
