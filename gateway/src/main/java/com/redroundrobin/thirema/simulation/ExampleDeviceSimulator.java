@@ -1,20 +1,16 @@
 package com.redroundrobin.thirema.simulation;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
+
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.models.Sensor;
-import kafka.utils.Json;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ExampleDeviceSimulator {
 
-  public static void main(String[] args) throws FileNotFoundException {
+  public static void main(String[] args) {
 
     List<Sensor> sensors1 = new ArrayList<>(Arrays.asList(
         new Sensor(1, 5),
@@ -51,11 +47,7 @@ public class ExampleDeviceSimulator {
             new Sensor(4, 120)));
     Device device6 = new Device(6, sensors6);
 
-    Gson gson = new Gson();
-    JsonReader reader = new JsonReader(new FileReader("defaultDevices.json"));
-    List<Device> devices = gson.fromJson(reader, List.class);
-
-    //List<Device> devices = new ArrayList<>(Arrays.asList(device1, device2, device3, device4, device5, device6));
+    List<Device> devices = new ArrayList<>(Arrays.asList(device1, device2, device3, device4, device5, device6));
     DeviceSimulator deviceSimulator = new DeviceSimulator(6969, devices);
 
     deviceSimulator.start();
