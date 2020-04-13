@@ -1,6 +1,7 @@
 {
   "address":"127.0.1.1",
-  "port":6969,"name":"US-GATEWAY-1",
+  "port":6969,
+  "name":"US-GATEWAY-1",
   "storedPacket":5,
   "storingTime":6000,
   "devices":  [
