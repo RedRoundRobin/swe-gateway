@@ -60,7 +60,7 @@ public class Consumer {
   }
 
   public static void main(String[] args) {
-    Consumer test = new Consumer("US-GATEWAY-1", "consumatoreTest", "core.host.redroundrobin.site:29092");
+    Consumer test = new Consumer("US-GATEWAY-1", "consumatoreTest", "kafka_core:29092");
     test.executeConsumer();
   }
 }
