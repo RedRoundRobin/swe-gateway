@@ -16,7 +16,7 @@ public class Consumer {
   private final String name;
   private final org.apache.kafka.clients.consumer.Consumer<Long, String> kafkaConsumer;
 
-  private static final Logger logger = Logger.getLogger(Consumer.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(Consumer.class.getName());
 
   public Consumer(String topic, String name, String bootstrapServers) {
     this.name = name;

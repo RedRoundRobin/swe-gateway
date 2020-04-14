@@ -2,6 +2,7 @@ package com.redroundrobin.thirema.simulation;
 
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.models.Sensor;
+import com.redroundrobin.thirema.gateway.utils.CustomLogger;
 import com.redroundrobin.thirema.gateway.utils.Utility;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -19,7 +20,7 @@ public class DeviceSimulator {
   private final int port;
   private final List<Device> devices;
 
-  private static final Logger logger = Logger.getLogger(DeviceSimulator.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(DeviceSimulator.class.getName());
 
   public DeviceSimulator(int port, List<Device> devices) {
     this.port = port;
