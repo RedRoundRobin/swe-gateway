@@ -1,5 +1,5 @@
 #!/bin/sh
-cd tmp/gateway
+cd gateway
 
 
 if [ ! -f /usr/src/gateway/gateway.jar -eq 1 ] || [ ! -f /usr/src/gateway/devicesimulator.jar -eq 2 ]; then 
