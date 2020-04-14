@@ -29,7 +29,7 @@ public class Translator {
   }
 
   // Viene controllato il pacchetto di risposta contiene i dati corretti, se passa i test allora il pacchetto viene aggiunto alla lista di pacchetti
-  public boolean addSensor(byte[] packet) {
+  public boolean addSensor(byte[] packet, String gateway) {
     if (packet[1] == ERR || packet[1] == REQ || packet[1] == RES) {
       int id = Byte.toUnsignedInt(packet[0]);
       int sensorId = Byte.toUnsignedInt(packet[2]);
@@ -54,7 +54,7 @@ public class Translator {
         }
       } else {
         // Il device non è ancora presente nella lista
-        Device device = new Device(id);
+        Device device = new Device(id, gateway);
         device.setTimestamp(timestamp);
         Sensor sensor = new Sensor(sensorId, data);
         sensor.setTimestamp(timestamp);

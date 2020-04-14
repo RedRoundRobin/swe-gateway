@@ -16,12 +16,12 @@ public class TranslatorTest {
 
         Translator translator = new Translator();
 
-        translator.addSensor(pacchetto1);
-        translator.addSensor(pacchetto2);
-        translator.addSensor(pacchetto3);
-        translator.addSensor(pacchetto4);
-        translator.addSensor(pacchetto5);
-        translator.addSensor(pacchetto6);
+        translator.addSensor(pacchetto1, "gw");
+        translator.addSensor(pacchetto2, "gw");
+        translator.addSensor(pacchetto3, "gw");
+        translator.addSensor(pacchetto4, "gw");
+        translator.addSensor(pacchetto5, "gw");
+        translator.addSensor(pacchetto6, "gw");
 
         return translator;
     }

@@ -6,6 +6,7 @@ import java.util.List;
 public class Device {
   private final int deviceId;
   private long timestamp;
+  private String gateway;
   private final List<Sensor> sensors;
 
   public Device(int deviceId) {
@@ -18,6 +19,13 @@ public class Device {
     this.deviceId = deviceId;
     this.timestamp = 0;
     this.sensors = sensors;
+  }
+
+  public Device(int deviceId, String gateway) {
+    this.deviceId = deviceId;
+    this.timestamp = 0;
+    this.sensors = new ArrayList<>();
+    this.gateway = gateway;
   }
 
   public int getDeviceId() {

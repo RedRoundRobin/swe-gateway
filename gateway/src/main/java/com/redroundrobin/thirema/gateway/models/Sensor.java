@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 public class Sensor {
   private final int sensorId;
   private transient long timestamp;
-  private transient int data;
+  private int data;
 
   public Sensor(int sensorId, int data) {
     this.sensorId = sensorId;
