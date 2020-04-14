@@ -76,7 +76,7 @@ public class Gateway {
             socket.setSoTimeout(15000);
             socket.receive(responseDatagram);
             List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
-            if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer)) {
+            if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer, name)) {
               packetNumber++;
 
             }
