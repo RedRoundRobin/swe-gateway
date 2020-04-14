@@ -54,7 +54,7 @@ public class Gateway {
 
   // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
   public void start() {
-    try (DatagramSocket socket = new DatagramSocket(); Producer producer = new Producer(name, "localhost:29092")) {
+    try (DatagramSocket socket = new DatagramSocket(); Producer producer = new Producer(name, "core.host.redroundrobin.site:29092")) {
       Translator translator = new Translator();
 
       long timestamp = System.currentTimeMillis();
