@@ -1,17 +1,19 @@
 #!/bin/sh
-cd gateway
 
 GATEWAY=/usr/src/gateway/gateway.jar
 DEVICE_SIMULATOR=/usr/src/gateway/devicesimulator.jar
 
 if [ ! -f "$GATEWAY" ] || [ ! -f "$DEVICE_SIMULATOR" ]; then 
-mvn clean package
+	cd gateway
 
-mv ./target/gateway*.jar ../../gateway.jar
-mv ./target/device*.jar ../../devicesimulator.jar
+	mvn clean package
 
-cd ../..
-rm -rf tmp 
+	mv ./target/gateway*.jar ../../gateway.jar
+	mv ./target/device*.jar ../../devicesimulator.jar
+	mv ./gatewayConfig.json ../../gatewayConfig.json
+
+	cd ../..
+	rm -rf tmp 
 fi
 
 java -jar /usr/src/gateway/gateway.jar &
