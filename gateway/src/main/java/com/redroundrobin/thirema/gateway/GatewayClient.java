@@ -30,7 +30,7 @@ public class GatewayClient {
   public static void main(String[] args) {
     try {
       //mi metto in ascolto della configurazione
-      ThreadedConsumer consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka_core:29092");
+      ThreadedConsumer consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
       Future<String> newConfig = Executors.newCachedThreadPool().submit(consumer);
 
       //avvio il produttore con la configurazione di default
@@ -45,7 +45,7 @@ public class GatewayClient {
         Future<String> newProducer = Executors.newCachedThreadPool().submit(producer);
 
         //mi rimetto in ascolto per configurazioni future
-        consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka_core:29092");
+        consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
         newConfig = Executors.newCachedThreadPool().submit(consumer);*/
 
         while (true) {
@@ -57,7 +57,7 @@ public class GatewayClient {
 
             //costruisco un nuovo produttore e consumatore
             producer = new ThreadedProducer(newConfig.get());
-            consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka_core:29092");
+            consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
 
             //mi rimetto ad ascoltare per le configurazioni e a produrre
             newConfig = Executors.newCachedThreadPool().submit(consumer);
