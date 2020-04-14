@@ -1,8 +1,10 @@
 #!/bin/sh
 cd gateway
 
+GATEWAY=/usr/src/gateway/gateway.jar
+DEVICE_SIMULATOR=/usr/src/gateway/devicesimulator.jar
 
-if [ ! -f /usr/src/gateway/gateway.jar -eq 1 ] || [ ! -f /usr/src/gateway/devicesimulator.jar -eq 2 ]; then 
+if [ ! -f "$GATEWAY" ] || [ ! -f "$DEVICE_SIMULATOR" ]; then 
 mvn clean package
 
 mv ./target/gateway*.jar ../../gateway.jar
