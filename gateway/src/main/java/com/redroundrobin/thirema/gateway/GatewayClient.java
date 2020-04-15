@@ -28,7 +28,7 @@ public class GatewayClient {
   public static void main(String[] args) {
     try {
       //mi metto in ascolto della configurazione
-      ThreadedConsumer consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "localhost:29092");
+      ThreadedConsumer consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
       Future<String> newConfig = Executors.newCachedThreadPool().submit(consumer);
 
       //avvio il produttore con la configurazione di default
@@ -43,7 +43,7 @@ public class GatewayClient {
         Future<String> newProducer = Executors.newCachedThreadPool().submit(producer);
 
         //mi rimetto in ascolto per configurazioni future
-        consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "localhost:29092");
+        consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
         newConfig = Executors.newCachedThreadPool().submit(consumer);*/
 
         while (true) {
@@ -55,7 +55,7 @@ public class GatewayClient {
 
             //costruisco un nuovo produttore e consumatore
             producer = new ThreadedProducer(newConfig.get());
-            consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "localhost:29092");
+            consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
 
             //mi rimetto ad ascoltare per le configurazioni e a produrre
             newConfig = Executors.newCachedThreadPool().submit(consumer);
@@ -71,7 +71,7 @@ public class GatewayClient {
   }
 
   private static class ThreadedConsumer implements Callable<String> {
-    //private static final String DEFAULT_CONFIG = "{\"address\":\"127.0.1.1\",\"port\":6969,\"name\":\"US-GATEWAY-1\",  \"devices\":  [],  \"storedPacket\":5,  \"storingTime\":6000}";
+    // private static final String DEFAULT_CONFIG = "{\"address\":\"127.0.1.1\",\"port\":6969,\"name\":\"US-GATEWAY-1\",  \"devices\":  [],  \"storedPacket\":5,  \"storingTime\":6000}";
     private final Consumer consumerConfig;
     private final String DEFAULT_CONFIG;
 

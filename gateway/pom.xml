@@ -203,7 +203,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.redroundrobin.thirema.gateway.ExampleDeviceSimulator</mainClass>
+                                    <mainClass>com.redroundrobin.thirema.simulation.ExampleDeviceSimulator</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

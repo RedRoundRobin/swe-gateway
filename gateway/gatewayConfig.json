@@ -1,18 +1,15 @@
 {
   "address":"127.0.1.1",
   "port":6969,
-  "name":"US-GATEWAY-1",
-  "storedPacket":5,
-  "storingTime":6000,
+  "name":"gw_US-GATEWAY-1",
+  "storedPacket":9999,
+  "storingTime":5000,
   "devices":  [
     {
       "deviceId":1,
       "sensors":[
         {
           "sensorId":1
-        },
-        {
-          "sensorId":2
         },
         {
           "sensorId":3
@@ -27,20 +24,6 @@
         },
         {
           "sensorId":2
-        }
-      ]
-    },
-    {
-      "deviceId":3,
-      "sensors":[
-        {
-          "sensorId":1
-        },
-        {
-          "sensorId":2
-        },
-        {
-          "sensorId":3
         }
       ]
     },
@@ -66,23 +49,6 @@
         },
         {
           "sensorId":3
-        }
-      ]
-    },
-    {
-      "deviceId":6,
-      "sensors":[
-        {
-          "sensorId":1
-        },
-        {
-          "sensorId":2
-        },
-        {
-          "sensorId":3
-        },
-        {
-          "sensorId":4
         }
       ]
     }

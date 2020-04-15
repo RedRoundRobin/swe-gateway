@@ -55,7 +55,7 @@ public class Gateway {
 
   // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
   public void start() {
-    try (DatagramSocket socket = new DatagramSocket(); Producer producer = new Producer(name, "localhost:29092")) {
+    try (DatagramSocket socket = new DatagramSocket(); Producer producer = new Producer(name, "kafka-core:29092")) {
       Translator translator = new Translator();
 
       long timestamp = System.currentTimeMillis();
@@ -77,7 +77,7 @@ public class Gateway {
             socket.setSoTimeout(15000);
             socket.receive(responseDatagram);
             List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
-            if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer)) {
+            if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer, name)) {
               packetNumber++;
 
             }

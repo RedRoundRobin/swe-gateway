@@ -66,7 +66,7 @@ public class Producer implements AutoCloseable {
   public static void main(String[] args) throws Exception {
     String conf1 = "{\"address\":\"127.0.1.1\",\n  \"port\":6969,\n  \"name\":\"US-GATEWAY-1\",\n  \"devices\":\n  [{\n    \"deviceId\":1,\n    \"timestamp\":0,\n    \"sensors\":\n    [{\n      \"sensorId\":1,\n      \"timestamp\":0,\n      \"data\":0\n    }]\n  }],\n  \"storedPacket\":5,\n  \"storingTime\":6000}";
 
-    try (Producer configProducer = new Producer("configProducer", "localhost:29092")) {
+    try (Producer configProducer = new Producer("configProducer", "kafka-core:29092")) {
       configProducer.executeProducer("US-GATEWAY-1-CONFIG", conf1);
     }
 
