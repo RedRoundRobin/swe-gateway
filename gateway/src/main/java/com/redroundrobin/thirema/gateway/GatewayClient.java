@@ -66,7 +66,7 @@ public class GatewayClient {
         }
       //}
     } catch (InterruptedException | ExecutionException | IOException e) {
-      logger.log(Level.WARNING, "Interrupted or else!", e);
+      logger.log(Level.SEVERE, "Interrupted or else!", e);
     }
   }
 

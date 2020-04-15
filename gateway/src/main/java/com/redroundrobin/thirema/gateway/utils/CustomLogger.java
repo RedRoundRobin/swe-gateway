@@ -62,7 +62,7 @@ public class CustomLogger extends Logger {
           builder.append(ANSI_RED);
           break;
         case "CONFIG":
-          builder.append(ANSI_BLUE);
+          builder.append(ANSI_GREEN);
           break;
         default:
           builder.append(ANSI_WHITE);
