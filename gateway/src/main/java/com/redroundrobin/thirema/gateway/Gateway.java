@@ -61,7 +61,6 @@ public class Gateway {
       long timestamp = System.currentTimeMillis();
       int packetNumber = 0;
       int deviceNumber = devices.size();
-      System.out.println("here");
 
       // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
       while (true) {

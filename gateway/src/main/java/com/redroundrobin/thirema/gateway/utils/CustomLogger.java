@@ -112,9 +112,9 @@ public class CustomLogger extends Logger {
       if (exception != null) {
         builder.append(levelColor);
 
-        builder.append("\n\t" + exception.getClass().getName() + ": " + exception.getMessage());
+        builder.append("\n  " + exception.getClass().getName() + ": " + exception.getMessage());
         for (StackTraceElement ste : exception.getStackTrace()) {
-          builder.append("\n\t\t" + ste);
+          builder.append("\n    " + ste);
         }
 
         builder.append(ANSI_WHITE);
