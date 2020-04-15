@@ -16,9 +16,26 @@ public class CustomLogger extends Logger {
 
   public static Logger getLogger(String name) {
     Logger logger = Logger.getLogger(name);
+    logger.setLevel(Level.INFO);
     logger.setUseParentHandlers(false);
 
     ConsoleHandler handler = new ConsoleHandler();
+    logger.setLevel(Level.INFO);
+
+    LogFormatter formatter = new LogFormatter();
+    handler.setFormatter(formatter);
+
+    logger.addHandler(handler);
+    return logger;
+  }
+
+  public static Logger getLogger(String name, Level logsLevel) {
+    Logger logger = Logger.getLogger(name);
+    logger.setLevel(logsLevel);
+    logger.setUseParentHandlers(false);
+
+    ConsoleHandler handler = new ConsoleHandler();
+    handler.setLevel(logsLevel);
 
     LogFormatter formatter = new LogFormatter();
     handler.setFormatter(formatter);
@@ -51,22 +68,29 @@ public class CustomLogger extends Logger {
       // followed by the log message and it's parameters in white .
       StringBuilder builder = new StringBuilder();
 
+      String levelColor;
       switch (record.getLevel().getName()) {
         case "INFO":
-          builder.append(ANSI_CYAN);
+          levelColor = ANSI_CYAN;
           break;
         case "WARNING":
-          builder.append(ANSI_YELLOW);
+          levelColor = ANSI_YELLOW;
           break;
         case "SEVERE":
-          builder.append(ANSI_RED);
+          levelColor = ANSI_RED;
           break;
         case "CONFIG":
-          builder.append(ANSI_GREEN);
+          levelColor = ANSI_BLUE;
+          break;
+        case "FINE":
+        case "FINER":
+        case "FINEST":
+          levelColor = ANSI_GREEN;
           break;
         default:
-          builder.append(ANSI_WHITE);
+          levelColor = ANSI_WHITE;
       }
+      builder.append(levelColor);
 
       builder.append("[");
       builder.append(calcDate(record.getMillis()));
@@ -84,8 +108,19 @@ public class CustomLogger extends Logger {
       builder.append(" - ");
       builder.append(record.getMessage());
 
-      Object[] params = record.getParameters();
+      Throwable exception = record.getThrown();
+      if (exception != null) {
+        builder.append(levelColor);
 
+        builder.append("\n\t" + exception.getClass().getName() + ": " + exception.getMessage());
+        for (StackTraceElement ste : exception.getStackTrace()) {
+          builder.append("\n\t\t" + ste);
+        }
+
+        builder.append(ANSI_WHITE);
+      }
+
+      Object[] params = record.getParameters();
       if (params != null)
       {
         builder.append("\t");
