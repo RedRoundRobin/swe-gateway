@@ -4,6 +4,7 @@ import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
 
 import com.google.gson.Gson;
 import com.redroundrobin.thirema.gateway.models.Device;
+import com.redroundrobin.thirema.gateway.utils.CustomLogger;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
@@ -29,7 +30,7 @@ public class Gateway {
   private final int storedPacket; // Da prendere dalla configurazione del gateway
   private final int storingTime; // Da prendere dalla configurazione del gateway in millisecondi
 
-  private static final Logger logger = Logger.getLogger(Gateway.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(Gateway.class.getName());
 
   public Gateway(InetAddress address, int port, String name, List<Device> devices, int storedPacket, int storingTime) {
     this.address = address;
@@ -60,7 +61,6 @@ public class Gateway {
       long timestamp = System.currentTimeMillis();
       int packetNumber = 0;
       int deviceNumber = devices.size();
-      System.out.println("here");
 
       // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
       while (true) {

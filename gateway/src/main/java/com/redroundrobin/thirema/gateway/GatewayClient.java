@@ -9,9 +9,9 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.utils.Consumer;
+import com.redroundrobin.thirema.gateway.utils.CustomLogger;
+import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,9 +25,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GatewayClient {
-  private static final Logger logger = Logger.getLogger(GatewayClient.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(GatewayClient.class.getName());
 
   public static void main(String[] args) {
+    ch.qos.logback.classic.Logger kafkaLogger =
+        (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+    kafkaLogger.setLevel(ch.qos.logback.classic.Level.OFF);
+
     try {
       //mi metto in ascolto della configurazione
       ThreadedConsumer consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
@@ -63,12 +67,12 @@ public class GatewayClient {
             newConfig = Executors.newCachedThreadPool().submit(consumer);
             newProducer = Executors.newCachedThreadPool().submit(producer);
 
-            logger.log(Level.INFO, "CAMBIO CONFIGURAZIONE");
+            logger.log(Level.CONFIG, "CAMBIO CONFIGURAZIONE");
           }
         }
       //}
     } catch (InterruptedException | ExecutionException | IOException e) {
-      logger.log(Level.WARNING, "Interrupted or else!", e);
+      logger.log(Level.SEVERE, "Interrupted or else!", e);
     }
   }
 

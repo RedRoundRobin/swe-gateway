@@ -15,7 +15,7 @@ public class Producer implements AutoCloseable {
   private final String name;
   private final org.apache.kafka.clients.producer.Producer<Long, String> kafkaProducer;
 
-  private static final Logger logger = Logger.getLogger(Producer.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(Producer.class.getName(), Level.INFO);
 
   public Producer(String name, String bootstrapServers) {
     this.name = name;
@@ -31,7 +31,7 @@ public class Producer implements AutoCloseable {
 
   // Viene eseguito il produttore specificato che invia il messaggio nel topic specificato
   public void executeProducer(String topic, String message) throws InterruptedException {
-    logger.log(Level.INFO, () -> "Producer " + name + " started!");
+    logger.log(Level.FINE, () -> "Producer " + name + " started!");
 
     long timestamp = System.currentTimeMillis();
     final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -43,7 +43,7 @@ public class Producer implements AutoCloseable {
         long timeSpent = System.currentTimeMillis() - timestamp;
 
         if (metadata != null) {
-          logger.log(Level.INFO, () -> "Sent record (chiave = " + record.key() + ", valore = " + record.value() + ") with metadata (partizione = " + metadata.partition() + ", offset = " + metadata.offset() + ") and timestamp = " + timeSpent + " %n");
+          logger.log(Level.FINE, () -> "Sent record (chiave = " + record.key() + ", valore = " + record.value() + ") with metadata (partizione = " + metadata.partition() + ", offset = " + metadata.offset() + ") and timestamp = " + timeSpent + " %n");
         } else {
           logger.log(Level.WARNING, "Error in message sending!", exception);
         }
