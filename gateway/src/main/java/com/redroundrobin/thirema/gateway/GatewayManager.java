@@ -72,6 +72,7 @@ public class GatewayManager {
       }
     } catch (InterruptedException | SocketTimeoutException e) {
       logger.log(Level.WARNING, "Interrupted or Timeout!", e);
+      Thread.currentThread().interrupt();
     } catch (Exception exception) {
       logger.log(Level.WARNING, "General exception!", exception);
     } finally {
