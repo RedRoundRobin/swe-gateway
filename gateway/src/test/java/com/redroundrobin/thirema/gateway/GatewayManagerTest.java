@@ -79,7 +79,7 @@ public class GatewayManagerTest {
         GatewayManager wrong = new GatewayManager(gateway, 1, 1);
         wrong.getName();
     }
-
+/*
     @Test
     public void TestInitShouldntFindAnySensor() {
         Gateway gateway = Gateway.buildFromConfig(otherConfig);
@@ -100,5 +100,5 @@ public class GatewayManagerTest {
         GatewayManager test = new GatewayManager(gateway, 5, 3);
         test.start();
         assertTrue(true);
-    }
+    }*/
 }
