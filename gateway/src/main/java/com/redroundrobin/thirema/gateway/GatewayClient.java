@@ -1,6 +1,6 @@
 package com.redroundrobin.thirema.gateway;
 
-import static com.redroundrobin.thirema.gateway.Gateway.buildFromConfig;
+import static com.redroundrobin.thirema.gateway.models.Gateway.buildFromConfig;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.redroundrobin.thirema.gateway.models.Device;
+import com.redroundrobin.thirema.gateway.models.Gateway;
 import com.redroundrobin.thirema.gateway.utils.Consumer;
 import com.redroundrobin.thirema.gateway.utils.CustomLogger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GatewayClient {
-  private static final Logger logger = CustomLogger.getLogger(GatewayClient.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(GatewayClient.class.getName(), Level.FINE);
 
   public static void main(String[] args) {
     ch.qos.logback.classic.Logger kafkaLogger =
@@ -52,24 +53,24 @@ public class GatewayClient {
         consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
         newConfig = Executors.newCachedThreadPool().submit(consumer);*/
 
-        while (true) {
-          //se ho ricevuto nuove configurazioni
-          if (newConfig.isDone()) {
+      while (true) {
+        //se ho ricevuto nuove configurazioni
+        if (newConfig.isDone()) {
 
-            //stoppo il thread produttore
-            newProducer.cancel(true);
+          //stoppo il thread produttore
+          newProducer.cancel(true);
 
-            //costruisco un nuovo produttore e consumatore
-            producer = new ThreadedProducer(newConfig.get());
-            consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
+          //costruisco un nuovo produttore e consumatore
+          producer = new ThreadedProducer(newConfig.get());
+          consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
 
-            //mi rimetto ad ascoltare per le configurazioni e a produrre
-            newConfig = Executors.newCachedThreadPool().submit(consumer);
-            newProducer = Executors.newCachedThreadPool().submit(producer);
+          //mi rimetto ad ascoltare per le configurazioni e a produrre
+          newConfig = Executors.newCachedThreadPool().submit(consumer);
+          newProducer = Executors.newCachedThreadPool().submit(producer);
 
-            logger.log(Level.CONFIG, "CAMBIO CONFIGURAZIONE");
-          }
+          logger.log(Level.CONFIG, "CAMBIO CONFIGURAZIONE");
         }
+      }
       //}
     } catch (InterruptedException | ExecutionException | IOException e) {
       logger.log(Level.SEVERE, "Interrupted or else!", e);
@@ -101,12 +102,6 @@ public class GatewayClient {
       String address = gson.fromJson(obj.get("address"), String.class);
       port = gson.fromJson(obj.get("port"), int.class);
       String name = gson.fromJson(obj.get("name"), String.class);
-      List<Device> devices = new ArrayList<>();
-
-      gson.fromJson(obj.get("devices"), JsonArray.class).forEach(dev -> {
-        Device device = gson.fromJson(dev, Device.class);
-        devices.add(device);
-      });
 
       if (address.isEmpty() || port <= -1 || name.isEmpty()) {
         return DEFAULT_CONFIG;
@@ -116,16 +111,30 @@ public class GatewayClient {
   }
 
   private static class ThreadedProducer implements Callable<String> {
-    private final Gateway gateway;
+    private final GatewayManager gatewayManager;
 
     public ThreadedProducer(String config) {
-      this.gateway = buildFromConfig(config);
+      Gateway gateway = buildFromConfig(config);
+      com.google.gson.JsonObject jsonObject = (new Gson()).fromJson(config, JsonObject.class);
+
+      int maxStoredPackets = 10;
+      int maxStoringTime = 10;
+      if (jsonObject.has("maxStoredPackets")) {
+        maxStoredPackets = jsonObject.get("maxStoredPackets").getAsInt();
+      }
+      if (jsonObject.has("maxStoringTime")) {
+        maxStoringTime = jsonObject.get("maxStoringTime").getAsInt();
+      }
+      logger.log(Level.FINE, "MaxStoredPackets: " + maxStoredPackets);
+      logger.log(Level.FINE, "MaxStoringTime: " + maxStoringTime);
+
+      this.gatewayManager = new GatewayManager(gateway, maxStoredPackets, maxStoringTime);
     }
 
     @Override
     public String call() {
-      this.gateway.init();
-      this.gateway.start();
+      this.gatewayManager.init();
+      this.gatewayManager.start();
       return null;
     }
   }

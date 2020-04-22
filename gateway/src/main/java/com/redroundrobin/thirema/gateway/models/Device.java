@@ -1,29 +1,34 @@
 package com.redroundrobin.thirema.gateway.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Device {
   private final int deviceId;
-  private long timestamp;
   private String gateway;
   private final List<Sensor> sensors;
 
+  private int frequency;
+
+  private transient long lastSent;
+
   public Device(int deviceId) {
     this.deviceId = deviceId;
-    this.timestamp = 0;
+    this.lastSent = 0;
     this.sensors = new ArrayList<>();
   }
 
   public Device(int deviceId, List<Sensor> sensors) {
     this.deviceId = deviceId;
-    this.timestamp = 0;
+    this.lastSent = 0;
     this.sensors = sensors;
   }
 
   public Device(int deviceId, String gateway) {
     this.deviceId = deviceId;
-    this.timestamp = 0;
+    this.lastSent = 0;
     this.sensors = new ArrayList<>();
     this.gateway = gateway;
   }
@@ -32,12 +37,12 @@ public class Device {
     return deviceId;
   }
 
-  public long getTimestamp() {
-    return timestamp;
+  public long getLastSent() {
+    return lastSent;
   }
 
-  public void setTimestamp(long timestamp) {
-    this.timestamp = timestamp;
+  public void setLastSent(long lastSent) {
+    this.lastSent = lastSent;
   }
 
   public List<Sensor> getSensors() {
@@ -48,11 +53,23 @@ public class Device {
     sensors.add(sensor);
   }
 
-  public void removeSensor(int index) {
-    sensors.remove(index);
+  public void removeSensor(Sensor s) {
+    sensors.remove(s);
   }
 
   public int getSensorsNumber() {
     return sensors.size();
+  }
+
+  public int getFrequency() {
+    return frequency;
+  }
+
+  public void setFrequency(int frequency) {
+    this.frequency = frequency;
+  }
+
+  public String getGateway() {
+    return gateway;
   }
 }
