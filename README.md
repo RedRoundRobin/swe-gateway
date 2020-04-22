@@ -13,3 +13,7 @@
 ![SWE Gateway CI](https://github.com/RedRoundRobin/swe-gateway/workflows/SWE%20Gateway%20CI/badge.svg)
 
 ![Repository Checker](https://github.com/RedRoundRobin/swe-gateway/workflows/Repository%20Checker/badge.svg)
+
+### Comandi per i test
+
+`mvn clean package`
