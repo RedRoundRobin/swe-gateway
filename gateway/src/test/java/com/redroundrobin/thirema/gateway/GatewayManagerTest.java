@@ -53,7 +53,7 @@ public class GatewayManagerTest {
         Device d = gatewayManager.getDevices().get(0);
         if (d != null) {
             Sensor s = d.getSensors().get(0);
-            byte[] packet = gatewayManager.createRequestPacket(d, s);
+            byte[] packet = gatewayManager.createRequestPacket((byte) d.getDeviceId(), (byte) 0, (byte) s.getSensorId(), (byte) 0);
             int device = packet[0]; // prendo uno tra gli id
             int operation = packet[1];
             int sensor = packet[3]; // prendo uno dei sensori del dispositivo

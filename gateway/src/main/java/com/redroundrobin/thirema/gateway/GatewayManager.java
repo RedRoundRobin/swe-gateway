@@ -2,22 +2,26 @@ package com.redroundrobin.thirema.gateway;
 
 import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.models.Gateway;
 import com.redroundrobin.thirema.gateway.models.Sensor;
+import com.redroundrobin.thirema.gateway.utils.Consumer;
 import com.redroundrobin.thirema.gateway.utils.CustomLogger;
+import com.redroundrobin.thirema.gateway.utils.DeviceRequest;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,7 +34,7 @@ public class GatewayManager {
 
   private long lastSent;
   private int storedPackets;
-  private DatagramSocket socket;
+  private final DeviceRequest deviceRequest;
   private Producer producer;
   private Translator translator;
 
@@ -42,6 +46,8 @@ public class GatewayManager {
 
     this.maxStoredPacketsPerRequest = maxStoredPacketsPerRequest; // Accumulo di pacchetti di default
     this.maxStoringTimePerRequest = maxStoringTimePerRequest; // Tempo di accumulo di default
+
+    this.deviceRequest = new DeviceRequest(gateway.getAddress(), gateway.getPort());
   }
 
   public String getName() {
@@ -52,21 +58,74 @@ public class GatewayManager {
     return gateway.getDevices();
   }
 
+  public void init() {
+    byte operation = (byte) 0;
+    byte data = (byte) 0;
+
+    for (Device d : gateway.getDevices()) {
+      for (Sensor s : d.getSensors()) {
+        try {
+
+          //richiesta ad ogni sensore
+          byte deviceId = (byte) d.getDeviceId();
+          byte sensorId = (byte) s.getSensorId();
+
+          byte[] requestBuffer = createRequestPacket(deviceId, operation, sensorId, data);
+          byte[] responseBuffer = deviceRequest.sendPacket(requestBuffer);
+
+          if (responseBuffer[1] == -1) {
+            d.removeSensor(s);
+          }
+
+          //Thread.sleep(250); // Da tenere solo per fare test
+
+        } catch (SocketTimeoutException | SocketException timeout) {
+          logger.log(Level.SEVERE, () -> "sensore in timeout n" + s.getSensorId()
+              + " del device n" + d.getDeviceId());
+          gateway.removeSensorFromDevice(s, d);
+        } catch (Exception e) {
+          logger.log(Level.WARNING, "EXCEPTION!", e);
+        }
+      }
+      if (d.getSensors().isEmpty()) {
+        gateway.removeDevice(d);
+      }
+    }
+  }
+
   // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
   public void start() {
 
     translator = new Translator();
 
     try {
-      socket = new DatagramSocket();
       producer = new Producer(gateway.getName(), "kafka-core:29092");
+      ThreadedCmdConsumer cmdConsumer = new ThreadedCmdConsumer("cmd-" + getName(),
+          "cmd-" + getName(), "kafka-core:29092");
+      Future<String> command = Executors.newCachedThreadPool().submit(cmdConsumer);
 
       // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
       while (true) {
-        for (Device d : gateway.getDevices()) {
-          long timeSinceLastRequest = System.currentTimeMillis() - d.getLastSent();
-          if (timeSinceLastRequest > d.getFrequency() * 1000) {
-            sendRequestsByDevice(d);
+        if (command.isDone()) {
+          JsonObject obj = new Gson().fromJson(command.get(), JsonObject.class);
+
+          byte deviceId = (byte) obj.get("realDeviceId").getAsInt(); // prendo uno tra gli id
+          byte reqOperation = 1;
+          byte sensorId = (byte) obj.get("realSensorId").getAsInt(); // prendo uno dei sensori del dispositivo
+          byte reqData = obj.get("toggle").getAsByte();
+
+          byte[] requestBuffer = createRequestPacket(deviceId, reqOperation, sensorId, reqData);
+          deviceRequest.sendPacket(requestBuffer);
+
+          cmdConsumer = new ThreadedCmdConsumer("cmd-" + getName(),
+              "cmd-" + getName(), "kafka-core:29092");
+          command = Executors.newCachedThreadPool().submit(cmdConsumer);
+        } else {
+          for (Device d : gateway.getDevices()) {
+            long timeSinceLastRequest = System.currentTimeMillis() - d.getLastSent();
+            if (timeSinceLastRequest > d.getFrequency() * 1000) {
+              sendRequestsByDevice(d);
+            }
           }
         }
       }
@@ -76,22 +135,26 @@ public class GatewayManager {
     } catch (Exception exception) {
       logger.log(Level.WARNING, "General exception!", exception);
     } finally {
-      socket.close();
       producer.close();
     }
   }
 
-  private void sendRequestsByDevice(Device d) throws IOException, InterruptedException {
-    for (Sensor s : d.getSensors()) {
-      byte[] requestBuffer = createRequestPacket(d, s);
-      DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length,
-          gateway.getAddress(), gateway.getPort());
-      socket.send(requestDatagram);
+  // Creazione di un pacchetto di richiesta dati per uno dei dispositivi disponibili nel Server
+  public byte[] createRequestPacket(byte deviceId, byte operation, byte sensorId, byte data) {
+    byte crc = calculateCrc(Arrays.asList(deviceId, operation, sensorId, data));
+    return new byte[]{deviceId, operation, sensorId, data, crc};
+  }
 
-      byte[] responseBuffer = new byte[5];
-      DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-      socket.setSoTimeout(15000);
-      socket.receive(responseDatagram);
+  private void sendRequestsByDevice(Device d) throws IOException, InterruptedException {
+    byte reqOperation = (byte) 0;
+    byte reqData = (byte) 0;
+
+    for (Sensor s : d.getSensors()) {
+      byte deviceId = (byte) d.getDeviceId();
+      byte sensorId = (byte) s.getSensorId();
+
+      byte[] requestBuffer = createRequestPacket(deviceId, reqOperation, sensorId, reqData);
+      byte[] responseBuffer = deviceRequest.sendPacket(requestBuffer);
 
       List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
       if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer,
@@ -112,58 +175,16 @@ public class GatewayManager {
     d.setLastSent(System.currentTimeMillis());
   }
 
-  // Creazione di un pacchetto di richiesta dati per uno dei dispositivi disponibili nel Server
-  public byte[] createRequestPacket(Device d, Sensor s) {
-    int deviceId = d.getDeviceId();
-    int sensorId = s.getSensorId();
+  private static class ThreadedCmdConsumer implements Callable<String> {
+    private final Consumer cmdConsumer;
 
-    byte device = (byte) (deviceId); // prendo uno tra gli id
-    byte operation = 0;
-    byte sensor = (byte) (sensorId); // prendo uno dei sensori del dispositivo
-    byte data = 0;
+    public ThreadedCmdConsumer(String topic, String name, String bootstrapServer) {
+      this.cmdConsumer = new Consumer(topic, name, bootstrapServer);
+    }
 
-    List<Byte> packet = new ArrayList<>(Arrays.asList(device, operation, sensor, data));
-
-    return new byte[]{device, operation, sensor, data, calculateCrc(packet)};
-  }
-
-  public void init() {
-    for (Device d : gateway.getDevices()) {
-      for (Sensor s : d.getSensors()) {
-        try {
-          socket = new DatagramSocket();
-
-          //richiesta ad ogni sensore
-          byte[] requestBuffer = createRequestPacket(d, s);
-          DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length,
-              gateway.getAddress(), gateway.getPort());
-          socket.send(requestDatagram);
-
-          //risposta di ognmi sensore
-          byte[] responseBuffer = new byte[5];
-          DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
-          socket.setSoTimeout(1000);
-          socket.receive(responseDatagram);
-
-          if (responseBuffer[1] == -1) {
-            d.removeSensor(s);
-          }
-
-          //Thread.sleep(250); // Da tenere solo per fare test
-
-        } catch (SocketTimeoutException | SocketException timeout) {
-          logger.log(Level.SEVERE, () -> "sensore in timeout n" + s.getSensorId()
-              + " del device n" + d.getDeviceId());
-          gateway.removeSensorFromDevice(s, d);
-        } catch (Exception e) {
-          logger.log(Level.WARNING, "EXCEPTION!", e);
-        } finally {
-          socket.close();
-        }
-      }
-      if (d.getSensors().isEmpty()) {
-        gateway.removeDevice(d);
-      }
+    @Override
+    public String call() {
+      return cmdConsumer.executeConsumer();
     }
   }
 }

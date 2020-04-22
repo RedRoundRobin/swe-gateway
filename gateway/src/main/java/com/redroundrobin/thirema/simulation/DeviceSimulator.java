@@ -20,7 +20,8 @@ public class DeviceSimulator {
   private final int port;
   private final List<Device> devices;
 
-  private static final Logger logger = CustomLogger.getLogger(DeviceSimulator.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(DeviceSimulator.class.getName(),
+      Level.FINE);
 
   public DeviceSimulator(int port, List<Device> devices) {
     this.port = port;
@@ -69,6 +70,13 @@ public class DeviceSimulator {
         socket.setSoTimeout(0); // attesa infinita
         socket.receive(requestDatagram);
 
+        StringBuilder log = new StringBuilder();
+        log.append("[").append(" ");
+        for (int i = 0 ; i < requestBuffer.length ; i++) {
+          log.append(requestBuffer[i]).append(" ");
+        }
+        log.append("]");
+        logger.log(Level.FINE, log.toString());
         List<Byte> receivedPacket = Arrays.asList(ArrayUtils.toObject(requestBuffer));
         if (!Utility.checkIntegrity(receivedPacket)) {
           logger.log(Level.SEVERE, "Error: corrupted packet!");
