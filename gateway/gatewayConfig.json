@@ -2,11 +2,12 @@
   "address":"127.0.1.1",
   "port":6969,
   "name":"gw_US-GATEWAY-1",
-  "storedPacket":9999,
-  "storingTime":5000,
+  "maxStoredPackets":9999,
+  "maxStoringTime":5000,
   "devices":  [
     {
       "deviceId":1,
+      "frequency": 2,
       "sensors":[
         {
           "sensorId":1
@@ -18,6 +19,7 @@
     },
     {
       "deviceId":2,
+      "frequency": 2,
       "sensors":[
         {
           "sensorId":1
@@ -29,6 +31,7 @@
     },
     {
       "deviceId":4,
+      "frequency": 2,
       "sensors":[
         {
           "sensorId":1
@@ -40,6 +43,7 @@
     },
     {
       "deviceId":5,
+      "frequency": 2,
       "sensors":[
         {
           "sensorId":1

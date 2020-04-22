@@ -40,7 +40,6 @@ public class Translator {
       // Controllo se il dispositivo è già presente nella lista dei dispositivi accumulati dal traduttore
       if (optionalDevice.isPresent()) {
         Device device = optionalDevice.get();
-        device.setTimestamp(timestamp);
 
         Optional<Sensor> optionalSensor = device.getSensors().stream().filter(sensor -> sensor.getSensorId() == sensorId).findFirst();
         // Controllo se il sensore è già stato aggiunto alla lista
@@ -55,7 +54,7 @@ public class Translator {
       } else {
         // Il device non è ancora presente nella lista
         Device device = new Device(id, gateway);
-        device.setTimestamp(timestamp);
+        device.setLastSent(timestamp);
         Sensor sensor = new Sensor(sensorId, data);
         sensor.setTimestamp(timestamp);
         device.addSensor(sensor);
@@ -66,5 +65,9 @@ public class Translator {
     } else {
       return false;
     }
+  }
+
+  public void clearDevices() {
+    devices.clear();
   }
 }

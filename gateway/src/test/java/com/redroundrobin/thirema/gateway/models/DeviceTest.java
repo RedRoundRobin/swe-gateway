@@ -32,13 +32,13 @@ public class DeviceTest {
 
     @Test
     public void getTimestampTest() {
-        assertEquals(0, device1.getTimestamp());
+        assertEquals(0, device1.getLastSent());
     }
 
     @Test
     public void setTimestampTest() {
-        device1.setTimestamp(12);
-        assertEquals(12, device1.getTimestamp());
+        device1.setLastSent(12);
+        assertEquals(12, device1.getLastSent());
     }
 
     @Test
@@ -49,9 +49,10 @@ public class DeviceTest {
 
     @Test
     public void removeSensorTest() {
-        device1.addSensor(new Sensor(1, 1));
+        Sensor s = new Sensor(1, 1);
+        device1.addSensor(s);
         assertEquals(1, device1.getSensorsNumber());
-        device1.removeSensor(0);
+        device1.removeSensor(s);
         assertEquals(0, device1.getSensorsNumber());
     }
 
