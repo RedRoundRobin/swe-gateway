@@ -16,7 +16,8 @@ public class Consumer {
   private final String name;
   private final org.apache.kafka.clients.consumer.Consumer<Long, String> kafkaConsumer;
 
-  private static final Logger logger = CustomLogger.getLogger(Consumer.class.getName());
+  private static final Logger logger = CustomLogger.getLogger(Consumer.class.getName(),
+      Level.CONFIG);
 
   public Consumer(String topic, String name, String bootstrapServers) {
     this.name = name;
@@ -36,7 +37,7 @@ public class Consumer {
 
   // Metodo che esegue un consumatore collegato al topics specificato e che stampa i record trovati, il consumatore continua ad essere attivo
   public String executeConsumer() {
-    logger.log(Level.INFO, () -> "Consumer " + name + " started!");
+    logger.log(Level.CONFIG, () -> "Consumer " + name + " started!");
 
     String jsonReceived = "";
     boolean found = false;
@@ -55,7 +56,7 @@ public class Consumer {
     kafkaConsumer.commitAsync();
     kafkaConsumer.close();
 
-    logger.log(Level.INFO, () -> "Consumer " + name + " closed!");
+    logger.log(Level.CONFIG, () -> "Consumer " + name + " closed!");
     return jsonReceived;
   }
 
