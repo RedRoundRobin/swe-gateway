@@ -15,7 +15,7 @@ public class DeviceRequest {
   }
 
   public byte[] sendPacket(byte[] requestBuffer) throws IOException {
-    byte[] responseBuffer = new byte[5];
+    byte[] responseBuffer = new byte[requestBuffer.length];
 
     try (DatagramSocket socket = new DatagramSocket()) {
       DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length,

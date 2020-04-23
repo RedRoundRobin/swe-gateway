@@ -112,7 +112,7 @@ public class GatewayManager {
           byte deviceId = (byte) obj.get("realDeviceId").getAsInt(); // prendo uno tra gli id
           byte reqOperation = 1;
           byte sensorId = (byte) obj.get("realSensorId").getAsInt(); // prendo uno dei sensori del dispositivo
-          byte reqData = obj.get("toggle").getAsByte();
+          byte reqData = obj.get("data").getAsByte();
 
           byte[] requestBuffer = createRequestPacket(deviceId, reqOperation, sensorId, reqData);
           deviceRequest.sendPacket(requestBuffer);

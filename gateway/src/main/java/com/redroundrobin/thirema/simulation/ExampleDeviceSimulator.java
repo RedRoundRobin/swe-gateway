@@ -37,7 +37,7 @@ public class ExampleDeviceSimulator {
     List<Sensor> sensors5 = new ArrayList<>(Arrays.asList(
             new Sensor(1, 30),
             new Sensor(2, 30),
-            new Sensor(3, 30)));
+            new Sensor(3, 0, true)));
     Device device5 = new Device(5, sensors5);
 
     List<Sensor> sensors6 = new ArrayList<>(Arrays.asList(
