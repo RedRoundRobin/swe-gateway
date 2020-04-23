@@ -4,7 +4,7 @@ GATEWAY=/usr/src/gateway/gateway.jar
 DEVICE_SIMULATOR=/usr/src/gateway/devicesimulator.jar
 
 if [ ! -f "$GATEWAY" ] || [ ! -f "$DEVICE_SIMULATOR" ]; then 
-	cd gateway
+	cd tmp/gateway
 
 	mvn clean package
 
