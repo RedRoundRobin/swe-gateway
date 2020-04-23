@@ -52,7 +52,9 @@
           "sensorId":2
         },
         {
-          "sensorId":3
+          "sensorId":3,
+          "cmdEnabled": true,
+          "data": 1
         }
       ]
     }
