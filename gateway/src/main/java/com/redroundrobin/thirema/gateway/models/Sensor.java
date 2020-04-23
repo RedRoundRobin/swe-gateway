@@ -49,4 +49,8 @@ public class Sensor {
   public void setData(int data) {
     this.data = data;
   }
+
+  public boolean isCmdEnabled() {
+    return cmdEnabled;
+  }
 }

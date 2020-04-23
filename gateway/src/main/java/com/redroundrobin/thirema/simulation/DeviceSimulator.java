@@ -41,7 +41,8 @@ public class DeviceSimulator {
     Optional<Sensor> optionalSensor = optionals.getValue();
 
     packet.add((byte) idDevice);
-    if (optionalDevice.isPresent() && optionalSensor.isPresent()) {
+    if (optionalDevice.isPresent() && optionalSensor.isPresent()
+        && (data == null || optionalSensor.get().isCmdEnabled())) {
       if (data != null) { // command sent
         optionalSensor.get().setData(data);
         logger.log(Level.FINER, new Gson().toJson(optionalSensor.get()));
