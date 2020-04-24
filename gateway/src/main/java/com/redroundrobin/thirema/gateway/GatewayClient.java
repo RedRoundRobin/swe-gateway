@@ -3,11 +3,8 @@ package com.redroundrobin.thirema.gateway;
 import static com.redroundrobin.thirema.gateway.models.Gateway.buildFromConfig;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.models.Gateway;
 import com.redroundrobin.thirema.gateway.utils.Consumer;
 import com.redroundrobin.thirema.gateway.utils.CustomLogger;
@@ -16,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -35,23 +30,12 @@ public class GatewayClient {
 
     try {
       //mi metto in ascolto della configurazione
-      ThreadedConsumer consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
+      CfgThreadedConsumer consumer = new CfgThreadedConsumer("kafka-core:29092");
       Future<String> newConfig = Executors.newCachedThreadPool().submit(consumer);
 
       //avvio il produttore con la configurazione di default
       ThreadedProducer producer = new ThreadedProducer(consumer.getDEFAULT_CONFIG());
       Future<String> newProducer = Executors.newCachedThreadPool().submit(producer);
-
-      //aspetto l'invio della configurazione
-      /*if (!newConfig.get().isEmpty()) {
-
-        //avvio il produttore con la configurazione arrivata
-        ThreadedProducer producer = new ThreadedProducer(newConfig.get());
-        Future<String> newProducer = Executors.newCachedThreadPool().submit(producer);
-
-        //mi rimetto in ascolto per configurazioni future
-        consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
-        newConfig = Executors.newCachedThreadPool().submit(consumer);*/
 
       while (true) {
         //se ho ricevuto nuove configurazioni
@@ -62,7 +46,8 @@ public class GatewayClient {
 
           //costruisco un nuovo produttore e consumatore
           producer = new ThreadedProducer(newConfig.get());
-          consumer = new ThreadedConsumer("cfg-gw_GatewayClient", "ConsumerGatewayClient", "kafka-core:29092");
+          consumer = new CfgThreadedConsumer("cfg-" + producer.getGatewayName(),
+              "cfg-" + producer.getGatewayName(), "kafka-core:29092");
 
           //mi rimetto ad ascoltare per le configurazioni e a produrre
           newConfig = Executors.newCachedThreadPool().submit(consumer);
@@ -71,20 +56,26 @@ public class GatewayClient {
           logger.log(Level.CONFIG, "CAMBIO CONFIGURAZIONE");
         }
       }
-      //}
     } catch (InterruptedException | ExecutionException | IOException e) {
       logger.log(Level.SEVERE, "Interrupted or else!", e);
     }
   }
 
-  private static class ThreadedConsumer implements Callable<String> {
+  private static class CfgThreadedConsumer implements Callable<String> {
     // private static final String DEFAULT_CONFIG = "{\"address\":\"127.0.1.1\",\"port\":6969,\"name\":\"US-GATEWAY-1\",  \"devices\":  [],  \"storedPacket\":5,  \"storingTime\":6000}";
     private final Consumer consumerConfig;
     private final String DEFAULT_CONFIG;
 
-    public ThreadedConsumer(String topic, String name, String bootstrapServer) throws IOException {
+    public CfgThreadedConsumer(String topic, String name, String bootstrapServer) throws IOException {
       this.DEFAULT_CONFIG = Files.readString(Paths.get("gatewayConfig.json"));
       this.consumerConfig = new Consumer(topic, name, bootstrapServer);
+    }
+
+    public CfgThreadedConsumer(String bootstrapServer) throws IOException {
+      this.DEFAULT_CONFIG = Files.readString(Paths.get("gatewayConfig.json"));
+      Gateway gateway = buildFromConfig(this.DEFAULT_CONFIG);
+      this.consumerConfig = new Consumer("cfg-" + gateway.getName(), "cfg-" + gateway.getName(),
+          bootstrapServer);
     }
 
     public String getDEFAULT_CONFIG() {
@@ -129,6 +120,10 @@ public class GatewayClient {
       logger.log(Level.FINE, "MaxStoringTime: " + maxStoringTime);
 
       this.gatewayManager = new GatewayManager(gateway, maxStoredPackets, maxStoringTime);
+    }
+
+    public String getGatewayName() {
+      return gatewayManager.getName();
     }
 
     @Override
