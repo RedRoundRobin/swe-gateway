@@ -1,6 +1,8 @@
 package com.redroundrobin.thirema.gateway.utils;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
@@ -93,7 +95,7 @@ public class CustomLogger extends Logger {
       builder.append(levelColor);
 
       builder.append("[");
-      builder.append(calcDate(record.getMillis()));
+      builder.append(Timestamp.from(Instant.ofEpochMilli(record.getMillis())));
       builder.append("]");
 
       builder.append(" [");
