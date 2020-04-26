@@ -4,7 +4,7 @@ import static com.redroundrobin.thirema.gateway.models.Gateway.buildFromConfig;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.JsonParseException;
 import com.redroundrobin.thirema.gateway.models.Gateway;
 import com.redroundrobin.thirema.gateway.utils.Consumer;
 import com.redroundrobin.thirema.gateway.utils.CustomLogger;
@@ -21,6 +21,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GatewayClient {
+  private static final String address = "127.0.1.1";
+  private static final int port = 6969;
+  private static final String name = "gw_US-GATEWAY-1";
+
   private static final Logger logger = CustomLogger.getLogger(GatewayClient.class.getName(), Level.FINE);
 
   public static void main(String[] args) {
@@ -62,7 +66,7 @@ public class GatewayClient {
   }
 
   private static class CfgThreadedConsumer implements Callable<String> {
-    // private static final String DEFAULT_CONFIG = "{\"address\":\"127.0.1.1\",\"port\":6969,\"name\":\"US-GATEWAY-1\",  \"devices\":  [],  \"storedPacket\":5,  \"storingTime\":6000}";
+    // private static final String DEFAULT_CONFIG = "{\"devices\":  [],  \"maxStoredPackets\":5,  \"maxStoringTime\":6000}";
     private final Consumer consumerConfig;
     private final String DEFAULT_CONFIG;
 
@@ -72,10 +76,20 @@ public class GatewayClient {
     }
 
     public CfgThreadedConsumer(String bootstrapServer) throws IOException {
-      this.DEFAULT_CONFIG = Files.readString(Paths.get("gatewayConfig.json"));
+
+      this.DEFAULT_CONFIG = addFixedPropertiesConfig(
+          Files.readString(Paths.get("gatewayConfig.json")));
       Gateway gateway = buildFromConfig(this.DEFAULT_CONFIG);
       this.consumerConfig = new Consumer("cfg-" + gateway.getName(), "cfg-" + gateway.getName(),
           bootstrapServer);
+    }
+
+    private String addFixedPropertiesConfig(String defaultConfig) {
+      JsonObject jsonObject = new Gson().fromJson(defaultConfig, JsonObject.class);
+      jsonObject.addProperty("address", address);
+      jsonObject.addProperty("port", port);
+      jsonObject.addProperty("name", name);
+      return jsonObject.toString();
     }
 
     public String getDEFAULT_CONFIG() {
@@ -84,20 +98,18 @@ public class GatewayClient {
 
     @Override
     public String call() {
-      String newConfig = consumerConfig.executeConsumer();
-      Gson gson = new Gson();
-      JsonParser parser = new JsonParser();
-      JsonObject obj = parser.parse(newConfig).getAsJsonObject();
-      int port;
+      String newConfig = addFixedPropertiesConfig(consumerConfig.executeConsumer());
+      JsonObject jsonObject = new Gson().fromJson(newConfig, JsonObject.class);
 
-      String address = gson.fromJson(obj.get("address"), String.class);
-      port = gson.fromJson(obj.get("port"), int.class);
-      String name = gson.fromJson(obj.get("name"), String.class);
-
-      if (address.isEmpty() || port <= -1 || name.isEmpty()) {
+      try {
+        // used to see if this fields are of type int
+        jsonObject.get("maxStoredPackets").getAsInt();
+        jsonObject.get("maxStoringTime").getAsInt();
+        return newConfig;
+      } catch (NumberFormatException e) {
+        logger.log(Level.WARNING, "Json parse error!", e);
         return DEFAULT_CONFIG;
       }
-      return newConfig;
     }
   }
 
@@ -105,8 +117,8 @@ public class GatewayClient {
     private final GatewayManager gatewayManager;
 
     public ThreadedProducer(String config) {
-      Gateway gateway = buildFromConfig(config);
       com.google.gson.JsonObject jsonObject = (new Gson()).fromJson(config, JsonObject.class);
+      Gateway gateway = buildFromConfig(config);
 
       int maxStoredPackets = 10;
       int maxStoringTime = 10;
