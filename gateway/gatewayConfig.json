@@ -1,7 +1,4 @@
 {
-  "address":"127.0.1.1",
-  "port":6969,
-  "name":"gw_US-GATEWAY-1",
   "maxStoredPackets":9999,
   "maxStoringTime":5000,
   "devices":  [
