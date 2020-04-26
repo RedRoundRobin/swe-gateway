@@ -110,7 +110,7 @@ public class GatewayManager {
           JsonObject obj = new Gson().fromJson(command.get(), JsonObject.class);
 
           byte deviceId = (byte) obj.get("realDeviceId").getAsInt(); // prendo uno tra gli id
-          byte reqOperation = 1;
+          byte reqOperation = 2;
           byte sensorId = (byte) obj.get("realSensorId").getAsInt(); // prendo uno dei sensori del dispositivo
           byte reqData = obj.get("data").getAsByte();
 
