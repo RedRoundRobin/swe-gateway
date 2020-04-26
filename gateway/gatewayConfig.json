@@ -1,0 +1,59 @@
+{
+  "maxStoredPackets":9999,
+  "maxStoringTime":5000,
+  "devices":  [
+    {
+      "deviceId":1,
+      "frequency": 2,
+      "sensors":[
+        {
+          "sensorId":1
+        },
+        {
+          "sensorId":3
+        }
+      ]
+    },
+    {
+      "deviceId":2,
+      "frequency": 2,
+      "sensors":[
+        {
+          "sensorId":1
+        },
+        {
+          "sensorId":2
+        }
+      ]
+    },
+    {
+      "deviceId":4,
+      "frequency": 2,
+      "sensors":[
+        {
+          "sensorId":1
+        },
+        {
+          "sensorId":2
+        }
+      ]
+    },
+    {
+      "deviceId":5,
+      "frequency": 2,
+      "sensors":[
+        {
+          "sensorId":1
+        },
+        {
+          "sensorId":2
+        },
+        {
+          "sensorId":3,
+          "cmdEnabled": true,
+          "data": 1
+        }
+      ]
+    }
+  ]
+}

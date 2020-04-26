@@ -1,54 +1,75 @@
 package com.redroundrobin.thirema.gateway.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Device {
-    private int deviceId;
-    private long timestamp;
-    private List<Sensor> sensors;
+  private final int deviceId;
+  private String gateway;
+  private final List<Sensor> sensors;
 
-    public Device(int deviceId) {
-        this.deviceId = deviceId;
-        this.timestamp = 0;
-        this.sensors = new ArrayList<>();
-    }
+  private int frequency;
 
-    public Device(int deviceId, List<Sensor> sensors) {
-        this.deviceId = deviceId;
-        this.timestamp = 0;
-        this.sensors = sensors;
-    }
+  private transient long lastSent;
 
-    public int getDeviceId() {
-        return deviceId;
-    }
+  public Device(int deviceId) {
+    this.deviceId = deviceId;
+    this.lastSent = 0;
+    this.sensors = new ArrayList<>();
+  }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
+  public Device(int deviceId, List<Sensor> sensors) {
+    this.deviceId = deviceId;
+    this.lastSent = 0;
+    this.sensors = sensors;
+  }
 
-    public List<Sensor> getSensors() {
-        return sensors;
-    }
+  public Device(int deviceId, String gateway) {
+    this.deviceId = deviceId;
+    this.lastSent = 0;
+    this.sensors = new ArrayList<>();
+    this.gateway = gateway;
+  }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
+  public int getDeviceId() {
+    return deviceId;
+  }
 
-    public void addSensor(Sensor sensor) {
-        sensors.add(sensor);
-    }
+  public long getLastSent() {
+    return lastSent;
+  }
 
-    public void removeSensor(int index) {
-        sensors.remove(index);
-    }
+  public void setLastSent(long lastSent) {
+    this.lastSent = lastSent;
+  }
 
-    public int getSensorsNumber() {
-        return sensors.size();
-    }
+  public List<Sensor> getSensors() {
+    return sensors;
+  }
 
-    public Sensor getSensor(int sensorId) {
-        return sensors.get(sensorId);
-    }
+  public void addSensor(Sensor sensor) {
+    sensors.add(sensor);
+  }
+
+  public void removeSensor(Sensor s) {
+    sensors.remove(s);
+  }
+
+  public int getSensorsNumber() {
+    return sensors.size();
+  }
+
+  public int getFrequency() {
+    return frequency;
+  }
+
+  public void setFrequency(int frequency) {
+    this.frequency = frequency;
+  }
+
+  public String getGateway() {
+    return gateway;
+  }
 }
