@@ -28,6 +28,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class GatewayManager {
   private final Gateway gateway;
+  private static final String bootstrapServer = "kafka-core:29092";
 
   private final int maxStoredPacketsPerRequest; // Da prendere dalla configurazione del gateway
   private final int maxStoringTimePerRequest; // Da prendere dalla configurazione del gateway in millisecondi
@@ -98,11 +99,12 @@ public class GatewayManager {
 
     translator = new Translator();
 
+    ThreadedCmdConsumer cmdConsumer = new ThreadedCmdConsumer("cmd-" + getName(), "cmd-" + getName(),
+        bootstrapServer);
+    Future<String> command = Executors.newCachedThreadPool().submit(cmdConsumer);
+
     try {
-      producer = new Producer(gateway.getName(), "kafka-core:29092");
-      ThreadedCmdConsumer cmdConsumer = new ThreadedCmdConsumer("cmd-" + getName(),
-          "cmd-" + getName(), "kafka-core:29092");
-      Future<String> command = Executors.newCachedThreadPool().submit(cmdConsumer);
+      producer = new Producer(gateway.getName(), bootstrapServer);
 
       // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
       while (true) {
@@ -118,7 +120,7 @@ public class GatewayManager {
           deviceRequest.sendPacket(requestBuffer);
 
           cmdConsumer = new ThreadedCmdConsumer("cmd-" + getName(),
-              "cmd-" + getName(), "kafka-core:29092");
+              "cmd-" + getName(), bootstrapServer);
           command = Executors.newCachedThreadPool().submit(cmdConsumer);
         } else {
           for (Device d : gateway.getDevices()) {

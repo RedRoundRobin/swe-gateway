@@ -24,6 +24,7 @@ public class GatewayClient {
   private static final String address = "127.0.1.1";
   private static final int port = 6969;
   private static final String name = "gw_US-GATEWAY-1";
+  private static final String bootstrapServer = "kafka-core:29092";
 
   private static final Logger logger = CustomLogger.getLogger(GatewayClient.class.getName(), Level.FINE);
 
@@ -34,7 +35,7 @@ public class GatewayClient {
 
     try {
       //mi metto in ascolto della configurazione
-      CfgThreadedConsumer consumer = new CfgThreadedConsumer("kafka-core:29092");
+      CfgThreadedConsumer consumer = new CfgThreadedConsumer(bootstrapServer);
       Future<String> newConfig = Executors.newCachedThreadPool().submit(consumer);
 
       //avvio il produttore con la configurazione di default
@@ -51,7 +52,7 @@ public class GatewayClient {
           //costruisco un nuovo produttore e consumatore
           producer = new ThreadedProducer(newConfig.get());
           consumer = new CfgThreadedConsumer("cfg-" + producer.getGatewayName(),
-              "cfg-" + producer.getGatewayName(), "kafka-core:29092");
+              "cfg-" + producer.getGatewayName(), bootstrapServer);
 
           //mi rimetto ad ascoltare per le configurazioni e a produrre
           newConfig = Executors.newCachedThreadPool().submit(consumer);
