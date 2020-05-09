@@ -1,4 +1,4 @@
-package com.redroundrobin.thirema.arduinoDevice;
+package com.redroundrobin.thirema.arduino;
 
 
 import com.fazecast.jSerialComm.SerialPort;

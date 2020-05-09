@@ -7,10 +7,12 @@
       "frequency": 2,
       "sensors":[
         {
-          "sensorId":1
+          "sensorId":1,
+          "cmdEnabled" : false
         },
         {
-          "sensorId":3
+          "sensorId":3,
+          "cmdEnabled" : false
         }
       ]
     },
@@ -19,10 +21,12 @@
       "frequency": 2,
       "sensors":[
         {
-          "sensorId":1
+          "sensorId":1,
+          "cmdEnabled" : false
         },
         {
-          "sensorId":2
+          "sensorId":2,
+          "cmdEnabled" : false
         }
       ]
     },
@@ -31,10 +35,12 @@
       "frequency": 2,
       "sensors":[
         {
-          "sensorId":1
+          "sensorId":1,
+          "cmdEnabled" : false
         },
         {
-          "sensorId":2
+          "sensorId":2,
+          "cmdEnabled" : false
         }
       ]
     },
@@ -43,15 +49,16 @@
       "frequency": 2,
       "sensors":[
         {
-          "sensorId":1
+          "sensorId":1,
+          "cmdEnabled" : false
         },
         {
-          "sensorId":2
+          "sensorId":2,
+          "cmdEnabled" : false
         },
         {
           "sensorId":3,
-          "cmdEnabled": true,
-          "data": 1
+          "cmdEnabled": true
         }
       ]
     }
