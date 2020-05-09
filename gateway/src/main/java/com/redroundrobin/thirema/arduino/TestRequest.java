@@ -1,12 +1,11 @@
-package com.redroundrobin.thirema.arduinoDevice;
+package com.redroundrobin.thirema.arduino;
+
+import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
 
 import com.redroundrobin.thirema.gateway.utils.DeviceRequest;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
-
-import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
 
 public class TestRequest {
   public static void main(String[] args) throws IOException {
@@ -20,7 +19,8 @@ public class TestRequest {
     byte[] responseBuffer = deviceRequest.sendPacket(requestBuffer);
   }
 
-  public static byte[] createRequestPacket(byte deviceId, byte operation, byte sensorId, byte data) {
+  public static byte[] createRequestPacket(byte deviceId, byte operation, byte sensorId,
+                                           byte data) {
     byte crc = calculateCrc(Arrays.asList(deviceId, operation, sensorId, data));
     return new byte[]{deviceId, operation, sensorId, data, crc};
   }
