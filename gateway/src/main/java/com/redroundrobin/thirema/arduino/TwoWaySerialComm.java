@@ -92,7 +92,7 @@ public class TwoWaySerialComm
           socket.send(responseDatagram);
           logger.log(Level.INFO, "Success: packet sent!");
         } catch (IOException e) {
-          e.printStackTrace();
+          logger.log(Level.WARNING, "IOException on data received", e);
         }
       }
     });
@@ -101,7 +101,7 @@ public class TwoWaySerialComm
     try {
       Thread.sleep(200);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      logger.log(Level.WARNING, "InterruptException on sendRequest", e);
     }
     devicePort.removeDataListener();
   }
