@@ -70,7 +70,7 @@ public class GatewayManager {
           byte[] responseBuffer = sendPacket(gateway.getAddress(), gateway.getPort(), requestBuffer);
 
           if (responseBuffer[1] == -1) {
-            d.removeSensor(s);
+            gateway.removeSensorFromDevice(s, d);
           }
 
           //Thread.sleep(250); // Da tenere solo per fare test
