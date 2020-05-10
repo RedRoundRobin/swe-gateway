@@ -7,19 +7,18 @@ import com.google.gson.JsonObject;
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.models.Gateway;
 import com.redroundrobin.thirema.gateway.models.Sensor;
-import com.redroundrobin.thirema.gateway.utils.Consumer;
+import com.redroundrobin.thirema.gateway.threads.CmdConsumer;
 import com.redroundrobin.thirema.gateway.utils.CustomLogger;
 import com.redroundrobin.thirema.gateway.utils.DeviceRequest;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
-
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
@@ -28,8 +27,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class GatewayManager {
   private final Gateway gateway;
-  private static final String bootstrapServer = "kafka-core:29092";
-  private static final int sleepTime = 200;
+  private static final String BOOTSTRAP_SERVER = "kafka-core:29092";
+  private static final int SLEEP_TIME = 200;
 
   private final int maxStoredPacketsPerRequest; // Da prendere dalla configurazione del gateway
   private final int maxStoringTimePerRequest; // Da prendere dalla configurazione del gateway in millisecondi
@@ -100,16 +99,17 @@ public class GatewayManager {
 
     translator = new Translator();
 
-    ThreadedCmdConsumer cmdConsumer = new ThreadedCmdConsumer("cmd-" + getName(), "cmd-" + getName(),
-        bootstrapServer);
-    Future<String> command = Executors.newCachedThreadPool().submit(cmdConsumer);
+    ExecutorService executorService = Executors.newFixedThreadPool(1);
+    CmdConsumer cmdConsumer = new CmdConsumer("cmd-" + getName(), "cmd-" + getName(),
+        BOOTSTRAP_SERVER);
+    Future<String> command = executorService.submit(cmdConsumer);
 
     try {
-      producer = new Producer(gateway.getName(), bootstrapServer);
+      producer = new Producer(gateway.getName(), BOOTSTRAP_SERVER);
 
       // Ciclo in cui vengono effettuate tutte le richieste per ogni sensore
       while (true) {
-        Thread.sleep(sleepTime);  // Utilized for let the cpu for others threads
+        Thread.sleep(SLEEP_TIME);  // Utilized for let the cpu for others threads
         if (command.isDone()) {
           JsonObject obj = new Gson().fromJson(command.get(), JsonObject.class);
 
@@ -121,13 +121,13 @@ public class GatewayManager {
           byte[] requestBuffer = createRequestPacket(deviceId, reqOperation, sensorId, reqData);
           deviceRequest.sendPacket(requestBuffer);
 
-          cmdConsumer = new ThreadedCmdConsumer("cmd-" + getName(),
-              "cmd-" + getName(), bootstrapServer);
-          command = Executors.newCachedThreadPool().submit(cmdConsumer);
+          cmdConsumer = new CmdConsumer("cmd-" + getName(),
+              "cmd-" + getName(), BOOTSTRAP_SERVER);
+          command = executorService.submit(cmdConsumer);
         } else {
           for (Device d : gateway.getDevices()) {
             long timeSinceLastRequest = System.currentTimeMillis() - d.getLastSent();
-            if (timeSinceLastRequest > (d.getFrequency() * 1000 - sleepTime)) {
+            if (timeSinceLastRequest > (d.getFrequency() * 1000 - SLEEP_TIME)) {
               sendRequestsByDevice(d);
             }
           }
@@ -141,6 +141,7 @@ public class GatewayManager {
     } finally {
       producer.close();
       command.cancel(true);
+      executorService.shutdown();
     }
   }
 
@@ -178,18 +179,5 @@ public class GatewayManager {
     }
 
     d.setLastSent(System.currentTimeMillis());
-  }
-
-  private static class ThreadedCmdConsumer implements Callable<String> {
-    private final Consumer cmdConsumer;
-
-    public ThreadedCmdConsumer(String topic, String name, String bootstrapServer) {
-      this.cmdConsumer = new Consumer(topic, name, bootstrapServer);
-    }
-
-    @Override
-    public String call() {
-      return cmdConsumer.executeConsumer();
-    }
   }
 }
