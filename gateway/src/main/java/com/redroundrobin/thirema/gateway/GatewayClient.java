@@ -37,7 +37,7 @@ public class GatewayClient {
       newConfig = executorService.submit(consumer);
 
       //avvio il produttore con la configurazione di default
-      DataProducer producer = new DataProducer(consumer.getDEFAULT_CONFIG());
+      DataProducer producer = new DataProducer(consumer.getDefaultConfig());
       newProducer = executorService.submit(producer);
 
       while (true) {

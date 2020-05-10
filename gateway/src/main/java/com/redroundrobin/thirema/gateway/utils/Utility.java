@@ -1,6 +1,11 @@
 package com.redroundrobin.thirema.gateway.utils;
 
 import com.github.snksoft.crc.CRC;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,5 +33,21 @@ public class Utility {
   // Controllo il crc del pacchetto ricevuto
   public static boolean checkIntegrity(@NotNull List<Byte> packet) {
     return packet.get(4) == calculateCrc(packet.subList(0, 4));
+  }
+
+  public static byte[] sendPacket(InetAddress address, int port, byte[] requestBuffer) throws IOException {
+    byte[] responseBuffer = new byte[requestBuffer.length];
+
+    try (DatagramSocket socket = new DatagramSocket()) {
+      DatagramPacket requestDatagram = new DatagramPacket(requestBuffer, requestBuffer.length,
+          address, port);
+      socket.send(requestDatagram);
+
+      DatagramPacket responseDatagram = new DatagramPacket(responseBuffer, responseBuffer.length);
+      socket.setSoTimeout(1000);
+      socket.receive(responseDatagram);
+    }
+
+    return responseBuffer;
   }
 }

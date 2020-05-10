@@ -10,8 +10,8 @@ import java.util.concurrent.Callable;
 
 public class CfgConsumer implements Callable<String> {
   // private static final String DEFAULT_CONFIG = "{\"devices\":  [],  \"maxStoredPackets\":5,  \"maxStoringTime\":6000}";
-  private final Consumer consumerConfig;
-  private final String DEFAULT_CONFIG;
+  private final Consumer consumer;
+  private final String defaultConfig;
 
   private final String gatewayName;
   private final String address;
@@ -22,26 +22,26 @@ public class CfgConsumer implements Callable<String> {
     this.address = address;
     this.port = port;
 
-    this.DEFAULT_CONFIG = addFixedPropertiesConfig(
+    this.defaultConfig = addFixedPropertiesConfig(
         Files.readString(Paths.get("gatewayConfig.json")));
-    this.consumerConfig = new Consumer("cfg-" + gatewayName, "cfg-" + gatewayName, bootstrapServer);
+    this.consumer = new Consumer("cfg-" + gatewayName, "cfg-" + gatewayName, bootstrapServer);
   }
 
-  private String addFixedPropertiesConfig(String defaultConfig) {
-    JsonObject jsonObject = new Gson().fromJson(defaultConfig, JsonObject.class);
+  private String addFixedPropertiesConfig(String config) {
+    JsonObject jsonObject = new Gson().fromJson(config, JsonObject.class);
     jsonObject.addProperty("name", gatewayName);
     jsonObject.addProperty("address", address);
     jsonObject.addProperty("port", port);
     return jsonObject.toString();
   }
 
-  public String getDEFAULT_CONFIG() {
-    return DEFAULT_CONFIG;
+  public String getDefaultConfig() {
+    return defaultConfig;
   }
 
   @Override
   public String call() {
-    String newConfig = addFixedPropertiesConfig(consumerConfig.executeConsumer());
+    String newConfig = addFixedPropertiesConfig(consumer.executeConsumer());
     JsonObject jsonObject = new Gson().fromJson(newConfig, JsonObject.class);
 
     try {
@@ -50,7 +50,7 @@ public class CfgConsumer implements Callable<String> {
       jsonObject.get("maxStoringTime").getAsInt();
       return newConfig;
     } catch (NumberFormatException e) {
-      return DEFAULT_CONFIG;
+      return defaultConfig;
     }
   }
 }

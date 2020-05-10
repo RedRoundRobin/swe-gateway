@@ -1,12 +1,8 @@
 package com.redroundrobin.thirema.gateway.models;
 
 import com.google.gson.Gson;
-import com.redroundrobin.thirema.gateway.GatewayManager;
-import com.redroundrobin.thirema.gateway.utils.CustomLogger;
-
 import java.net.InetAddress;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Gateway {
   private final InetAddress address;
@@ -14,8 +10,6 @@ public class Gateway {
 
   private final String name;
   private final List<Device> devices; // Da prendere dalla configurazione del gateway
-
-  private static final Logger logger = CustomLogger.getLogger(GatewayManager.class.getName());
 
   public Gateway(InetAddress address, int port, String name, List<Device> devices) {
     this.address = address;
