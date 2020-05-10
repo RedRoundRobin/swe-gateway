@@ -1,6 +1,7 @@
 package com.redroundrobin.thirema.gateway;
 
 import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
+import static com.redroundrobin.thirema.gateway.utils.Utility.sendPacket;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -9,7 +10,6 @@ import com.redroundrobin.thirema.gateway.models.Gateway;
 import com.redroundrobin.thirema.gateway.models.Sensor;
 import com.redroundrobin.thirema.gateway.threads.CmdConsumer;
 import com.redroundrobin.thirema.gateway.utils.CustomLogger;
-import com.redroundrobin.thirema.gateway.utils.DeviceRequest;
 import com.redroundrobin.thirema.gateway.utils.Producer;
 import com.redroundrobin.thirema.gateway.utils.Translator;
 import com.redroundrobin.thirema.gateway.utils.Utility;
@@ -35,9 +35,6 @@ public class GatewayManager {
 
   private long lastSent;
   private int storedPackets;
-  private final DeviceRequest deviceRequest;
-  private Producer producer;
-  private Translator translator;
 
   private static final Logger logger = CustomLogger.getLogger(GatewayManager.class.getName());
 
@@ -47,8 +44,6 @@ public class GatewayManager {
 
     this.maxStoredPacketsPerRequest = maxStoredPacketsPerRequest; // Accumulo di pacchetti di default
     this.maxStoringTimePerRequest = maxStoringTimePerRequest; // Tempo di accumulo di default
-
-    this.deviceRequest = new DeviceRequest(gateway.getAddress(), gateway.getPort());
   }
 
   public String getName() {
@@ -72,10 +67,10 @@ public class GatewayManager {
           byte sensorId = (byte) s.getSensorId();
 
           byte[] requestBuffer = createRequestPacket(deviceId, operation, sensorId, data);
-          byte[] responseBuffer = deviceRequest.sendPacket(requestBuffer);
+          byte[] responseBuffer = sendPacket(gateway.getAddress(), gateway.getPort(), requestBuffer);
 
           if (responseBuffer[1] == -1) {
-            d.removeSensor(s);
+            gateway.removeSensorFromDevice(s, d);
           }
 
           //Thread.sleep(250); // Da tenere solo per fare test
@@ -97,7 +92,8 @@ public class GatewayManager {
   // Metodo che reperisce i dati dai dispositivi e dopo averne accumulati "storedPacket" o aver aspettato "storingTime" millisecondi li invia al topic di Kafka specificato
   public void start() {
 
-    translator = new Translator();
+    Translator translator = new Translator();
+    Producer producer = null;
 
     ExecutorService executorService = Executors.newFixedThreadPool(1);
     CmdConsumer cmdConsumer = new CmdConsumer("cmd-" + getName(), "cmd-" + getName(),
@@ -119,7 +115,7 @@ public class GatewayManager {
           byte reqData = obj.get("data").getAsByte();
 
           byte[] requestBuffer = createRequestPacket(deviceId, reqOperation, sensorId, reqData);
-          deviceRequest.sendPacket(requestBuffer);
+          sendPacket(gateway.getAddress(), gateway.getPort(), requestBuffer);
 
           cmdConsumer = new CmdConsumer("cmd-" + getName(),
               "cmd-" + getName(), BOOTSTRAP_SERVER);
@@ -128,7 +124,7 @@ public class GatewayManager {
           for (Device d : gateway.getDevices()) {
             long timeSinceLastRequest = System.currentTimeMillis() - d.getLastSent();
             if (timeSinceLastRequest > (d.getFrequency() * 1000 - SLEEP_TIME)) {
-              sendRequestsByDevice(d);
+              sendRequestsByDevice(d, translator, producer);
             }
           }
         }
@@ -139,7 +135,9 @@ public class GatewayManager {
     } catch (Exception exception) {
       logger.log(Level.WARNING, "General exception!", exception);
     } finally {
-      producer.close();
+      if (producer != null) {
+        producer.close();
+      }
       command.cancel(true);
       executorService.shutdown();
     }
@@ -151,7 +149,7 @@ public class GatewayManager {
     return new byte[]{deviceId, operation, sensorId, data, crc};
   }
 
-  private void sendRequestsByDevice(Device d) throws IOException, InterruptedException {
+  private void sendRequestsByDevice(Device d, Translator translator, Producer producer) throws IOException, InterruptedException {
     byte reqOperation = (byte) 0;
     byte reqData = (byte) 0;
 
@@ -160,7 +158,7 @@ public class GatewayManager {
       byte sensorId = (byte) s.getSensorId();
 
       byte[] requestBuffer = createRequestPacket(deviceId, reqOperation, sensorId, reqData);
-      byte[] responseBuffer = deviceRequest.sendPacket(requestBuffer);
+      byte[] responseBuffer = sendPacket(gateway.getAddress(), gateway.getPort(), requestBuffer);
 
       List<Byte> responsePacket = Arrays.asList(ArrayUtils.toObject(responseBuffer));
       if (Utility.checkIntegrity(responsePacket) && translator.addSensor(responseBuffer,
