@@ -43,6 +43,9 @@ public class GatewayClient {
       Future<String> newProducer = Executors.newCachedThreadPool().submit(producer);
 
       while (true) {
+        
+        Thread.sleep(1000);
+        
         //se ho ricevuto nuove configurazioni
         if (newConfig.isDone()) {
 
