@@ -14,6 +14,6 @@
 
 ![Repository Checker](https://github.com/RedRoundRobin/swe-gateway/workflows/Repository%20Checker/badge.svg)
 
-### Comandi per i test
+### Comandi per i test :fire:
 
 `mvn clean package`
