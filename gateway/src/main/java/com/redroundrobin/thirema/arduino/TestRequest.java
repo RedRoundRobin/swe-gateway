@@ -1,12 +1,11 @@
-package com.redroundrobin.thirema.arduinoDevice;
+package com.redroundrobin.thirema.arduino;
 
-import com.redroundrobin.thirema.gateway.utils.DeviceRequest;
+import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
+import static com.redroundrobin.thirema.gateway.utils.Utility.sendPacket;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
-
-import static com.redroundrobin.thirema.gateway.utils.Utility.calculateCrc;
 
 public class TestRequest {
   public static void main(String[] args) throws IOException {
@@ -14,13 +13,13 @@ public class TestRequest {
     byte reqOperation = 0;
     byte sensorId = 4;
     byte reqData = 0;
-    DeviceRequest deviceRequest = new DeviceRequest(InetAddress.getByName("127.0.1.1"), 6969);
 
     byte[] requestBuffer = createRequestPacket(deviceId, reqOperation, sensorId, reqData);
-    byte[] responseBuffer = deviceRequest.sendPacket(requestBuffer);
+    byte[] responseBuffer = sendPacket(InetAddress.getByName("127.0.1.1"), 6969, requestBuffer);
   }
 
-  public static byte[] createRequestPacket(byte deviceId, byte operation, byte sensorId, byte data) {
+  public static byte[] createRequestPacket(byte deviceId, byte operation, byte sensorId,
+                                           byte data) {
     byte crc = calculateCrc(Arrays.asList(deviceId, operation, sensorId, data));
     return new byte[]{deviceId, operation, sensorId, data, crc};
   }

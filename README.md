@@ -2,7 +2,7 @@
 
 # Gateway - ThiReMa
 
-:fire: Versione componente: `v0.2.0-rc` 
+:fire: Versione componente: `v1.0.0-rc` 
 
 :pushpin: Main repo: [swe-thirema](https://github.com/RedRoundRobin/swe-thirema)
 

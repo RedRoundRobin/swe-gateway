@@ -1,9 +1,7 @@
 package com.redroundrobin.thirema.simulation;
 
-
 import com.redroundrobin.thirema.gateway.models.Device;
 import com.redroundrobin.thirema.gateway.models.Sensor;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +45,8 @@ public class ExampleDeviceSimulator {
             new Sensor(4, 120)));
     Device device6 = new Device(6, sensors6);
 
-    List<Device> devices = new ArrayList<>(Arrays.asList(device1, device2, device3, device4, device5, device6));
+    List<Device> devices = new ArrayList<>(Arrays.asList(device1, device2, device3, device4,
+        device5, device6));
     DeviceSimulator deviceSimulator = new DeviceSimulator(6969, devices);
 
     deviceSimulator.start();
