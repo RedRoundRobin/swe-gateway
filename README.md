@@ -2,7 +2,7 @@
 
 # Gateway - ThiReMa
 
-:fire: Versione componente: `v1.0.0-rc` 
+:fire: Versione componente: `v1.0.0-stable` 
 
 :pushpin: Main repo: [swe-thirema](https://github.com/RedRoundRobin/swe-thirema)
 
@@ -14,6 +14,6 @@
 
 ![Repository Checker](https://github.com/RedRoundRobin/swe-gateway/workflows/Repository%20Checker/badge.svg)
 
-### Comandi per i test
+### Comandi per i test :fire:
 
 `mvn clean package`
